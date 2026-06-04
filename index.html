@@ -3,11 +3,1072 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Niagara Music Scene</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <meta name="description" content="Niagara Music Scene — every confirmed live music gig across the Niagara Region. Wineries, bars, legions, breweries and festival stages.">
+  <meta property="og:title" content="Niagara Music Scene — Live Music This Week">
+  <meta property="og:description" content="Every confirmed gig across Niagara — search by artist, venue, city or genre.">
+  <meta property="og:type" content="website">
+  <title>Niagara Music Scene — Live Music This Week</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
+  <style>
+    /* ── RESET & BASE ──────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:     #0AAFCC;
+      --teal-d:   #077A8F;
+      --teal-l:   rgba(10, 175, 204, .12);
+      --gold:     #F2B731;
+      --gold-d:   #C9940A;
+      --ink:      #0D1117;
+      --ink-2:    #1C2938;
+      --ink-3:    #2D3F50;
+      --mist:     #6B8FA8;
+      --mist-l:   #A8C4D4;
+      --card:     #14202D;
+      --ff: 'Bebas Neue', sans-serif;
+      --fb: 'Inter', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--ink);
+      color: #fff;
+      font-family: var(--fb);
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    button { cursor: pointer; font-family: var(--fb); }
+    a { color: var(--teal); }
+
+    /* ── NAVIGATION ────────────────────────────────────────────────────────── */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 24px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      position: sticky;
+      top: 0;
+      background: var(--ink);
+      z-index: 40;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .nav-logo {
+      font-family: var(--ff);
+      font-size: 24px;
+      letter-spacing: 2px;
+      color: #fff;
+      line-height: 1;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--teal); }
+
+    .nav-links { display: flex; gap: 4px; }
+
+    .nav-link {
+      font-size: 12px;
+      color: var(--mist);
+      background: none;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 6px;
+    }
+    .nav-link:hover { color: #fff; background: rgba(255,255,255,.06); }
+    .nav-link.active { color: var(--teal); }
+
+    .nav-cta {
+      background: var(--teal);
+      color: var(--ink);
+      border: none;
+      border-radius: 6px;
+      padding: 7px 16px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .nav-cta:hover { background: var(--teal-d); }
+
+    /* ── HERO ──────────────────────────────────────────────────────────────── */
+    .hero {
+      padding: 48px 24px 32px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+    .hero-kicker {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--teal);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .hero-title {
+      font-family: var(--ff);
+      font-size: clamp(48px, 8vw, 72px);
+      line-height: .92;
+      letter-spacing: 2px;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .hero-title span { color: var(--teal); }
+
+    .hero-sub {
+      font-size: 15px;
+      color: var(--mist);
+      max-width: 520px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .week-ctrl { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+    .week-btn {
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 6px;
+      padding: 7px 12px;
+      font-size: 13px;
+      color: var(--mist-l);
+    }
+    .week-btn:hover { background: rgba(255,255,255,.13); color: #fff; }
+
+    .week-label { font-size: 14px; font-weight: 500; color: #fff; }
+
+    .today-btn {
+      background: var(--gold);
+      color: var(--ink);
+      border: none;
+      border-radius: 6px;
+      padding: 7px 16px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .today-btn:hover { background: var(--gold-d); }
+
+    /* ── STATS BAR ─────────────────────────────────────────────────────────── */
+    .stats {
+      display: flex;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+    .stat {
+      flex: 1;
+      padding: 14px 24px;
+      border-right: 1px solid rgba(255,255,255,.06);
+    }
+    .stat:last-child { border-right: none; }
+
+    .stat-n {
+      font-family: var(--ff);
+      font-size: 38px;
+      color: var(--teal);
+      letter-spacing: 1px;
+      line-height: 1;
+    }
+
+    .stat-l {
+      font-size: 11px;
+      color: var(--mist);
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      margin-top: 3px;
+    }
+
+    /* ── FILTER BAR ────────────────────────────────────────────────────────── */
+    .filter-bar {
+      padding: 12px 24px;
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      background: var(--ink-2);
+    }
+
+    .filter-bar input,
+    .filter-bar select {
+      background: var(--ink-3);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 6px;
+      padding: 0 10px;
+      font-size: 12px;
+      color: #fff;
+      font-family: var(--fb);
+      height: 32px;
+    }
+    .filter-bar input { min-width: 160px; }
+    .filter-bar input::placeholder { color: var(--mist); }
+    .filter-bar select option { background: var(--ink-3); }
+
+    .more-btn {
+      background: var(--ink-3);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 6px;
+      height: 32px;
+      padding: 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: var(--mist);
+    }
+    .more-btn:hover, .more-btn.active { border-color: var(--teal); color: var(--teal); }
+
+    .more-count {
+      display: none;
+      background: var(--teal);
+      color: var(--ink);
+      border-radius: 99px;
+      font-size: 10px;
+      padding: 1px 6px;
+      font-weight: 700;
+    }
+
+    .clear-btn {
+      font-size: 12px;
+      color: var(--mist);
+      background: none;
+      border: none;
+      padding: 3px 8px;
+    }
+    .clear-btn:hover { color: var(--teal); }
+
+    .more-filters {
+      padding: 8px 24px 10px;
+      display: none;
+      flex-wrap: wrap;
+      gap: 7px;
+      background: var(--ink-2);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .more-filters.open { display: flex; }
+    .more-filters select {
+      background: var(--ink-3);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 6px;
+      padding: 0 10px;
+      font-size: 12px;
+      color: #fff;
+      font-family: var(--fb);
+      height: 32px;
+    }
+    .more-filters select option { background: var(--ink-3); }
+
+    .venue-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--teal-l);
+      border: 1px solid var(--teal);
+      border-radius: 99px;
+      padding: 2px 10px;
+      font-size: 11px;
+      color: var(--teal);
+      font-weight: 600;
+    }
+    .venue-tag button {
+      background: none;
+      border: none;
+      color: var(--teal);
+      font-size: 15px;
+      line-height: 1;
+      padding: 0;
+    }
+
+    /* ── RESULTS BAR ───────────────────────────────────────────────────────── */
+    .results-bar {
+      padding: 9px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .results-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-size: 12px;
+      color: var(--mist);
+    }
+
+    .view-toggle { display: flex; gap: 4px; }
+
+    .view-btn {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 11px;
+      color: var(--mist);
+    }
+    .view-btn.active { background: var(--teal); border-color: var(--teal); color: var(--ink); font-weight: 600; }
+
+    /* ── DAY HEADERS ───────────────────────────────────────────────────────── */
+    .day-block { border-bottom: 1px solid rgba(255,255,255,.04); }
+    .day-block:last-child { border-bottom: none; }
+
+    .day-header {
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--ink-2);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      border-top: 1px solid rgba(255,255,255,.06);
+    }
+    .day-header.today { border-left: 3px solid var(--teal); padding-left: 21px; }
+
+    .day-name { font-family: var(--ff); font-size: 20px; letter-spacing: 1px; color: #fff; }
+    .day-date { font-size: 12px; color: var(--mist); }
+
+    .today-badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 99px;
+      background: var(--teal);
+      color: var(--ink);
+      letter-spacing: .5px;
+    }
+
+    .day-count { margin-left: auto; font-size: 11px; color: var(--mist); }
+
+    /* ── LIST VIEW ─────────────────────────────────────────────────────────── */
+    .gig-row {
+      display: grid;
+      grid-template-columns: 64px 1fr auto;
+      align-items: start;
+      padding: 12px 24px;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+      cursor: pointer;
+      transition: background .1s;
+      gap: 0;
+    }
+    .gig-row:last-child { border-bottom: none; }
+    .gig-row:hover { background: var(--ink-2); }
+    .gig-row:hover .gig-artist { color: var(--teal); }
+    .gig-row:hover .gig-venue  { color: var(--teal); }
+
+    .gig-time {
+      font-size: 11px;
+      color: var(--mist);
+      font-variant-numeric: tabular-nums;
+      padding-top: 2px;
+    }
+
+    .gig-main { min-width: 0; }
+
+    .gig-artist {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 3px;
+      transition: color .1s;
+    }
+
+    .gig-sub {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .gig-venue {
+      font-size: 12px;
+      color: var(--mist-l);
+      background: none;
+      border: none;
+      padding: 0;
+      text-align: left;
+      font-family: var(--fb);
+      transition: color .1s;
+      white-space: normal;
+    }
+    .gig-venue:hover { color: var(--teal); text-decoration: underline; }
+
+    .gig-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--ink-3); flex-shrink: 0; }
+    .gig-city { font-size: 11px; color: var(--mist); white-space: nowrap; flex-shrink: 0; }
+    .gig-pill-wrap { padding-left: 10px; flex-shrink: 0; padding-top: 2px; }
+
+    /* ── CARD VIEW ─────────────────────────────────────────────────────────── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1px;
+      background: rgba(255,255,255,.04);
+    }
+
+    .gig-card {
+      background: var(--card);
+      padding: 20px;
+      cursor: pointer;
+      transition: background .1s;
+      position: relative;
+      overflow: hidden;
+    }
+    .gig-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--teal);
+      opacity: 0;
+      transition: opacity .1s;
+    }
+    .gig-card:hover { background: var(--ink-3); }
+    .gig-card:hover::before { opacity: 1; }
+    .gig-card:hover .card-artist { color: var(--teal); }
+    .gig-card:hover .card-venue  { color: var(--teal); }
+
+    .card-time  { font-size: 11px; color: var(--mist); margin-bottom: 8px; font-weight: 500; letter-spacing: .4px; }
+    .card-artist { font-family: var(--ff); font-size: 22px; letter-spacing: .5px; color: #fff; margin-bottom: 4px; line-height: 1.1; transition: color .1s; }
+    .card-venue {
+      font-size: 12px;
+      color: var(--mist-l);
+      margin-bottom: 10px;
+      background: none;
+      border: none;
+      padding: 0;
+      text-align: left;
+      width: 100%;
+      font-family: var(--fb);
+      transition: color .1s;
+      display: block;
+      white-space: normal;
+    }
+    .card-venue:hover { color: var(--teal); text-decoration: underline; }
+    .card-pills { display: flex; gap: 5px; flex-wrap: wrap; }
+
+    /* ── GENRE PILLS ───────────────────────────────────────────────────────── */
+    .pill {
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .pill-rock    { background: rgba(220,60,60,.2);   color: #FF8080; border: 1px solid rgba(220,60,60,.3); }
+    .pill-soul    { background: rgba(220,60,60,.2);   color: #FF8080; border: 1px solid rgba(220,60,60,.3); }
+    .pill-acoustic, .pill-folk, .pill-celtic { background: rgba(50,180,100,.12); color: #6DD89A; border: 1px solid rgba(50,180,100,.22); }
+    .pill-jazz, .pill-covers { background: rgba(10,175,204,.12); color: #6DD4E8; border: 1px solid rgba(10,175,204,.22); }
+    .pill-blues   { background: rgba(180,120,220,.12); color: #C49AE8; border: 1px solid rgba(180,120,220,.22); }
+    .pill-country, .pill-latin { background: rgba(242,183,49,.12); color: #F2CC6A; border: 1px solid rgba(242,183,49,.22); }
+    .pill-tribute, .pill-default { background: rgba(255,255,255,.06); color: var(--mist-l); border: 1px solid rgba(255,255,255,.1); }
+
+    /* ── POPOVER ───────────────────────────────────────────────────────────── */
+    .cal-container { position: relative; }
+
+    .popover {
+      position: absolute;
+      z-index: 50;
+      width: 290px;
+      background: var(--ink-2);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 10px;
+      padding: 18px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.6);
+      max-height: 380px;
+      overflow-y: auto;
+    }
+
+    /* Arrow pointing LEFT (popover is to the right of the trigger) */
+    .popover.right::before {
+      content: '';
+      position: absolute;
+      left: -9px; top: 20px;
+      width: 0; height: 0;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      border-right: 9px solid rgba(255,255,255,.14);
+    }
+    .popover.right::after {
+      content: '';
+      position: absolute;
+      left: -7px; top: 21px;
+      width: 0; height: 0;
+      border-top: 7px solid transparent;
+      border-bottom: 7px solid transparent;
+      border-right: 8px solid var(--ink-2);
+    }
+
+    /* Arrow pointing RIGHT (popover is to the left of the trigger) */
+    .popover.left::before {
+      content: '';
+      position: absolute;
+      right: -9px; top: 20px;
+      width: 0; height: 0;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      border-left: 9px solid rgba(255,255,255,.14);
+    }
+    .popover.left::after {
+      content: '';
+      position: absolute;
+      right: -7px; top: 21px;
+      width: 0; height: 0;
+      border-top: 7px solid transparent;
+      border-bottom: 7px solid transparent;
+      border-left: 8px solid var(--ink-2);
+    }
+
+    .pop-artist {
+      font-family: var(--ff);
+      font-size: 28px;
+      letter-spacing: .5px;
+      color: #fff;
+      margin-bottom: 12px;
+      line-height: 1;
+      word-break: break-word;
+    }
+
+    .pop-row {
+      font-size: 12px;
+      color: var(--mist-l);
+      margin-bottom: 7px;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      line-height: 1.5;
+    }
+    .pop-row i { color: var(--teal); flex-shrink: 0; margin-top: 1px; font-size: 14px; }
+    .pop-row strong { color: #fff; }
+
+    .pop-actions { display: flex; flex-direction: column; gap: 7px; margin-top: 14px; }
+
+    .pop-btn-primary {
+      padding: 9px;
+      border: none;
+      border-radius: 6px;
+      background: var(--teal);
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 600;
+      font-family: var(--fb);
+      text-align: left;
+    }
+    .pop-btn-primary:hover { background: var(--teal-d); }
+
+    .pop-btn-secondary {
+      padding: 8px;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 6px;
+      background: transparent;
+      font-size: 12px;
+      color: #fff;
+      font-family: var(--fb);
+      text-align: left;
+    }
+    .pop-btn-secondary:hover { border-color: var(--teal); color: var(--teal); }
+
+    .pop-btn-close {
+      padding: 7px;
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 6px;
+      background: transparent;
+      font-size: 12px;
+      color: var(--mist);
+      font-family: var(--fb);
+    }
+
+    /* ── EMPTY STATE ───────────────────────────────────────────────────────── */
+    .empty-state {
+      padding: 56px 24px;
+      text-align: center;
+    }
+
+    .empty-title {
+      font-family: var(--ff);
+      font-size: 32px;
+      color: var(--mist);
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .empty-sub {
+      font-size: 13px;
+      color: var(--mist);
+      margin-bottom: 16px;
+    }
+
+    .empty-clear {
+      background: var(--teal);
+      color: var(--ink);
+      border: none;
+      border-radius: 6px;
+      padding: 9px 22px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: var(--fb);
+    }
+
+    /* ── FOOTER ────────────────────────────────────────────────────────────── */
+    .footer {
+      padding: 24px;
+      border-top: 1px solid rgba(255,255,255,.06);
+      text-align: center;
+      font-size: 12px;
+      color: var(--mist);
+      margin-top: 40px;
+    }
+
+    .footer a { color: var(--teal); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+
+    /* ── RESPONSIVE ────────────────────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .hero { padding: 32px 16px 24px; }
+      .stats .stat { padding: 12px 16px; }
+      .filter-bar { padding: 10px 16px; }
+      .more-filters { padding: 8px 16px 10px; }
+      .results-bar { padding: 8px 16px; }
+      .day-header { padding: 9px 16px; }
+      .gig-row { padding: 10px 16px; }
+      .card-grid { grid-template-columns: 1fr 1fr; }
+      .popover { width: 260px; }
+    }
+  </style>
 </head>
+
 <body>
-  <!-- paste the widget HTML/CSS/JS here, remove the <h2 class="sr-only"> wrapper -->
+
+  <!-- ── NAV ──────────────────────────────────────────────────────────────── -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <a href="/" class="nav-logo" aria-label="Niagara Music Scene home">NIAGARA<span>MUSIC</span>SCENE</a>
+    <div class="nav-links">
+      <button class="nav-link active" aria-current="page">Calendar</button>
+      <button class="nav-link">Artists</button>
+      <button class="nav-link">Venues</button>
+      <button class="nav-link">About</button>
+    </div>
+    <button class="nav-cta">Submit a gig</button>
+  </nav>
+
+  <!-- ── HERO ─────────────────────────────────────────────────────────────── -->
+  <header class="hero">
+    <p class="hero-kicker">Niagara Region · Ontario · Canada</p>
+    <h1 class="hero-title">LIVE MUSIC<br><span>THIS WEEK</span></h1>
+    <p class="hero-sub">Every confirmed gig from Grimsby to Fort Erie — wineries, bars, legions, breweries, and festival stages. Click any gig for details right where you clicked.</p>
+    <div class="week-ctrl">
+      <button class="week-btn" id="prev-week" aria-label="Previous week"><i class="ti ti-arrow-left" aria-hidden="true"></i></button>
+      <span class="week-label" id="week-label" aria-live="polite"></span>
+      <button class="week-btn" id="next-week" aria-label="Next week"><i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+      <button class="today-btn" id="this-week">This week</button>
+    </div>
+  </header>
+
+  <!-- ── STATS ─────────────────────────────────────────────────────────────── -->
+  <section class="stats" aria-label="This week's summary">
+    <div class="stat"><div class="stat-n" id="stat-gigs">0</div><div class="stat-l">Gigs this week</div></div>
+    <div class="stat"><div class="stat-n" id="stat-venues">0</div><div class="stat-l">Venues</div></div>
+    <div class="stat"><div class="stat-n" id="stat-cities">0</div><div class="stat-l">Cities</div></div>
+  </section>
+
+  <!-- ── FILTERS ───────────────────────────────────────────────────────────── -->
+  <div class="filter-bar" role="search">
+    <input type="text" id="search" placeholder="Search artist or venue…" aria-label="Search by artist or venue">
+    <select id="filter-city" aria-label="Filter by city">
+      <option value="">All cities</option>
+      <option>St. Catharines</option>
+      <option>Niagara Falls</option>
+      <option>Niagara-on-the-Lake</option>
+      <option>St. Davids</option>
+      <option>Virgil</option>
+      <option>Welland</option>
+      <option>Grimsby</option>
+      <option>Fort Erie</option>
+      <option>Port Colborne</option>
+      <option>Thorold</option>
+    </select>
+    <button class="more-btn" id="more-btn" aria-expanded="false" aria-controls="more-filters">
+      <i class="ti ti-sliders" aria-hidden="true"></i>
+      More filters
+      <span class="more-count" id="more-count" aria-label="active filters"></span>
+    </button>
+    <button class="clear-btn" id="clear-btn"><i class="ti ti-x" aria-hidden="true"></i> Clear</button>
+  </div>
+
+  <div class="more-filters" id="more-filters" aria-label="Additional filters">
+    <select id="filter-venue" aria-label="Filter by venue"><option value="">All venues</option></select>
+    <select id="filter-genre" aria-label="Filter by genre">
+      <option value="">All genres</option>
+      <option>Acoustic</option><option>Blues</option><option>Celtic</option>
+      <option>Classic Rock</option><option>Country</option><option>Covers</option>
+      <option>Folk</option><option>Jazz</option><option>Latin</option>
+      <option>Rock</option><option>Soul</option><option>Tribute</option>
+    </select>
+    <select id="filter-type" aria-label="Filter by venue type">
+      <option value="">All types</option>
+      <option>Bar / Pub</option><option>Brewery</option><option>Concert Hall</option>
+      <option>Distillery</option><option>Festival Stage</option><option>Legion</option>
+      <option>Resort / Event Centre</option><option>Winery</option>
+    </select>
+  </div>
+
+  <!-- ── RESULTS BAR ────────────────────────────────────────────────────────── -->
+  <div class="results-bar">
+    <div class="results-left">
+      <span id="results-count" aria-live="polite"></span>
+      <span id="venue-tag"></span>
+    </div>
+    <div class="view-toggle" role="group" aria-label="View style">
+      <button class="view-btn" id="btn-card" aria-label="Card view"><i class="ti ti-layout-grid" aria-hidden="true"></i> Cards</button>
+      <button class="view-btn active" id="btn-list" aria-label="List view"><i class="ti ti-list" aria-hidden="true"></i> List</button>
+    </div>
+  </div>
+
+  <!-- ── CALENDAR ───────────────────────────────────────────────────────────── -->
+  <main class="cal-container" id="cal-wrap">
+    <div id="calendar" role="main" aria-label="Gig calendar"></div>
+  </main>
+
+  <!-- ── FOOTER ─────────────────────────────────────────────────────────────── -->
+  <footer class="footer">
+    <p>Niagara Music Scene — Niagara Region, Ontario, Canada</p>
+    <p style="margin-top:6px">Know of a gig not listed? <a href="mailto:hello@niagaramusicscene.ca">Email us</a></p>
+  </footer>
+
+  <!-- ── DATA ───────────────────────────────────────────────────────────────── -->
+  <script src="data/gigs.js"></script>
+
+  <!-- ── APP ────────────────────────────────────────────────────────────────── -->
+  <script>
+    // ── Constants ─────────────────────────────────────────────────────────────
+    const DAYS   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+    // Set this to today's actual date when you deploy
+    // Format: new Date(YEAR, MONTH_0_INDEXED, DAY)
+    const BASE_DATE = new Date(2026, 5, 4); // June 4 2026
+    const TODAY_DOW = BASE_DATE.getDay();
+
+    // ── State ─────────────────────────────────────────────────────────────────
+    let viewMode   = 'list';
+    let weekOffset = 0;
+    let activeVenue = '';
+    let moreOpen   = false;
+
+    // ── Helpers ───────────────────────────────────────────────────────────────
+    function parseTime(t) {
+      if (!t) return 840;
+      const m = t.match(/(\d+)(?::(\d+))?\s*(am|pm)/i);
+      if (!m) return 0;
+      let h = +m[1], min = +(m[2] || 0);
+      const ap = (m[3] || '').toLowerCase();
+      if (ap === 'pm' && h !== 12) h += 12;
+      if (ap === 'am' && h === 12) h = 0;
+      return h * 60 + min;
+    }
+
+    const PILL_MAP = {
+      'Rock': 'pill-rock', 'Classic Rock': 'pill-rock', 'Soul': 'pill-soul',
+      'Acoustic': 'pill-acoustic', 'Folk': 'pill-folk', 'Celtic': 'pill-celtic',
+      'Jazz': 'pill-jazz', 'Covers': 'pill-covers',
+      'Blues': 'pill-blues',
+      'Country': 'pill-country', 'Latin': 'pill-latin',
+      'Tribute': 'pill-tribute',
+    };
+    function pill(g) {
+      return `<span class="pill ${PILL_MAP[g] || 'pill-default'}">${g}</span>`;
+    }
+
+    function getWeekDates() {
+      const s = new Date(BASE_DATE);
+      s.setDate(BASE_DATE.getDate() - BASE_DATE.getDay() + weekOffset * 7);
+      return Array.from({ length: 7 }, (_, i) => {
+        const d = new Date(s);
+        d.setDate(s.getDate() + i);
+        return d;
+      });
+    }
+
+    // ── Filter logic ──────────────────────────────────────────────────────────
+    function filteredGigs() {
+      const q  = document.getElementById('search').value.toLowerCase().trim();
+      const fc = document.getElementById('filter-city').value;
+      const fg = document.getElementById('filter-genre').value;
+      const ft = document.getElementById('filter-type').value;
+      return GIGS.filter(g =>
+        (!q  || g.a.toLowerCase().includes(q) || g.v.toLowerCase().includes(q)) &&
+        (!activeVenue || g.v.trim() === activeVenue) &&
+        (!fc || g.c === fc) &&
+        (!fg || g.g === fg) &&
+        (!ft || g.t === ft)
+      );
+    }
+
+    // ── Popover ───────────────────────────────────────────────────────────────
+    function closePopover() {
+      const el = document.getElementById('cal-wrap').querySelector('.popover');
+      if (el) el.remove();
+    }
+
+    function openPopover(event, dow, idx) {
+      event.stopPropagation();
+      const gigs = filteredGigs().filter(g => g.d === dow).sort((a, b) => parseTime(a.tm) - parseTime(b.tm));
+      const g = gigs[idx];
+      if (!g) return;
+
+      closePopover();
+
+      const days = getWeekDates();
+      const d = days.find(x => x.getDay() === dow) || days[0];
+      const ve = g.v.replace(/'/g, "\\'");
+      const ae = g.a.replace(/'/g, "\\'");
+
+      const pop = document.createElement('div');
+      pop.className = 'popover';
+      pop.setAttribute('role', 'dialog');
+      pop.setAttribute('aria-modal', 'true');
+      pop.setAttribute('aria-label', `${g.a} at ${g.v}`);
+      pop.innerHTML = `
+        <div class="pop-artist">${g.a}</div>
+        <div class="pop-row"><i class="ti ti-map-pin" aria-hidden="true"></i><span><strong>${g.v}</strong> · ${g.c}</span></div>
+        <div class="pop-row"><i class="ti ti-clock" aria-hidden="true"></i><span>${DAYS[dow]}, ${MONTHS[d.getMonth()]} ${d.getDate()} · ${g.tm}</span></div>
+        <div class="pop-row"><i class="ti ti-music" aria-hidden="true"></i><span>${pill(g.g)} · ${g.t}</span></div>
+        ${g.n ? `<div class="pop-row"><i class="ti ti-info-circle" aria-hidden="true"></i><span>${g.n}</span></div>` : ''}
+        <div class="pop-actions">
+          <button class="pop-btn-primary" onclick="window.open('https://www.google.com/search?q=${encodeURIComponent(g.a)}+Niagara+band','_blank')">
+            <i class="ti ti-search" aria-hidden="true"></i> Search ${g.a.split(' ')[0]} online
+          </button>
+          <button class="pop-btn-secondary" onclick="closePopover();setVenue('${ve}')">
+            <i class="ti ti-building" aria-hidden="true"></i> All gigs at ${g.v}
+          </button>
+          <button class="pop-btn-close" onclick="closePopover()">Close</button>
+        </div>`;
+
+      const wrap = document.getElementById('cal-wrap');
+      wrap.appendChild(pop);
+
+      const wrapRect = wrap.getBoundingClientRect();
+      const trigRect = event.currentTarget.getBoundingClientRect();
+      const popW = 290;
+      const topOff = trigRect.top - wrapRect.top + wrap.scrollTop;
+      const spaceRight = wrapRect.width - (trigRect.right - wrapRect.left);
+      const spaceLeft  = trigRect.left - wrapRect.left;
+
+      if (spaceRight >= popW + 20) {
+        pop.style.left = (trigRect.right - wrapRect.left + 12) + 'px';
+        pop.classList.add('right');
+      } else if (spaceLeft >= popW + 20) {
+        pop.style.left = (trigRect.left - wrapRect.left - popW - 12) + 'px';
+        pop.classList.add('left');
+      } else {
+        const cx = trigRect.left - wrapRect.left + trigRect.width / 2;
+        pop.style.left = Math.max(8, Math.min(cx - popW / 2, wrapRect.width - popW - 8)) + 'px';
+        pop.style.top  = (topOff + trigRect.height + 6) + 'px';
+      }
+      if (!pop.style.top) pop.style.top = Math.max(4, topOff - 4) + 'px';
+    }
+
+    // ── Venue filter helper ───────────────────────────────────────────────────
+    function setVenue(v) {
+      activeVenue = v.trim();
+      document.getElementById('filter-venue').value = activeVenue;
+      updateMoreCount();
+      closePopover();
+      render();
+    }
+
+    // ── More filters ──────────────────────────────────────────────────────────
+    function updateMoreCount() {
+      const n = [
+        document.getElementById('filter-genre').value,
+        document.getElementById('filter-type').value,
+        activeVenue,
+      ].filter(Boolean).length;
+      const el = document.getElementById('more-count');
+      el.style.display = n ? 'inline' : 'none';
+      if (n) el.textContent = n;
+      document.getElementById('more-btn').classList.toggle('active', moreOpen || n > 0);
+    }
+
+    function clearAll() {
+      ['search', 'filter-city', 'filter-genre', 'filter-type'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+      document.getElementById('filter-venue').value = '';
+      activeVenue = '';
+      updateMoreCount();
+      closePopover();
+      render();
+    }
+
+    // ── Render ────────────────────────────────────────────────────────────────
+    function render() {
+      updateMoreCount();
+
+      const days = getWeekDates();
+      const s = days[0], e = days[6];
+      document.getElementById('week-label').textContent =
+        `${DAYS[s.getDay()]}, ${MONTHS[s.getMonth()]} ${s.getDate()} – ${DAYS[e.getDay()]}, ${MONTHS[e.getMonth()]} ${e.getDate()}`;
+
+      const gigs = filteredGigs();
+      document.getElementById('stat-gigs').textContent   = gigs.length;
+      document.getElementById('stat-venues').textContent = new Set(gigs.map(g => g.v)).size;
+      document.getElementById('stat-cities').textContent = new Set(gigs.map(g => g.c)).size;
+      document.getElementById('results-count').textContent = `${gigs.length} gig${gigs.length !== 1 ? 's' : ''} found`;
+
+      document.getElementById('venue-tag').innerHTML = activeVenue
+        ? `<span class="venue-tag"><i class="ti ti-map-pin" style="font-size:11px" aria-hidden="true"></i> ${activeVenue} <button onclick="setVenue('')" aria-label="Clear venue filter">×</button></span>`
+        : '';
+
+      // Group by day
+      const byDay = {};
+      days.forEach(d => byDay[d.getDay()] = []);
+      gigs.forEach(g => { if (g.d in byDay) byDay[g.d].push(g); });
+
+      let html = '';
+
+      days.forEach(d => {
+        const dow = d.getDay();
+        const dayGigs = (byDay[dow] || []).slice().sort((a, b) => parseTime(a.tm) - parseTime(b.tm));
+        if (!dayGigs.length) return;
+
+        const isToday = weekOffset === 0 && dow === TODAY_DOW;
+
+        html += `<div class="day-block">
+          <div class="day-header${isToday ? ' today' : ''}" role="heading" aria-level="2">
+            <span class="day-name">${DAYS[dow]}</span>
+            <span class="day-date">${MONTHS[d.getMonth()]} ${d.getDate()}</span>
+            ${isToday ? `<span class="today-badge" aria-label="Today">TODAY</span>` : ''}
+            <span class="day-count">${dayGigs.length} gig${dayGigs.length !== 1 ? 's' : ''}</span>
+          </div>`;
+
+        if (viewMode === 'list') {
+          dayGigs.forEach((g, i) => {
+            const ve = g.v.replace(/'/g, "\\'");
+            html += `
+              <div class="gig-row"
+                onclick="openPopover(event, ${dow}, ${i})"
+                onkeydown="if(event.key==='Enter'||event.key===' ')openPopover(event,${dow},${i})"
+                role="button" tabindex="0"
+                aria-label="${g.a} at ${g.v}, ${g.tm}">
+                <div class="gig-time">${g.tm}</div>
+                <div class="gig-main">
+                  <div class="gig-artist">${g.a}</div>
+                  <div class="gig-sub">
+                    <button class="gig-venue"
+                      onclick="event.stopPropagation();setVenue('${ve}')"
+                      aria-label="Filter to ${g.v}">${g.v}</button>
+                    <span class="gig-sep" aria-hidden="true"></span>
+                    <span class="gig-city">${g.c}</span>
+                  </div>
+                </div>
+                <div class="gig-pill-wrap">${pill(g.g)}</div>
+              </div>`;
+          });
+        } else {
+          html += `<div class="card-grid">`;
+          dayGigs.forEach((g, i) => {
+            const ve = g.v.replace(/'/g, "\\'");
+            html += `
+              <div class="gig-card"
+                onclick="openPopover(event, ${dow}, ${i})"
+                onkeydown="if(event.key==='Enter'||event.key===' ')openPopover(event,${dow},${i})"
+                role="button" tabindex="0"
+                aria-label="${g.a} at ${g.v}, ${g.tm}">
+                <div class="card-time">${g.tm}</div>
+                <div class="card-artist">${g.a}</div>
+                <button class="card-venue"
+                  onclick="event.stopPropagation();setVenue('${ve}')"
+                  aria-label="Filter to ${g.v}">
+                  <i class="ti ti-map-pin" style="font-size:10px" aria-hidden="true"></i> ${g.v}
+                </button>
+                <div class="card-pills">${pill(g.g)}</div>
+              </div>`;
+          });
+          html += `</div>`;
+        }
+        html += `</div>`;
+      });
+
+      if (!html) {
+        html = `<div class="empty-state">
+          <div class="empty-title">NOTHING FOUND</div>
+          <div class="empty-sub">Try a different city, genre, or clear your search.</div>
+          <button class="empty-clear" onclick="clearAll()">Clear all filters</button>
+        </div>`;
+      }
+
+      document.getElementById('calendar').innerHTML = html;
+    }
+
+    // ── Venue dropdown ────────────────────────────────────────────────────────
+    function populateVenueDropdown() {
+      const sel = document.getElementById('filter-venue');
+      const venues = [...new Set(GIGS.map(g => g.v.trim()))].sort();
+      venues.forEach(v => {
+        const o = document.createElement('option');
+        o.value = v;
+        o.textContent = v;
+        sel.appendChild(o);
+      });
+    }
+
+    // ── Event listeners ───────────────────────────────────────────────────────
+    document.getElementById('prev-week').addEventListener('click', () => { weekOffset--; closePopover(); render(); });
+    document.getElementById('next-week').addEventListener('click', () => { weekOffset++; closePopover(); render(); });
+    document.getElementById('this-week').addEventListener('click', () => { weekOffset = 0; closePopover(); render(); });
+
+    document.getElementById('search').addEventListener('input', () => { closePopover(); render(); });
+    document.getElementById('filter-city').addEventListener('change', () => { closePopover(); render(); });
+    document.getElementById('filter-genre').addEventListener('change', () => { updateMoreCount(); closePopover(); render(); });
+    document.getElementById('filter-type').addEventListener('change', () => { updateMoreCount(); closePopover(); render(); });
+    document.getElementById('filter-venue').addEventListener('change', function() { setVenue(this.value); });
+
+    document.getElementById('more-btn').addEventListener('click', () => {
+      moreOpen = !moreOpen;
+      document.getElementById('more-filters').classList.toggle('open', moreOpen);
+      document.getElementById('more-btn').setAttribute('aria-expanded', moreOpen);
+      updateMoreCount();
+    });
+
+    document.getElementById('clear-btn').addEventListener('click', clearAll);
+
+    document.getElementById('btn-card').addEventListener('click', () => {
+      viewMode = 'card';
+      document.getElementById('btn-card').classList.add('active');
+      document.getElementById('btn-list').classList.remove('active');
+      closePopover();
+      render();
+    });
+
+    document.getElementById('btn-list').addEventListener('click', () => {
+      viewMode = 'list';
+      document.getElementById('btn-list').classList.add('active');
+      document.getElementById('btn-card').classList.remove('active');
+      closePopover();
+      render();
+    });
+
+    // Close popover when clicking outside
+    document.addEventListener('click', e => {
+      const p = document.getElementById('cal-wrap').querySelector('.popover');
+      if (p && !p.contains(e.target)) closePopover();
+    });
+
+    // ── Init ──────────────────────────────────────────────────────────────────
+    populateVenueDropdown();
+    render();
+  </script>
+
 </body>
 </html>
