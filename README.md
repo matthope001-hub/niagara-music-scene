@@ -18,19 +18,23 @@ It is designed to replace the manually-typed Facebook post with something search
 
 ```
 niagara-music-scene/
-├── index.html          ← The entire website (HTML, CSS, and JavaScript)
-├── data/
-│   └── gigs.js         ← This week's gig listings — edit this file each week
-└── README.md           ← This file
+├── index.html    ← The entire website — HTML, CSS, JavaScript, and gig data
+└── README.md     ← This file
 ```
+
+> **Note:** The gig data is embedded directly inside `index.html` — no separate file needed. This means one file to upload and one file to update. GitHub Pages serves it with zero path issues.
 
 ---
 
 ## How to update the weekly gig listings
 
-Open `data/gigs.js` in any text editor (or directly on GitHub.com).
+Open `index.html` in any text editor (or directly on GitHub.com). Search for this comment:
 
-Each gig is one line that looks like this:
+```
+// ── GIG DATA — update this section each week
+```
+
+Everything below that line until `];` is the gig data. Each gig is one line:
 
 ```js
 { a:"Artist Name", v:"Venue Name", c:"City", t:"Venue Type", g:"Genre", d:5, tm:"8pm", n:"Any notes" },
