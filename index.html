@@ -735,6 +735,97 @@
     .card-artist-btn:hover { color: var(--teal); }
     .gig-card:hover .card-artist-btn { color: var(--teal); }
 
+
+    /* ── VENUE PROFILE POPOVER ────────────────────────────────────────────── */
+    .venue-pop {
+      position: absolute;
+      z-index: 60;
+      width: 300px;
+      background: var(--ink-2);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.7);
+      max-height: 420px;
+      overflow-y: auto;
+    }
+    .venue-pop::-webkit-scrollbar { width: 4px; }
+    .venue-pop::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 99px; }
+    .venue-pop.right::before { content:''; position:absolute; left:-9px; top:20px; width:0; height:0; border-top:8px solid transparent; border-bottom:8px solid transparent; border-right:9px solid rgba(255,255,255,.14); }
+    .venue-pop.right::after  { content:''; position:absolute; left:-7px; top:21px; width:0; height:0; border-top:7px solid transparent; border-bottom:7px solid transparent; border-right:8px solid var(--ink-2); }
+    .venue-pop.left::before  { content:''; position:absolute; right:-9px; top:20px; width:0; height:0; border-top:8px solid transparent; border-bottom:8px solid transparent; border-left:9px solid rgba(255,255,255,.14); }
+    .venue-pop.left::after   { content:''; position:absolute; right:-7px; top:21px; width:0; height:0; border-top:7px solid transparent; border-bottom:7px solid transparent; border-left:8px solid var(--ink-2); }
+
+    .vp-header { margin-bottom: 12px; }
+    .vp-name { font-family: var(--ff); font-size: 24px; letter-spacing: .5px; color: #fff; line-height: 1.1; margin-bottom: 4px; word-break: break-word; }
+    .vp-meta { font-size: 11px; color: var(--mist); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .vp-type-badge {
+      font-size: 10px; font-weight: 600;
+      padding: 2px 7px; border-radius: 4px;
+      background: var(--teal-l); color: var(--teal);
+      border: 1px solid var(--teal);
+    }
+    .vp-notes { font-size: 12px; color: var(--mist-l); line-height: 1.6; margin-bottom: 12px; }
+    .vp-gig-count {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 11px; font-weight: 600;
+      color: var(--gold); background: rgba(242,183,49,.1);
+      border: 1px solid rgba(242,183,49,.3); border-radius: 99px;
+      padding: 2px 9px; margin-bottom: 12px;
+    }
+    .vp-links { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+    .vp-link-btn {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 11px; font-weight: 500;
+      padding: 4px 10px; border-radius: 6px;
+      border: 1px solid rgba(255,255,255,.1);
+      background: rgba(255,255,255,.04);
+      color: var(--mist-l); text-decoration: none;
+      transition: border-color .1s, color .1s;
+    }
+    .vp-link-btn:hover { border-color: var(--teal); color: var(--teal); }
+    .vp-link-btn i { font-size: 13px; }
+    .vp-actions { display: flex; flex-direction: column; gap: 6px; }
+    .vp-filter-btn {
+      padding: 8px; border: none; border-radius: 6px;
+      background: var(--teal); color: var(--ink);
+      cursor: pointer; font-size: 12px; font-weight: 600;
+      font-family: var(--fb); text-align: left;
+    }
+    .vp-filter-btn:hover { background: var(--teal-d); }
+    .vp-dir-btn {
+      padding: 8px; border: 1px solid rgba(255,255,255,.1); border-radius: 6px;
+      background: transparent; cursor: pointer; font-size: 12px;
+      color: #fff; font-family: var(--fb); text-align: left;
+    }
+    .vp-dir-btn:hover { border-color: var(--teal); color: var(--teal); }
+    .vp-close-btn {
+      padding: 7px; border: 1px solid rgba(255,255,255,.07); border-radius: 6px;
+      background: transparent; cursor: pointer; font-size: 12px;
+      color: var(--mist); font-family: var(--fb);
+    }
+
+    /* Make venue name a distinct clickable button in list and card views */
+    .gig-venue-btn {
+      font-size: 12px; color: var(--mist-l);
+      background: none; border: none; padding: 0;
+      text-align: left; font-family: var(--fb);
+      transition: color .1s; white-space: normal;
+      cursor: pointer;
+    }
+    .gig-venue-btn:hover { color: var(--teal); text-decoration: underline; }
+    .gig-row:hover .gig-venue-btn { color: var(--teal); }
+    .card-venue-btn {
+      font-size: 12px; color: var(--mist-l);
+      background: none; border: none; padding: 0;
+      text-align: left; font-family: var(--fb);
+      transition: color .1s; white-space: normal;
+      cursor: pointer; display: block; width: 100%;
+      margin-bottom: 8px;
+    }
+    .card-venue-btn:hover { color: var(--teal); text-decoration: underline; }
+    .gig-card:hover .card-venue-btn { color: var(--teal); }
+
     /* ── SHOW EARLIER BUTTON ──────────────────────────────────────────────── */
     .show-earlier-btn {
       display: flex;
@@ -962,6 +1053,7 @@ const GIGS = [
 
   <!-- ── ARTIST PROFILES — edit data/artists.js to add or update profiles ── -->
   <script src="data/artists.js"></script>
+  <script src="data/venues.js"></script>
 
   <!-- ── APP ────────────────────────────────────────────────────────────────── -->
   <script>
@@ -1038,6 +1130,88 @@ const GIGS = [
       );
     }
 
+
+
+    // ── Venue profile popover ─────────────────────────────────────────────────
+    function closeVenueProfile() {
+      const el = document.getElementById('cal-wrap').querySelector('.venue-pop');
+      if (el) el.remove();
+    }
+
+    function openVenueProfile(event, venueName) {
+      event.stopPropagation();
+      closeVenueProfile();
+      closeArtistProfile();
+      closePopover();
+
+      const v = (typeof VENUE_PROFILES !== 'undefined' && VENUE_PROFILES[venueName]) || {};
+      const gigs = GIGS.filter(g => g.v === venueName);
+      const ve = venueName.replace(/'/g, "\'");
+
+      const links = [];
+      if (v.web) links.push(`<a class="vp-link-btn" href="${v.web}" target="_blank" rel="noopener"><i class="ti ti-world"></i> Website</a>`);
+      if (v.fb)  links.push(`<a class="vp-link-btn" href="${v.fb}" target="_blank" rel="noopener"><i class="ti ti-brand-facebook"></i> Facebook</a>`);
+      if (v.ig)  links.push(`<a class="vp-link-btn" href="${v.ig}" target="_blank" rel="noopener"><i class="ti ti-brand-instagram"></i> Instagram</a>`);
+
+      const mapsUrl = v.address
+        ? 'https://www.google.com/maps/search/' + encodeURIComponent(v.address)
+        : 'https://www.google.com/maps/search/' + encodeURIComponent(venueName + ' ' + (v.city || 'Niagara'));
+
+      const pop = document.createElement('div');
+      pop.className = 'venue-pop';
+      pop.setAttribute('role', 'dialog');
+      pop.setAttribute('aria-modal', 'true');
+      pop.setAttribute('aria-label', venueName + ' profile');
+      pop.innerHTML = `
+        <div class="vp-header">
+          <div class="vp-name">${venueName}</div>
+          <div class="vp-meta">
+            <i class="ti ti-map-pin" style="font-size:11px;color:var(--teal)"></i>
+            <span>${v.city || ''}</span>
+            ${v.type ? `<span class="vp-type-badge">${v.type}</span>` : ''}
+          </div>
+        </div>
+        ${v.notes ? `<div class="vp-notes">${v.notes}</div>` : ''}
+        <div class="vp-gig-count">
+          <i class="ti ti-music" style="font-size:11px"></i>
+          ${gigs.length} gig${gigs.length !== 1 ? 's' : ''} this week
+        </div>
+        ${links.length ? `<div class="vp-links">${links.join('')}</div>` : ''}
+        <div class="vp-actions">
+          <button class="vp-filter-btn" onclick="closeVenueProfile();setVenue('${ve}')">
+            <i class="ti ti-list"></i> See all gigs at ${venueName}
+          </button>
+          <a class="vp-dir-btn" href="${mapsUrl}" target="_blank" rel="noopener" style="text-decoration:none;display:block">
+            <i class="ti ti-map"></i> Get directions
+          </a>
+          <button class="vp-close-btn" onclick="closeVenueProfile()">Close</button>
+        </div>`;
+
+      const wrap = document.getElementById('cal-wrap');
+      wrap.appendChild(pop);
+
+      const wrapRect = wrap.getBoundingClientRect();
+      const trigRect = event.currentTarget.getBoundingClientRect();
+      const popW = 300;
+      const topOff = trigRect.top - wrapRect.top + wrap.scrollTop;
+      const spaceRight = wrapRect.width - (trigRect.right - wrapRect.left);
+      const spaceLeft  = trigRect.left - wrapRect.left;
+
+      if (spaceRight >= popW + 20) {
+        pop.style.left = (trigRect.right - wrapRect.left + 12) + 'px';
+        pop.classList.add('right');
+      } else if (spaceLeft >= popW + 20) {
+        pop.style.left = (trigRect.left - wrapRect.left - popW - 12) + 'px';
+        pop.classList.add('left');
+      } else {
+        const cx = trigRect.left - wrapRect.left + trigRect.width / 2;
+        pop.style.left = Math.max(8, Math.min(cx - popW / 2, wrapRect.width - popW - 8)) + 'px';
+        pop.style.top = (topOff + trigRect.height + 6) + 'px';
+      }
+      if (!pop.style.top) pop.style.top = Math.max(4, topOff - 4) + 'px';
+      pop.style.maxHeight = '420px';
+      pop.style.overflowY = 'auto';
+    }
 
     // ── Artist profile popover ────────────────────────────────────────────────
     function closeArtistProfile() {
@@ -1155,8 +1329,8 @@ const GIGS = [
           <button class="pop-btn-primary" onclick="window.open('https://www.google.com/search?q=${encodeURIComponent(g.a)}+Niagara+band','_blank')">
             <i class="ti ti-search" aria-hidden="true"></i> Search ${g.a.split(' ')[0]} online
           </button>
-          <button class="pop-btn-secondary" onclick="closePopover();setVenue('${ve}')">
-            <i class="ti ti-building" aria-hidden="true"></i> All gigs at ${g.v}
+          <button class="pop-btn-secondary" onclick="closePopover();openVenueProfile(event,'${ve}')">
+            <i class="ti ti-building" aria-hidden="true"></i> View ${g.v}
           </button>
           <button class="pop-btn-close" onclick="closePopover()">Close</button>
         </div>`;
@@ -1191,6 +1365,7 @@ const GIGS = [
       document.getElementById('filter-venue').value = activeVenue;
       updateMoreCount();
       closePopover();
+      closeVenueProfile();
       render();
     }
 
@@ -1291,9 +1466,9 @@ const GIGS = [
                     onclick="event.stopPropagation();openArtistProfile(event,'${ae}')"
                     aria-label="View profile for ${g.a}">${g.a}</button>
                   <div class="gig-sub">
-                    <button class="gig-venue"
-                      onclick="event.stopPropagation();setVenue('${ve}')"
-                      aria-label="Filter to ${g.v}">${g.v}</button>
+                    <button class="gig-venue-btn"
+                      onclick="event.stopPropagation();openVenueProfile(event,'${ve}')"
+                      aria-label="View profile for ${g.v}">${g.v}</button>
                     <span class="gig-sep" aria-hidden="true"></span>
                     <span class="gig-city">${g.c}</span>
                   </div>
@@ -1316,9 +1491,9 @@ const GIGS = [
                 <button class="card-artist-btn"
                   onclick="event.stopPropagation();openArtistProfile(event,'${ae}')"
                   aria-label="View profile for ${g.a}">${g.a}</button>
-                <button class="card-venue"
-                  onclick="event.stopPropagation();setVenue('${ve}')"
-                  aria-label="Filter to ${g.v}">
+                <button class="card-venue-btn"
+                  onclick="event.stopPropagation();openVenueProfile(event,'${ve}')"
+                  aria-label="View profile for ${g.v}">
                   <i class="ti ti-map-pin" style="font-size:10px" aria-hidden="true"></i> ${g.v}
                 </button>
                 <div class="card-pills">${pill(g.g)}</div>
@@ -1405,6 +1580,8 @@ const GIGS = [
       if (p && !p.contains(e.target)) closePopover();
       const ap = document.getElementById('cal-wrap').querySelector('.artist-pop');
       if (ap && !ap.contains(e.target)) closeArtistProfile();
+      const vp = document.getElementById('cal-wrap').querySelector('.venue-pop');
+      if (vp && !vp.contains(e.target)) closeVenueProfile();
     });
 
     // ── Init ──────────────────────────────────────────────────────────────────
