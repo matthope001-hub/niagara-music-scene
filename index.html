@@ -645,6 +645,96 @@
     .footer a { color: var(--teal); text-decoration: none; }
     .footer a:hover { text-decoration: underline; }
 
+
+    /* ── ARTIST PROFILE POPOVER ───────────────────────────────────────────── */
+    .artist-pop {
+      position: absolute;
+      z-index: 60;
+      width: 300px;
+      background: var(--ink-2);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.7);
+      max-height: 420px;
+      overflow-y: auto;
+    }
+    .artist-pop::-webkit-scrollbar { width: 4px; }
+    .artist-pop::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 99px; }
+
+    .artist-pop.right::before { content:''; position:absolute; left:-9px; top:20px; width:0; height:0; border-top:8px solid transparent; border-bottom:8px solid transparent; border-right:9px solid rgba(255,255,255,.14); }
+    .artist-pop.right::after  { content:''; position:absolute; left:-7px; top:21px; width:0; height:0; border-top:7px solid transparent; border-bottom:7px solid transparent; border-right:8px solid var(--ink-2); }
+    .artist-pop.left::before  { content:''; position:absolute; right:-9px; top:20px; width:0; height:0; border-top:8px solid transparent; border-bottom:8px solid transparent; border-left:9px solid rgba(255,255,255,.14); }
+    .artist-pop.left::after   { content:''; position:absolute; right:-7px; top:21px; width:0; height:0; border-top:7px solid transparent; border-bottom:7px solid transparent; border-left:8px solid var(--ink-2); }
+
+    .ap-header { display:flex; align-items:flex-start; gap:12px; margin-bottom:14px; }
+    .ap-avatar {
+      width: 44px; height: 44px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--teal-d), var(--ink-3));
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--ff); font-size: 18px; color: #fff;
+      flex-shrink: 0; letter-spacing: 1px;
+    }
+    .ap-name { font-family: var(--ff); font-size: 24px; letter-spacing: .5px; color: #fff; line-height: 1; margin-bottom: 4px; word-break: break-word; }
+    .ap-meta { font-size: 11px; color: var(--mist); }
+
+    .ap-bio { font-size: 12px; color: var(--mist-l); line-height: 1.6; margin-bottom: 12px; }
+
+    .ap-gig-count {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 11px; font-weight: 600;
+      color: var(--teal); background: var(--teal-l);
+      border: 1px solid var(--teal); border-radius: 99px;
+      padding: 2px 9px; margin-bottom: 12px;
+    }
+
+    .ap-socials { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+    .ap-social-btn {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 11px; font-weight: 500;
+      padding: 4px 10px; border-radius: 6px;
+      border: 1px solid rgba(255,255,255,.1);
+      background: rgba(255,255,255,.04);
+      color: var(--mist-l); text-decoration: none;
+      transition: border-color .1s, color .1s;
+    }
+    .ap-social-btn:hover { border-color: var(--teal); color: var(--teal); }
+    .ap-social-btn i { font-size: 13px; }
+
+    .ap-actions { display: flex; flex-direction: column; gap: 6px; }
+    .ap-filter-btn {
+      padding: 8px; border: 1px solid rgba(255,255,255,.1); border-radius: 6px;
+      background: transparent; font-size: 12px; color: #fff;
+      font-family: var(--fb); text-align: left; cursor: pointer;
+    }
+    .ap-filter-btn:hover { border-color: var(--teal); color: var(--teal); }
+    .ap-close-btn {
+      padding: 7px; border: 1px solid rgba(255,255,255,.07); border-radius: 6px;
+      background: transparent; font-size: 12px; color: var(--mist);
+      font-family: var(--fb); cursor: pointer;
+    }
+
+    /* Make artist name a clickable button within the row */
+    .gig-artist-btn {
+      font-size: 14px; font-weight: 600; color: #fff;
+      background: none; border: none; padding: 0;
+      text-align: left; font-family: var(--fb);
+      cursor: pointer; transition: color .1s;
+      display: block; margin-bottom: 3px;
+    }
+    .gig-artist-btn:hover { color: var(--teal); text-decoration: underline; }
+    .gig-row:hover .gig-artist-btn { color: var(--teal); }
+
+    .card-artist-btn {
+      font-family: var(--ff); font-size: 22px; letter-spacing: .5px;
+      color: #fff; margin-bottom: 4px; line-height: 1.1;
+      background: none; border: none; padding: 0;
+      text-align: left; cursor: pointer; transition: color .1s;
+      display: block; width: 100%;
+    }
+    .card-artist-btn:hover { color: var(--teal); }
+    .gig-card:hover .card-artist-btn { color: var(--teal); }
+
     /* ── SHOW EARLIER BUTTON ──────────────────────────────────────────────── */
     .show-earlier-btn {
       display: flex;
@@ -868,6 +958,112 @@ const GIGS = [
 
 ];
 
+
+  <!-- ── ARTIST PROFILES ─────────────────────────────────────────────────────
+       Add or update profiles here. Key = exact artist name as it appears in GIGS.
+       Fields:
+         city   = home city
+         genre  = primary genre
+         bio    = one or two sentence description
+         fb     = Facebook URL (or "" to omit)
+         ig     = Instagram URL (or "" to omit)
+         yt     = YouTube URL (or "" to omit)
+         sp     = Spotify URL (or "" to omit)
+         web    = Website URL (or "" to omit)
+       Artists not listed here still get a profile — just with no bio or socials. -->
+  <script>
+  const ARTIST_PROFILES = {
+    "Foreshakin'": {
+      city:"Niagara Falls", genre:"Classic Rock",
+      bio:"Niagara's hardest-working classic rock band. Three nights a week at My Cousin Vinny's — Thu, Sat & Mon. Deep setlist, loyal crowd.",
+      fb:"https://www.facebook.com/foreshakin", ig:"", yt:"", sp:"", web:""
+    },
+    "Kyle McDonnell": {
+      city:"Niagara Falls", genre:"Acoustic",
+      bio:"The most-booked solo performer in the region. Wineries, breweries, and bars — Kyle holds multiple weekly slots across Niagara with a warm acoustic style.",
+      fb:"https://www.facebook.com/kylemcdonnellmusic", ig:"", yt:"", sp:"", web:""
+    },
+    "Jay Diem Band": {
+      city:"Niagara Falls", genre:"Rock",
+      bio:"Bar circuit and festival crossover. Five gigs in five days is a regular week. Wildflower Social, Trappers, and Ribfest mainstage regulars.",
+      fb:"https://www.facebook.com/jaydiemband", ig:"", yt:"", sp:"", web:""
+    },
+    "Jay Diem": {
+      city:"Niagara Falls", genre:"Rock",
+      bio:"Bar circuit and festival crossover. Five gigs in five days is a regular week. Wildflower Social, Trappers, and Ribfest mainstage regulars.",
+      fb:"https://www.facebook.com/jaydiemband", ig:"", yt:"", sp:"", web:""
+    },
+    "The Mandevilles": {
+      city:"Welland", genre:"Folk",
+      bio:"Welland-based indie rock duo — Serena Pryne and Nick Lesyk. Latest release: the Junkie EP. Recurring Sunday slot at 13th Street Winery. Bandcamp and Spotify.",
+      fb:"", ig:"", yt:"", sp:"https://open.spotify.com/artist/themandevilles", web:"https://heymandevilles.com"
+    },
+    "Chris Madronich": {
+      city:"Port Colborne", genre:"Blues",
+      bio:"Three-time Niagara Music Award winner. Also performs as Gravely James. Blues, folk, and Americana storytelling with a Port Colborne soul.",
+      fb:"https://www.facebook.com/gravelyjames", ig:"", yt:"", sp:"", web:""
+    },
+    "Taylor Barber": {
+      city:"Niagara Falls", genre:"Acoustic",
+      bio:"High-frequency gigging across wineries and bars. Regular at Niagara Falls Brewing Co. Solo and duo with Kyle McDonnell.",
+      fb:"https://www.facebook.com/taylorbarbermusic", ig:"", yt:"", sp:"", web:""
+    },
+    "Taylor Barber & Kyle McDonnell": {
+      city:"Niagara Falls", genre:"Acoustic",
+      bio:"A natural duo pairing — Taylor Barber and Kyle McDonnell together on winery stages across NOTL and the wine country corridor.",
+      fb:"", ig:"", yt:"", sp:"", web:""
+    },
+    "Sean McDonnell & Taylor Barber": {
+      city:"Thorold", genre:"Acoustic",
+      bio:"Duo format combining two of the region's most reliable acoustic performers. Regular at Silversmith Brewery.",
+      fb:"", ig:"", yt:"", sp:"", web:""
+    },
+    "Figure Four": {
+      city:"Niagara Falls", genre:"Rock",
+      bio:"High-energy rock act — Fallsview Casino BBQ and Cat's Caboose regulars. One of the tightest full bands on the Niagara circuit.",
+      fb:"https://www.facebook.com/figurefourrocks", ig:"", yt:"", sp:"", web:""
+    },
+    "Feverish Lemons": {
+      city:"Niagara Falls", genre:"Rock",
+      bio:"Multi-venue weekend warriors. Cat's Caboose, Irish Harp, and Merchant Ale House regulars. High-energy sets, loyal following.",
+      fb:"https://www.facebook.com/feverishlemons", ig:"", yt:"", sp:"", web:""
+    },
+    "Feverish Lemons Trio": {
+      city:"Niagara Falls", genre:"Rock",
+      bio:"Multi-venue weekend warriors. Cat's Caboose, Irish Harp, and Merchant Ale House regulars. High-energy sets, loyal following.",
+      fb:"https://www.facebook.com/feverishlemons", ig:"", yt:"", sp:"", web:""
+    },
+    "LMT Connection": {
+      city:"Niagara Falls", genre:"Rock",
+      bio:"Festival-ready rock band. Welland Concerts on the Canal and Lucky's Fallsview Casino regulars. Big stage presence.",
+      fb:"https://www.facebook.com/lmtconnection", ig:"", yt:"", sp:"", web:""
+    },
+    "Full Mulletti": {
+      city:"Niagara Falls", genre:"Classic Rock",
+      bio:"Classic rock covers done right. Multiple Niagara venues every weekend — Trappers, Lucky Penny, and beyond.",
+      fb:"https://www.facebook.com/fullmulletti", ig:"", yt:"", sp:"", web:""
+    },
+    "Blue Etc": {
+      city:"St. Catharines", genre:"Blues",
+      bio:"Recurring Saturday afternoon format at Regency Athletic Resort. Blues with a professional finish, guest performer varies weekly.",
+      fb:"", ig:"", yt:"", sp:"", web:""
+    },
+    "Stonewall": {
+      city:"Welland", genre:"Classic Rock",
+      bio:"Back-to-back weekend warrior — Welland Legion Saturday, Ridgeway Legion Sunday. Classic rock and country crowd-pleasers.",
+      fb:"", ig:"", yt:"", sp:"", web:""
+    },
+    "Saxophonist Jim Gay": {
+      city:"Niagara Falls", genre:"Jazz",
+      bio:"Sunday Jazz Series at the Irish Harp — a weekly fixture. Smooth jazz saxophone in an intimate pub setting.",
+      fb:"", ig:"", yt:"", sp:"", web:""
+    },
+    "Strictly Sabbath": {
+      city:"Fort Erie", genre:"Tribute",
+      bio:"Black Sabbath tribute act. Sessions on the River, Fort Erie. Tickets required — a proper show.",
+      fb:"", ig:"", yt:"", sp:"", web:""
+    },
+  };
   </script>
 
   <!-- ── APP ────────────────────────────────────────────────────────────────── -->
@@ -943,6 +1139,89 @@ const GIGS = [
         (!fg || g.g === fg) &&
         (!ft || g.t === ft)
       );
+    }
+
+
+    // ── Artist profile popover ────────────────────────────────────────────────
+    function closeArtistProfile() {
+      const el = document.getElementById('cal-wrap').querySelector('.artist-pop');
+      if (el) el.remove();
+    }
+
+    function openArtistProfile(event, artistName) {
+      event.stopPropagation();
+      closeArtistProfile();
+      closePopover();
+
+      const p = ARTIST_PROFILES[artistName] || {};
+      const gigs = GIGS.filter(g => g.a === artistName);
+      const initials = artistName.split(' ').map(w => w[0]).filter(Boolean).slice(0,2).join('').toUpperCase();
+      const ae = artistName.replace(/'/g, "\'");
+
+      // Build social links
+      const socials = [];
+      if (p.fb)  socials.push(`<a class="ap-social-btn" href="${p.fb}" target="_blank" rel="noopener"><i class="ti ti-brand-facebook"></i> Facebook</a>`);
+      if (p.ig)  socials.push(`<a class="ap-social-btn" href="${p.ig}" target="_blank" rel="noopener"><i class="ti ti-brand-instagram"></i> Instagram</a>`);
+      if (p.yt)  socials.push(`<a class="ap-social-btn" href="${p.yt}" target="_blank" rel="noopener"><i class="ti ti-brand-youtube"></i> YouTube</a>`);
+      if (p.sp)  socials.push(`<a class="ap-social-btn" href="${p.sp}" target="_blank" rel="noopener"><i class="ti ti-brand-spotify"></i> Spotify</a>`);
+      if (p.web) socials.push(`<a class="ap-social-btn" href="${p.web}" target="_blank" rel="noopener"><i class="ti ti-world"></i> Website</a>`);
+      // Always add a Google search fallback
+      const searchUrl = 'https://www.google.com/search?q=' + encodeURIComponent(artistName + ' Niagara band');
+      socials.push(`<a class="ap-social-btn" href="${searchUrl}" target="_blank" rel="noopener"><i class="ti ti-search"></i> Search</a>`);
+
+      const pop = document.createElement('div');
+      pop.className = 'artist-pop';
+      pop.setAttribute('role', 'dialog');
+      pop.setAttribute('aria-modal', 'true');
+      pop.setAttribute('aria-label', artistName + ' profile');
+      pop.innerHTML = `
+        <div class="ap-header">
+          <div class="ap-avatar">${initials}</div>
+          <div>
+            <div class="ap-name">${artistName}</div>
+            <div class="ap-meta">${p.city || ''} ${p.genre ? '· ' + p.genre : ''}</div>
+          </div>
+        </div>
+        ${p.bio ? `<div class="ap-bio">${p.bio}</div>` : ''}
+        <div class="ap-gig-count"><i class="ti ti-calendar" style="font-size:11px"></i> ${gigs.length} gig${gigs.length !== 1 ? 's' : ''} this week</div>
+        ${socials.length ? `<div class="ap-socials">${socials.join('')}</div>` : ''}
+        <div class="ap-actions">
+          <button class="ap-filter-btn" onclick="closeArtistProfile();setArtistFilter('${ae}')">
+            <i class="ti ti-list"></i> See all gigs by ${artistName.split(' ')[0]}
+          </button>
+          <button class="ap-close-btn" onclick="closeArtistProfile()">Close</button>
+        </div>`;
+
+      const wrap = document.getElementById('cal-wrap');
+      wrap.appendChild(pop);
+
+      const wrapRect = wrap.getBoundingClientRect();
+      const trigRect = event.currentTarget.getBoundingClientRect();
+      const popW = 300;
+      const topOff = trigRect.top - wrapRect.top + wrap.scrollTop;
+      const spaceRight = wrapRect.width - (trigRect.right - wrapRect.left);
+      const spaceLeft = trigRect.left - wrapRect.left;
+
+      if (spaceRight >= popW + 20) {
+        pop.style.left = (trigRect.right - wrapRect.left + 12) + 'px';
+        pop.classList.add('right');
+      } else if (spaceLeft >= popW + 20) {
+        pop.style.left = (trigRect.left - wrapRect.left - popW - 12) + 'px';
+        pop.classList.add('left');
+      } else {
+        const cx = trigRect.left - wrapRect.left + trigRect.width / 2;
+        pop.style.left = Math.max(8, Math.min(cx - popW / 2, wrapRect.width - popW - 8)) + 'px';
+        pop.style.top = (topOff + trigRect.height + 6) + 'px';
+      }
+      if (!pop.style.top) pop.style.top = Math.max(4, topOff - 4) + 'px';
+      pop.style.maxHeight = '420px';
+      pop.style.overflowY = 'auto';
+    }
+
+    function setArtistFilter(artistName) {
+      document.getElementById('search').value = artistName;
+      closePopover();
+      render();
     }
 
     // ── Popover ───────────────────────────────────────────────────────────────
@@ -1110,7 +1389,9 @@ const GIGS = [
                 aria-label="${g.a} at ${g.v}, ${g.tm}">
                 <div class="gig-time">${g.tm}</div>
                 <div class="gig-main">
-                  <div class="gig-artist">${g.a}</div>
+                  <button class="gig-artist-btn"
+                    onclick="event.stopPropagation();openArtistProfile(event,'${g.a.replace(/'/g,"\'")}')"
+                    aria-label="View profile for ${g.a}">${g.a}</button>
                   <div class="gig-sub">
                     <button class="gig-venue"
                       onclick="event.stopPropagation();setVenue('${ve}')"
@@ -1133,7 +1414,9 @@ const GIGS = [
                 role="button" tabindex="0"
                 aria-label="${g.a} at ${g.v}, ${g.tm}">
                 <div class="card-time">${g.tm}</div>
-                <div class="card-artist">${g.a}</div>
+                <button class="card-artist-btn"
+                  onclick="event.stopPropagation();openArtistProfile(event,'${g.a.replace(/'/g,"\'")}')"
+                  aria-label="View profile for ${g.a}">${g.a}</button>
                 <button class="card-venue"
                   onclick="event.stopPropagation();setVenue('${ve}')"
                   aria-label="Filter to ${g.v}">
@@ -1221,6 +1504,8 @@ const GIGS = [
     document.addEventListener('click', e => {
       const p = document.getElementById('cal-wrap').querySelector('.popover');
       if (p && !p.contains(e.target)) closePopover();
+      const ap = document.getElementById('cal-wrap').querySelector('.artist-pop');
+      if (ap && !ap.contains(e.target)) closeArtistProfile();
     });
 
     // ── Init ──────────────────────────────────────────────────────────────────
