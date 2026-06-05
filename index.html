@@ -3,487 +3,1230 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Niagara Music Scene</title>
+  <meta name="description" content="Niagara Music Scene — every confirmed live music gig across the Niagara Region. Wineries, bars, legions, breweries and festival stages.">
+  <meta property="og:title" content="Niagara Music Scene — Live Music This Week">
+  <meta property="og:description" content="Every confirmed gig across Niagara — search by artist, venue, city or genre.">
+  <meta property="og:type" content="website">
+  <title>Niagara Music Scene — Live Music This Week</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%230D1117'/><text y='72' x='50' text-anchor='middle' font-size='60' font-family='serif'>🎵</text></svg>">
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
   <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--teal:#0AAFCC;--teal-d:#077A8F;--teal-l:rgba(10,175,204,.12);--gold:#F2B731;--gold-d:#C9940A;--ink:#0D1117;--ink-2:#1C2938;--ink-3:#2D3F50;--mist:#6B8FA8;--mist-l:#A8C4D4;--card:#14202D;--ff:'Bebas Neue',sans-serif;--fb:'Inter',sans-serif}
-    html{scroll-behavior:smooth}
-    body{background:var(--ink);color:#fff;font-family:var(--fb);font-size:14px;line-height:1.5;min-height:100vh}
-    button{cursor:pointer;font-family:var(--fb)}
-    a{color:var(--teal)}
-    .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid rgba(255,255,255,.06);position:sticky;top:0;background:var(--ink);z-index:40;flex-wrap:wrap;gap:10px}
-    .nav-logo{font-family:var(--ff);font-size:24px;letter-spacing:2px;color:#fff;line-height:1;text-decoration:none}
-    .nav-logo span{color:var(--teal)}
-    .nav-links{display:flex;gap:4px}
-    .nav-link{font-size:12px;color:var(--mist);background:none;border:none;padding:5px 10px;border-radius:6px}
-    .nav-link:hover{color:#fff;background:rgba(255,255,255,.06)}
-    .nav-link.active{color:var(--teal)}
-    .nav-cta{background:var(--teal);color:var(--ink);border:none;border-radius:6px;padding:7px 16px;font-size:12px;font-weight:600}
-    .nav-cta:hover{background:var(--teal-d)}
-    .hero{padding:48px 24px 32px;border-bottom:1px solid rgba(255,255,255,.06)}
-    .hero-kicker{font-size:11px;font-weight:600;color:var(--teal);letter-spacing:3px;text-transform:uppercase;margin-bottom:12px}
-    .hero-title{font-family:var(--ff);font-size:clamp(48px,8vw,72px);line-height:.92;letter-spacing:2px;color:#fff;margin-bottom:12px}
-    .hero-title span{color:var(--teal)}
-    .hero-sub{font-size:15px;color:var(--mist);max-width:520px;line-height:1.6;margin-bottom:24px}
-    .week-ctrl{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-    .week-btn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:7px 12px;font-size:13px;color:var(--mist-l)}
-    .week-btn:hover{background:rgba(255,255,255,.13);color:#fff}
-    .week-label{font-size:14px;font-weight:500;color:#fff}
-    .today-btn{background:var(--gold);color:var(--ink);border:none;border-radius:6px;padding:7px 16px;font-size:12px;font-weight:600}
-    .today-btn:hover{background:var(--gold-d)}
-    .stats{display:flex;border-bottom:1px solid rgba(255,255,255,.06)}
-    .stat{flex:1;padding:14px 24px;border-right:1px solid rgba(255,255,255,.06)}
-    .stat:last-child{border-right:none}
-    .stat-n{font-family:var(--ff);font-size:38px;color:var(--teal);letter-spacing:1px;line-height:1}
-    .stat-l{font-size:11px;color:var(--mist);text-transform:uppercase;letter-spacing:.8px;margin-top:3px}
-    .filter-bar{padding:12px 24px;display:flex;gap:7px;flex-wrap:wrap;align-items:center;border-bottom:1px solid rgba(255,255,255,.06);background:var(--ink-2)}
-    .filter-bar input,.filter-bar select{background:var(--ink-3);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:0 10px;font-size:12px;color:#fff;font-family:var(--fb);height:32px}
-    .filter-bar input{min-width:160px}
-    .filter-bar input::placeholder{color:var(--mist)}
-    .filter-bar select option{background:var(--ink-3)}
-    .more-btn{background:var(--ink-3);border:1px solid rgba(255,255,255,.1);border-radius:6px;height:32px;padding:0 12px;display:flex;align-items:center;gap:5px;font-size:12px;color:var(--mist)}
-    .more-btn:hover,.more-btn.active{border-color:var(--teal);color:var(--teal)}
-    .more-count{display:none;background:var(--teal);color:var(--ink);border-radius:99px;font-size:10px;padding:1px 6px;font-weight:700}
-    .clear-btn{font-size:12px;color:var(--mist);background:none;border:none;padding:3px 8px}
-    .clear-btn:hover{color:var(--teal)}
-    .more-filters{padding:8px 24px 10px;display:none;flex-wrap:wrap;gap:7px;background:var(--ink-2);border-bottom:1px solid rgba(255,255,255,.06)}
-    .more-filters.open{display:flex}
-    .more-filters select{background:var(--ink-3);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:0 10px;font-size:12px;color:#fff;font-family:var(--fb);height:32px}
-    .more-filters select option{background:var(--ink-3)}
-    .venue-tag{display:inline-flex;align-items:center;gap:5px;background:var(--teal-l);border:1px solid var(--teal);border-radius:99px;padding:2px 10px;font-size:11px;color:var(--teal);font-weight:600}
-    .venue-tag button{background:none;border:none;color:var(--teal);font-size:15px;line-height:1;padding:0}
-    .results-bar{padding:9px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.06);flex-wrap:wrap;gap:8px}
-    .results-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--mist)}
-    .view-toggle{display:flex;gap:4px}
-    .view-btn{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:4px 10px;font-size:11px;color:var(--mist)}
-    .view-btn.active{background:var(--teal);border-color:var(--teal);color:var(--ink);font-weight:600}
-    .day-block{border-bottom:1px solid rgba(255,255,255,.04)}
-    .day-block:last-child{border-bottom:none}
-    .day-header{padding:10px 24px;display:flex;align-items:center;gap:10px;background:var(--ink-2);border-bottom:1px solid rgba(255,255,255,.06);border-top:1px solid rgba(255,255,255,.06)}
-    .day-header.today{border-left:3px solid var(--teal);padding-left:21px}
-    .day-name{font-family:var(--ff);font-size:20px;letter-spacing:1px;color:#fff}
-    .day-date{font-size:12px;color:var(--mist)}
-    .today-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:99px;background:var(--teal);color:var(--ink);letter-spacing:.5px}
-    .day-count{margin-left:auto;font-size:11px;color:var(--mist)}
-    .gig-row{display:grid;grid-template-columns:64px 1fr auto;align-items:start;padding:12px 24px;border-bottom:1px solid rgba(255,255,255,.04);cursor:pointer;transition:background .1s}
-    .gig-row:last-child{border-bottom:none}
-    .gig-row:hover{background:var(--ink-2)}
-    .gig-row:hover .gig-artist,.gig-row:hover .gig-venue{color:var(--teal)}
-    .gig-time{font-size:11px;color:var(--mist);font-variant-numeric:tabular-nums;padding-top:2px}
-    .gig-main{min-width:0}
-    .gig-artist{font-size:14px;font-weight:600;color:#fff;margin-bottom:3px;transition:color .1s}
-    .gig-sub{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-    .gig-venue{font-size:12px;color:var(--mist-l);background:none;border:none;padding:0;text-align:left;font-family:var(--fb);transition:color .1s;white-space:normal}
-    .gig-venue:hover{color:var(--teal);text-decoration:underline}
-    .gig-sep{width:3px;height:3px;border-radius:50%;background:var(--ink-3);flex-shrink:0}
-    .gig-city{font-size:11px;color:var(--mist);white-space:nowrap;flex-shrink:0}
-    .gig-pill-wrap{padding-left:10px;flex-shrink:0;padding-top:2px}
-    .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1px;background:rgba(255,255,255,.04)}
-    .gig-card{background:var(--card);padding:20px;cursor:pointer;transition:background .1s;position:relative;overflow:hidden}
-    .gig-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--teal);opacity:0;transition:opacity .1s}
-    .gig-card:hover{background:var(--ink-3)}
-    .gig-card:hover::before{opacity:1}
-    .gig-card:hover .card-artist,.gig-card:hover .card-venue{color:var(--teal)}
-    .card-time{font-size:11px;color:var(--mist);margin-bottom:8px;font-weight:500;letter-spacing:.4px}
-    .card-artist{font-family:var(--ff);font-size:22px;letter-spacing:.5px;color:#fff;margin-bottom:4px;line-height:1.1;transition:color .1s}
-    .card-venue{font-size:12px;color:var(--mist-l);margin-bottom:10px;background:none;border:none;padding:0;text-align:left;width:100%;font-family:var(--fb);transition:color .1s;display:block;white-space:normal}
-    .card-venue:hover{color:var(--teal);text-decoration:underline}
-    .card-pills{display:flex;gap:5px;flex-wrap:wrap}
-    .pill{font-size:10px;padding:3px 8px;border-radius:4px;font-weight:600;white-space:nowrap}
-    .pill-rock,.pill-soul{background:rgba(220,60,60,.2);color:#FF8080;border:1px solid rgba(220,60,60,.3)}
-    .pill-acoustic,.pill-folk,.pill-celtic{background:rgba(50,180,100,.12);color:#6DD89A;border:1px solid rgba(50,180,100,.22)}
-    .pill-jazz,.pill-covers{background:rgba(10,175,204,.12);color:#6DD4E8;border:1px solid rgba(10,175,204,.22)}
-    .pill-blues{background:rgba(180,120,220,.12);color:#C49AE8;border:1px solid rgba(180,120,220,.22)}
-    .pill-country,.pill-latin{background:rgba(242,183,49,.12);color:#F2CC6A;border:1px solid rgba(242,183,49,.22)}
-    .pill-tribute,.pill-default{background:rgba(255,255,255,.06);color:var(--mist-l);border:1px solid rgba(255,255,255,.1)}
-    .cal-container{position:relative}
-    .popover{position:absolute;z-index:50;width:290px;background:var(--ink-2);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:18px;box-shadow:0 8px 32px rgba(0,0,0,.6);max-height:380px;overflow-y:auto}
-    .popover.right::before{content:'';position:absolute;left:-9px;top:20px;width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-right:9px solid rgba(255,255,255,.14)}
-    .popover.right::after{content:'';position:absolute;left:-7px;top:21px;width:0;height:0;border-top:7px solid transparent;border-bottom:7px solid transparent;border-right:8px solid var(--ink-2)}
-    .popover.left::before{content:'';position:absolute;right:-9px;top:20px;width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:9px solid rgba(255,255,255,.14)}
-    .popover.left::after{content:'';position:absolute;right:-7px;top:21px;width:0;height:0;border-top:7px solid transparent;border-bottom:7px solid transparent;border-left:8px solid var(--ink-2)}
-    .pop-artist{font-family:var(--ff);font-size:28px;letter-spacing:.5px;color:#fff;margin-bottom:12px;line-height:1;word-break:break-word}
-    .pop-row{font-size:12px;color:var(--mist-l);margin-bottom:7px;display:flex;gap:8px;align-items:flex-start;line-height:1.5}
-    .pop-row i{color:var(--teal);flex-shrink:0;margin-top:1px;font-size:14px}
-    .pop-row strong{color:#fff}
-    .pop-actions{display:flex;flex-direction:column;gap:7px;margin-top:14px}
-    .pop-btn-primary{padding:9px;border:none;border-radius:6px;background:var(--teal);color:var(--ink);font-size:12px;font-weight:600;font-family:var(--fb);text-align:left}
-    .pop-btn-primary:hover{background:var(--teal-d)}
-    .pop-btn-secondary{padding:8px;border:1px solid rgba(255,255,255,.1);border-radius:6px;background:transparent;font-size:12px;color:#fff;font-family:var(--fb);text-align:left}
-    .pop-btn-secondary:hover{border-color:var(--teal);color:var(--teal)}
-    .pop-btn-close{padding:7px;border:1px solid rgba(255,255,255,.07);border-radius:6px;background:transparent;font-size:12px;color:var(--mist);font-family:var(--fb)}
-    .empty-state{padding:56px 24px;text-align:center}
-    .empty-title{font-family:var(--ff);font-size:32px;color:var(--mist);letter-spacing:1px;margin-bottom:8px}
-    .empty-sub{font-size:13px;color:var(--mist);margin-bottom:16px}
-    .empty-clear{background:var(--teal);color:var(--ink);border:none;border-radius:6px;padding:9px 22px;font-size:13px;font-weight:600;font-family:var(--fb)}
+    /* ── RESET & BASE ──────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* SECTIONS */
-    .section{padding:48px 24px;border-top:1px solid rgba(255,255,255,.06)}
-    .section-kicker{font-size:11px;font-weight:600;color:var(--teal);letter-spacing:3px;text-transform:uppercase;margin-bottom:8px}
-    .section-title{font-family:var(--ff);font-size:clamp(36px,6vw,52px);letter-spacing:2px;color:#fff;margin-bottom:6px}
-    .section-sub{font-size:14px;color:var(--mist);margin-bottom:28px}
+    :root {
+      --teal:     #0AAFCC;
+      --teal-d:   #077A8F;
+      --teal-l:   rgba(10, 175, 204, .12);
+      --gold:     #F2B731;
+      --gold-d:   #C9940A;
+      --ink:      #0D1117;
+      --ink-2:    #1C2938;
+      --ink-3:    #2D3F50;
+      --mist:     #6B8FA8;
+      --mist-l:   #A8C4D4;
+      --card:     #14202D;
+      --ff: 'Bebas Neue', sans-serif;
+      --fb: 'Inter', sans-serif;
+    }
 
-    /* ARTISTS */
-    .artist-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1px;background:rgba(255,255,255,.04);border-radius:4px;overflow:hidden}
-    .artist-card{background:var(--card);padding:18px 20px;cursor:pointer;transition:background .1s;position:relative;overflow:hidden}
-    .artist-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold);opacity:0;transition:opacity .15s}
-    .artist-card:hover{background:var(--ink-3)}
-    .artist-card:hover::before{opacity:1}
-    .artist-card:hover .ac-name{color:var(--teal)}
-    .ac-name{font-family:var(--ff);font-size:19px;letter-spacing:.4px;color:#fff;line-height:1.1;margin-bottom:8px;transition:color .1s}
-    .ac-count{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--mist)}
-    .ac-count i{color:var(--gold);font-size:12px}
-    .ac-genres{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
-    .ac-socials{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
-    .ac-social{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:var(--mist-l);font-size:14px;text-decoration:none;transition:background .1s,color .1s,border-color .1s}
-    .ac-social:hover{background:var(--teal-l);border-color:var(--teal);color:var(--teal)}
-    .ac-social-search{display:inline-flex;align-items:center;gap:5px;padding:0 10px;height:28px;border-radius:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:var(--mist);font-size:11px;text-decoration:none;transition:background .1s,color .1s}
-    .ac-social-search:hover{background:var(--teal-l);border-color:var(--teal);color:var(--teal)}
+    html { scroll-behavior: smooth; }
 
-    /* VENUES */
-    .venue-list{display:flex;flex-direction:column;gap:1px;background:rgba(255,255,255,.04);border-radius:4px;overflow:hidden}
-    .venue-row{background:var(--card);padding:14px 20px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:background .1s}
-    .venue-row:hover{background:var(--ink-3)}
-    .venue-row:hover .vr-name{color:var(--teal)}
-    .vr-icon{width:32px;height:32px;border-radius:6px;background:var(--teal-l);border:1px solid rgba(10,175,204,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .vr-icon i{color:var(--teal);font-size:15px}
-    .vr-main{flex:1;min-width:0}
-    .vr-name{font-size:14px;font-weight:600;color:#fff;transition:color .1s}
-    .vr-meta{font-size:11px;color:var(--mist);margin-top:2px}
-    .vr-count{font-size:11px;color:var(--mist);white-space:nowrap}
-    .vr-count strong{color:var(--teal);font-family:var(--ff);font-size:16px;vertical-align:middle}
+    body {
+      background: var(--ink);
+      color: #fff;
+      font-family: var(--fb);
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 100vh;
+    }
 
-    /* ABOUT */
-    .about-wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
-    .about-body{font-size:15px;color:var(--mist-l);line-height:1.8}
-    .about-body p{margin-bottom:16px}
-    .about-body p:last-child{margin-bottom:0}
-    .about-body strong{color:#fff}
-    .about-aside{display:flex;flex-direction:column;gap:16px}
-    .about-card{background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:20px}
-    .about-card-title{font-family:var(--ff);font-size:18px;letter-spacing:.5px;color:var(--teal);margin-bottom:10px}
-    .about-card p{font-size:13px;color:var(--mist-l);line-height:1.6;margin-bottom:10px}
-    .about-card p:last-child{margin-bottom:0}
-    .about-email{display:inline-flex;align-items:center;gap:6px;background:var(--teal);color:var(--ink);border:none;border-radius:6px;padding:9px 18px;font-size:13px;font-weight:600;font-family:var(--fb);text-decoration:none;margin-top:4px}
-    .about-email:hover{background:var(--teal-d);color:var(--ink)}
+    button { cursor: pointer; font-family: var(--fb); }
+    a { color: var(--teal); }
 
-    .footer{padding:24px;border-top:1px solid rgba(255,255,255,.06);text-align:center;font-size:12px;color:var(--mist)}
-    .footer a{color:var(--teal);text-decoration:none}
-    .footer a:hover{text-decoration:underline}
+    /* Focus styles for keyboard navigation */
+    :focus-visible {
+      outline: 2px solid var(--teal);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
 
-    @media(max-width:700px){.about-wrap{grid-template-columns:1fr;gap:32px}}
-    @media(max-width:600px){
-      .nav-links{display:none}
-      .hero{padding:32px 16px 24px}
-      .stats .stat{padding:12px 16px}
-      .filter-bar{padding:10px 16px}
-      .more-filters{padding:8px 16px 10px}
-      .results-bar{padding:8px 16px}
-      .day-header{padding:9px 16px}
-      .gig-row{padding:10px 16px}
-      .card-grid{grid-template-columns:1fr 1fr}
-      .popover{width:260px}
-      .section{padding:36px 16px}
-      .artist-grid{grid-template-columns:1fr 1fr}
+    /* ── NAVIGATION ────────────────────────────────────────────────────────── */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 24px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      position: sticky;
+      top: 0;
+      background: var(--ink);
+      z-index: 40;
+      flex-wrap: wrap;
+      gap: 10px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      background: rgba(13,17,23,.92);
+    }
+
+    .nav-logo {
+      font-family: var(--ff);
+      font-size: 24px;
+      letter-spacing: 2px;
+      color: #fff;
+      line-height: 1;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--teal); }
+
+    .nav-links { display: flex; gap: 4px; }
+
+    .nav-link {
+      font-size: 12px;
+      color: var(--mist);
+      background: none;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 6px;
+    }
+    .nav-link:hover { color: #fff; background: rgba(255,255,255,.06); }
+    .nav-link.active { color: var(--teal); }
+
+    .nav-cta {
+      background: var(--teal);
+      color: var(--ink);
+      border: none;
+      border-radius: 6px;
+      padding: 7px 16px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .nav-cta:hover { background: var(--teal-d); }
+
+    /* ── HERO ──────────────────────────────────────────────────────────────── */
+    .hero {
+      padding: 48px 24px 32px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+    .hero-kicker {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--teal);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .hero-title {
+      font-family: var(--ff);
+      font-size: clamp(48px, 8vw, 72px);
+      line-height: .92;
+      letter-spacing: 2px;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .hero-title span { color: var(--teal); }
+
+    .hero-sub {
+      font-size: 15px;
+      color: var(--mist);
+      max-width: 520px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .week-ctrl { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+    .week-btn {
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 6px;
+      padding: 7px 12px;
+      font-size: 13px;
+      color: var(--mist-l);
+    }
+    .week-btn:hover { background: rgba(255,255,255,.13); color: #fff; }
+
+    .week-label { font-size: 14px; font-weight: 500; color: #fff; }
+
+    .today-btn {
+      background: var(--gold);
+      color: var(--ink);
+      border: none;
+      border-radius: 6px;
+      padding: 7px 16px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .today-btn:hover { background: var(--gold-d); }
+
+    /* ── STATS BAR ─────────────────────────────────────────────────────────── */
+    .stats {
+      display: flex;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+    .stat {
+      flex: 1;
+      padding: 14px 24px;
+      border-right: 1px solid rgba(255,255,255,.06);
+    }
+    .stat:last-child { border-right: none; }
+
+    .stat-n {
+      font-family: var(--ff);
+      font-size: 38px;
+      color: var(--teal);
+      letter-spacing: 1px;
+      line-height: 1;
+    }
+
+    .stat-l {
+      font-size: 11px;
+      color: var(--mist);
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      margin-top: 3px;
+    }
+
+    /* ── FILTER BAR ────────────────────────────────────────────────────────── */
+    .filter-bar {
+      padding: 12px 24px;
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      background: var(--ink-2);
+    }
+
+    .filter-bar input,
+    .filter-bar select {
+      background: var(--ink-3);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 6px;
+      padding: 0 10px;
+      font-size: 12px;
+      color: #fff;
+      font-family: var(--fb);
+      height: 32px;
+    }
+    .filter-bar input { min-width: 160px; max-width: 260px; }
+    .filter-bar input::placeholder { color: var(--mist); }
+    .filter-bar select option { background: var(--ink-3); }
+
+    .more-btn {
+      background: var(--ink-3);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 6px;
+      height: 32px;
+      padding: 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: var(--mist);
+    }
+    .more-btn:hover, .more-btn.active { border-color: var(--teal); color: var(--teal); }
+
+    .more-count {
+      display: none;
+      background: var(--teal);
+      color: var(--ink);
+      border-radius: 99px;
+      font-size: 10px;
+      padding: 1px 6px;
+      font-weight: 700;
+    }
+
+    .clear-btn {
+      font-size: 12px;
+      color: var(--mist);
+      background: none;
+      border: none;
+      padding: 3px 8px;
+    }
+    .clear-btn:hover { color: var(--teal); }
+
+    .more-filters {
+      padding: 8px 24px 10px;
+      display: none;
+      flex-wrap: wrap;
+      gap: 7px;
+      background: var(--ink-2);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .more-filters.open { display: flex; }
+    .more-filters select {
+      background: var(--ink-3);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 6px;
+      padding: 0 10px;
+      font-size: 12px;
+      color: #fff;
+      font-family: var(--fb);
+      height: 32px;
+    }
+    .more-filters select option { background: var(--ink-3); }
+
+    .venue-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--teal-l);
+      border: 1px solid var(--teal);
+      border-radius: 99px;
+      padding: 2px 10px;
+      font-size: 11px;
+      color: var(--teal);
+      font-weight: 600;
+    }
+    .venue-tag button {
+      background: none;
+      border: none;
+      color: var(--teal);
+      font-size: 15px;
+      line-height: 1;
+      padding: 0;
+    }
+
+    /* ── RESULTS BAR ───────────────────────────────────────────────────────── */
+    .results-bar {
+      padding: 9px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .results-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-size: 12px;
+      color: var(--mist);
+    }
+
+    .view-toggle { display: flex; gap: 4px; }
+
+    .view-btn {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 11px;
+      color: var(--mist);
+    }
+    .view-btn.active { background: var(--teal); border-color: var(--teal); color: var(--ink); font-weight: 600; }
+
+    /* ── DAY HEADERS ───────────────────────────────────────────────────────── */
+    .day-block { border-bottom: 1px solid rgba(255,255,255,.04); }
+    .day-block:last-child { border-bottom: none; }
+
+    .day-header {
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--ink-2);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      border-top: 1px solid rgba(255,255,255,.06);
+    }
+    .day-header.today { border-left: 3px solid var(--teal); padding-left: 21px; }
+
+    .day-name { font-family: var(--ff); font-size: 20px; letter-spacing: 1px; color: #fff; }
+    .day-date { font-size: 12px; color: var(--mist); }
+
+    .today-badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 99px;
+      background: var(--teal);
+      color: var(--ink);
+      letter-spacing: .5px;
+    }
+
+    .day-count { margin-left: auto; font-size: 11px; color: var(--mist); }
+
+    /* ── LIST VIEW ─────────────────────────────────────────────────────────── */
+    .gig-row {
+      display: grid;
+      grid-template-columns: 64px 1fr auto;
+      align-items: start;
+      padding: 12px 24px;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+      cursor: pointer;
+      transition: background-color .1s;
+    }
+    .gig-row:last-child { border-bottom: none; }
+    .gig-row:hover { background: var(--ink-2); }
+    .gig-row:hover .gig-artist { color: var(--teal); }
+    .gig-row:hover .gig-venue  { color: var(--teal); }
+
+    .gig-time {
+      font-size: 11px;
+      color: var(--mist);
+      font-variant-numeric: tabular-nums;
+      padding-top: 2px;
+    }
+
+    .gig-main { min-width: 0; }
+
+    .gig-artist {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 3px;
+      transition: color .1s;
+    }
+
+    .gig-sub {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .gig-venue {
+      font-size: 12px;
+      color: var(--mist-l);
+      background: none;
+      border: none;
+      padding: 0;
+      text-align: left;
+      font-family: var(--fb);
+      transition: color .1s;
+      white-space: normal;
+    }
+    .gig-venue:hover { color: var(--teal); text-decoration: underline; }
+
+    .gig-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--ink-3); flex-shrink: 0; }
+    .gig-city { font-size: 11px; color: var(--mist); white-space: nowrap; flex-shrink: 0; }
+    .gig-pill-wrap { padding-left: 10px; flex-shrink: 0; padding-top: 2px; }
+
+    /* ── CARD VIEW ─────────────────────────────────────────────────────────── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1px;
+      background: rgba(255,255,255,.06);
+    }
+
+    .gig-card {
+      background: var(--card);
+      padding: 20px;
+      cursor: pointer;
+      transition: background-color .1s;
+      position: relative;
+      overflow: hidden;
+    }
+    .gig-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--teal);
+      opacity: 0;
+      transition: opacity .1s;
+    }
+    .gig-card:hover { background: var(--ink-3); }
+    .gig-card:hover::before { opacity: 1; }
+    .gig-card:hover .card-artist { color: var(--teal); }
+    .gig-card:hover .card-venue  { color: var(--teal); }
+
+    .card-time  { font-size: 11px; color: var(--mist); margin-bottom: 8px; font-weight: 500; letter-spacing: .4px; }
+    .card-artist { font-family: var(--ff); font-size: 22px; letter-spacing: .5px; color: #fff; margin-bottom: 4px; line-height: 1.1; transition: color .1s; }
+    .card-venue {
+      font-size: 12px;
+      color: var(--mist-l);
+      margin-bottom: 10px;
+      background: none;
+      border: none;
+      padding: 0;
+      text-align: left;
+      width: 100%;
+      font-family: var(--fb);
+      transition: color .1s;
+      display: block;
+      white-space: normal;
+    }
+    .card-venue:hover { color: var(--teal); text-decoration: underline; }
+    .card-pills { display: flex; gap: 5px; flex-wrap: wrap; }
+
+    /* ── GENRE PILLS ───────────────────────────────────────────────────────── */
+    .pill {
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .pill-rock    { background: rgba(220,60,60,.2);   color: #FF8080; border: 1px solid rgba(220,60,60,.3); }
+    .pill-soul    { background: rgba(220,60,60,.2);   color: #FF8080; border: 1px solid rgba(220,60,60,.3); }
+    .pill-acoustic, .pill-folk, .pill-celtic { background: rgba(50,180,100,.12); color: #6DD89A; border: 1px solid rgba(50,180,100,.22); }
+    .pill-jazz, .pill-covers { background: rgba(10,175,204,.12); color: #6DD4E8; border: 1px solid rgba(10,175,204,.22); }
+    .pill-blues   { background: rgba(180,120,220,.12); color: #C49AE8; border: 1px solid rgba(180,120,220,.22); }
+    .pill-country, .pill-latin { background: rgba(242,183,49,.12); color: #F2CC6A; border: 1px solid rgba(242,183,49,.22); }
+    .pill-tribute, .pill-default { background: rgba(255,255,255,.06); color: var(--mist-l); border: 1px solid rgba(255,255,255,.1); }
+
+    /* ── POPOVER ───────────────────────────────────────────────────────────── */
+    .cal-container { position: relative; }
+
+    .popover::-webkit-scrollbar { width: 4px; }
+    .popover::-webkit-scrollbar-track { background: transparent; }
+    .popover::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 99px; }
+
+    .popover {
+      position: absolute;
+      z-index: 50;
+      width: 290px;
+      background: var(--ink-2);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 10px;
+      padding: 18px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.6);
+      max-height: 380px;
+      overflow-y: auto;
+    }
+
+    /* Arrow pointing LEFT (popover is to the right of the trigger) */
+    .popover.right::before {
+      content: '';
+      position: absolute;
+      left: -9px; top: 20px;
+      width: 0; height: 0;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      border-right: 9px solid rgba(255,255,255,.14);
+    }
+    .popover.right::after {
+      content: '';
+      position: absolute;
+      left: -7px; top: 21px;
+      width: 0; height: 0;
+      border-top: 7px solid transparent;
+      border-bottom: 7px solid transparent;
+      border-right: 8px solid var(--ink-2);
+    }
+
+    /* Arrow pointing RIGHT (popover is to the left of the trigger) */
+    .popover.left::before {
+      content: '';
+      position: absolute;
+      right: -9px; top: 20px;
+      width: 0; height: 0;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      border-left: 9px solid rgba(255,255,255,.14);
+    }
+    .popover.left::after {
+      content: '';
+      position: absolute;
+      right: -7px; top: 21px;
+      width: 0; height: 0;
+      border-top: 7px solid transparent;
+      border-bottom: 7px solid transparent;
+      border-left: 8px solid var(--ink-2);
+    }
+
+    .pop-artist {
+      font-family: var(--ff);
+      font-size: 28px;
+      letter-spacing: .5px;
+      color: #fff;
+      margin-bottom: 12px;
+      line-height: 1;
+      word-break: break-word;
+    }
+
+    .pop-row {
+      font-size: 12px;
+      color: var(--mist-l);
+      margin-bottom: 7px;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      line-height: 1.5;
+    }
+    .pop-row i { color: var(--teal); flex-shrink: 0; margin-top: 1px; font-size: 14px; }
+    .pop-row strong { color: #fff; }
+
+    .pop-actions { display: flex; flex-direction: column; gap: 7px; margin-top: 14px; }
+
+    .pop-btn-primary {
+      padding: 9px;
+      border: none;
+      border-radius: 6px;
+      background: var(--teal);
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 600;
+      font-family: var(--fb);
+      text-align: left;
+    }
+    .pop-btn-primary:hover { background: var(--teal-d); }
+
+    .pop-btn-secondary {
+      padding: 8px;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 6px;
+      background: transparent;
+      font-size: 12px;
+      color: #fff;
+      font-family: var(--fb);
+      text-align: left;
+    }
+    .pop-btn-secondary:hover { border-color: var(--teal); color: var(--teal); }
+
+    .pop-btn-close {
+      padding: 7px;
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 6px;
+      background: transparent;
+      font-size: 12px;
+      color: var(--mist);
+      font-family: var(--fb);
+    }
+
+    /* ── EMPTY STATE ───────────────────────────────────────────────────────── */
+    .empty-state {
+      padding: 56px 24px;
+      text-align: center;
+    }
+
+    .empty-title {
+      font-family: var(--ff);
+      font-size: 32px;
+      color: var(--mist);
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .empty-sub {
+      font-size: 13px;
+      color: var(--mist);
+      margin-bottom: 16px;
+    }
+
+    .empty-clear {
+      background: var(--teal);
+      color: var(--ink);
+      border: none;
+      border-radius: 6px;
+      padding: 9px 22px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: var(--fb);
+    }
+
+    /* ── FOOTER ────────────────────────────────────────────────────────────── */
+    .footer {
+      padding: 24px;
+      border-top: 1px solid rgba(255,255,255,.06);
+      text-align: center;
+      font-size: 12px;
+      color: var(--mist);
+      margin-top: 40px;
+    }
+
+    .footer a { color: var(--teal); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+
+    /* ── SHOW EARLIER BUTTON ──────────────────────────────────────────────── */
+    .show-earlier-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      width: 100%;
+      padding: 8px 24px;
+      background: none;
+      border: none;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+      font-size: 12px;
+      color: var(--mist);
+      font-family: var(--fb);
+      text-align: left;
+      cursor: pointer;
+      transition: color .1s, background-color .1s;
+    }
+    .show-earlier-btn:hover {
+      color: var(--teal);
+      background-color: rgba(10,175,204,.06);
+    }
+    .show-earlier-btn i { font-size: 13px; flex-shrink: 0; }
+
+    /* ── RESPONSIVE ────────────────────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .hero { padding: 32px 16px 24px; }
+      .stats .stat { padding: 12px 16px; }
+      .filter-bar { padding: 10px 16px; }
+      .more-filters { padding: 8px 16px 10px; }
+      .results-bar { padding: 8px 16px; }
+      .day-header { padding: 9px 16px; }
+      .gig-row { padding: 10px 16px; }
+      .card-grid { grid-template-columns: 1fr 1fr; }
+      .popover { width: calc(100vw - 32px); max-width: 300px; }
     }
   </style>
 </head>
+
 <body>
 
-<nav class="nav">
-  <a href="#calendar-section" class="nav-logo">NIAGARA<span>MUSIC</span>SCENE</a>
-  <div class="nav-links">
-    <button class="nav-link active" onclick="navTo('calendar-section',this)">Calendar</button>
-    <button class="nav-link" onclick="navTo('artists-section',this)">Artists</button>
-    <button class="nav-link" onclick="navTo('venues-section',this)">Venues</button>
-    <button class="nav-link" onclick="navTo('about-section',this)">About</button>
-  </div>
-  <button class="nav-cta" onclick="navTo('about-section')">Submit a gig</button>
-</nav>
-
-<header class="hero" id="calendar-section">
-  <p class="hero-kicker">Niagara Region · Ontario · Canada</p>
-  <h1 class="hero-title">LIVE MUSIC<br><span>THIS WEEK</span></h1>
-  <p class="hero-sub">Every confirmed gig from Grimsby to Fort Erie — wineries, bars, legions, breweries, and festival stages. Click any gig for details right where you clicked.</p>
-  <div class="week-ctrl">
-    <button class="week-btn" id="prev-week"><i class="ti ti-arrow-left"></i></button>
-    <span class="week-label" id="week-label"></span>
-    <button class="week-btn" id="next-week"><i class="ti ti-arrow-right"></i></button>
-    <button class="today-btn" id="this-week">This week</button>
-  </div>
-</header>
-
-<section class="stats">
-  <div class="stat"><div class="stat-n" id="stat-gigs">0</div><div class="stat-l">Gigs this week</div></div>
-  <div class="stat"><div class="stat-n" id="stat-venues">0</div><div class="stat-l">Venues</div></div>
-  <div class="stat"><div class="stat-n" id="stat-cities">0</div><div class="stat-l">Cities</div></div>
-</section>
-
-<div class="filter-bar">
-  <input type="text" id="search" placeholder="Search artist or venue…">
-  <select id="filter-city">
-    <option value="">All cities</option>
-    <option>St. Catharines</option><option>Niagara Falls</option>
-    <option>Niagara-on-the-Lake</option><option>St. Davids</option>
-    <option>Virgil</option><option>Welland</option><option>Grimsby</option>
-    <option>Fort Erie</option><option>Port Colborne</option><option>Thorold</option>
-  </select>
-  <button class="more-btn" id="more-btn"><i class="ti ti-sliders"></i> More filters <span class="more-count" id="more-count"></span></button>
-  <button class="clear-btn" id="clear-btn"><i class="ti ti-x"></i> Clear</button>
-</div>
-<div class="more-filters" id="more-filters">
-  <select id="filter-venue"><option value="">All venues</option></select>
-  <select id="filter-genre">
-    <option value="">All genres</option>
-    <option>Acoustic</option><option>Blues</option><option>Celtic</option>
-    <option>Classic Rock</option><option>Country</option><option>Covers</option>
-    <option>Folk</option><option>Jazz</option><option>Latin</option>
-    <option>Rock</option><option>Soul</option><option>Tribute</option>
-  </select>
-  <select id="filter-type">
-    <option value="">All types</option>
-    <option>Bar / Pub</option><option>Brewery</option><option>Concert Hall</option>
-    <option>Distillery</option><option>Festival Stage</option><option>Legion</option>
-    <option>Resort / Event Centre</option><option>Winery</option>
-  </select>
-</div>
-
-<div class="results-bar">
-  <div class="results-left"><span id="results-count"></span><span id="venue-tag"></span></div>
-  <div class="view-toggle">
-    <button class="view-btn" id="btn-card"><i class="ti ti-layout-grid"></i> Cards</button>
-    <button class="view-btn active" id="btn-list"><i class="ti ti-list"></i> List</button>
-  </div>
-</div>
-
-<main class="cal-container" id="cal-wrap">
-  <div id="calendar"></div>
-</main>
-
-<!-- ARTISTS -->
-<section class="section" id="artists-section">
-  <p class="section-kicker">Performing this week</p>
-  <h2 class="section-title">ARTISTS</h2>
-  <p class="section-sub">Every act on stage across the Niagara Region this week. Click a card to search the calendar.</p>
-  <div class="artist-grid" id="artist-grid"></div>
-</section>
-
-<!-- VENUES -->
-<section class="section" id="venues-section" style="padding-top:0">
-  <p class="section-kicker">Where the music plays</p>
-  <h2 class="section-title">VENUES</h2>
-  <p class="section-sub">Bars, wineries, legions, breweries and festival stages hosting live music this week.</p>
-  <div class="venue-list" id="venue-list"></div>
-</section>
-
-<!-- ABOUT -->
-<section class="section" id="about-section">
-  <p class="section-kicker">About this site</p>
-  <h2 class="section-title">NIAGARA MUSIC SCENE</h2>
-  <div class="about-wrap">
-    <div class="about-body">
-      <p>Niagara has a <strong>thriving live music community</strong> — but finding out who's playing where, and when, has always meant hunting through a dozen Facebook pages, venue websites, and word of mouth. Niagara Music Scene exists to fix that.</p>
-      <p>Every week, this site is updated with <strong>every confirmed gig across the region</strong> — from intimate winery sets in Niagara-on-the-Lake to festival stages in St. Catharines, legions in Welland, and bars along the Falls strip. No algorithm, no ads, no paywalls. Just the music.</p>
-      <p>The goal is simple: if you're an artist, you get more eyes on your shows. If you're a fan, you never miss a gig you would have loved. If you're a venue, your stage gets the visibility it deserves.</p>
-      <p>This is a <strong>community resource</strong>, built and maintained by people who care about live music in Niagara. Know of a gig we missed? Send it in — we'll add it.</p>
+  <!-- ── NAV ──────────────────────────────────────────────────────────────── -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <a href="/" class="nav-logo" aria-label="Niagara Music Scene home">NIAGARA<span>MUSIC</span>SCENE</a>
+    <div class="nav-links">
+      <button class="nav-link active" aria-current="page">Calendar</button>
+      <button class="nav-link">Artists</button>
+      <button class="nav-link">Venues</button>
+      <button class="nav-link">About</button>
     </div>
-    <div class="about-aside">
-      <div class="about-card">
-        <div class="about-card-title">SUBMIT A GIG</div>
-        <p>Playing a show in the region? Know of a gig we've missed? Drop us an email with the artist, venue, city, date, and start time and we'll get it added.</p>
-        <a href="mailto:hello@niagaramusicscene.ca" class="about-email"><i class="ti ti-mail"></i> hello@niagaramusicscene.ca</a>
-      </div>
-      <div class="about-card">
-        <div class="about-card-title">COVERAGE AREA</div>
-        <p>St. Catharines · Niagara Falls · Niagara-on-the-Lake · St. Davids · Virgil · Welland · Grimsby · Fort Erie · Port Colborne · Thorold</p>
-      </div>
+    <button class="nav-cta">Submit a gig</button>
+  </nav>
+
+  <!-- ── HERO ─────────────────────────────────────────────────────────────── -->
+  <header class="hero">
+    <p class="hero-kicker">Niagara Region · Ontario · Canada</p>
+    <h1 class="hero-title">LIVE MUSIC<br><span>THIS WEEK</span></h1>
+    <p class="hero-sub">Every confirmed gig from Grimsby to Fort Erie — wineries, bars, legions, breweries, and festival stages. Click any gig for details right where you clicked.</p>
+    <div class="week-ctrl">
+      <button class="week-btn" id="prev-week" aria-label="Previous week"><i class="ti ti-arrow-left" aria-hidden="true"></i></button>
+      <time class="week-label" id="week-label" aria-live="polite"></time>
+      <button class="week-btn" id="next-week" aria-label="Next week"><i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+      <button class="today-btn" id="this-week">This week</button>
+    </div>
+  </header>
+
+  <!-- ── STATS ─────────────────────────────────────────────────────────────── -->
+  <section class="stats" aria-label="This week's summary">
+    <div class="stat"><div class="stat-n" id="stat-gigs">0</div><div class="stat-l">Gigs this week</div></div>
+    <div class="stat"><div class="stat-n" id="stat-venues">0</div><div class="stat-l">Venues</div></div>
+    <div class="stat"><div class="stat-n" id="stat-cities">0</div><div class="stat-l">Cities</div></div>
+  </section>
+
+  <!-- ── FILTERS ───────────────────────────────────────────────────────────── -->
+  <div class="filter-bar" role="search">
+    <input type="text" id="search" placeholder="Search artist or venue…" aria-label="Search by artist or venue">
+    <select id="filter-city" aria-label="Filter by city">
+      <option value="">All cities</option>
+      <option>St. Catharines</option>
+      <option>Niagara Falls</option>
+      <option>Niagara-on-the-Lake</option>
+      <option>St. Davids</option>
+      <option>Virgil</option>
+      <option>Welland</option>
+      <option>Grimsby</option>
+      <option>Fort Erie</option>
+      <option>Port Colborne</option>
+      <option>Thorold</option>
+    </select>
+    <button class="more-btn" id="more-btn" aria-expanded="false" aria-controls="more-filters">
+      <i class="ti ti-sliders" aria-hidden="true"></i>
+      More filters
+      <span class="more-count" id="more-count" aria-label="active filters"></span>
+    </button>
+    <button class="clear-btn" id="clear-btn"><i class="ti ti-x" aria-hidden="true"></i> Clear</button>
+  </div>
+
+  <div class="more-filters" id="more-filters" role="region" aria-label="Additional filters">
+    <select id="filter-venue" aria-label="Filter by venue"><option value="">All venues</option></select>
+    <select id="filter-genre" aria-label="Filter by genre">
+      <option value="">All genres</option>
+      <option>Acoustic</option><option>Blues</option><option>Celtic</option>
+      <option>Classic Rock</option><option>Country</option><option>Covers</option>
+      <option>Folk</option><option>Jazz</option><option>Latin</option>
+      <option>Rock</option><option>Soul</option><option>Tribute</option>
+    </select>
+    <select id="filter-type" aria-label="Filter by venue type">
+      <option value="">All types</option>
+      <option>Bar / Pub</option><option>Brewery</option><option>Concert Hall</option>
+      <option>Distillery</option><option>Festival Stage</option><option>Legion</option>
+      <option>Resort / Event Centre</option><option>Winery</option>
+    </select>
+  </div>
+
+  <!-- ── RESULTS BAR ────────────────────────────────────────────────────────── -->
+  <div class="results-bar">
+    <div class="results-left">
+      <span id="results-count" aria-live="polite"></span>
+      <span id="venue-tag"></span>
+    </div>
+    <div class="view-toggle" role="group" aria-label="View style">
+      <button class="view-btn" id="btn-card" aria-label="Card view"><i class="ti ti-layout-grid" aria-hidden="true"></i> Cards</button>
+      <button class="view-btn active" id="btn-list" aria-label="List view"><i class="ti ti-list" aria-hidden="true"></i> List</button>
     </div>
   </div>
-</section>
 
-<footer class="footer">
-  <p>Niagara Music Scene — Niagara Region, Ontario, Canada</p>
-  <p style="margin-top:6px">Know of a gig not listed? <a href="mailto:hello@niagaramusicscene.ca">Email us</a></p>
-</footer>
+  <!-- ── CALENDAR ───────────────────────────────────────────────────────────── -->
+  <main class="cal-container" id="cal-wrap">
+    <div id="calendar" aria-label="Gig calendar"></div>
+  </main>
 
-<script>
+  <!-- ── FOOTER ─────────────────────────────────────────────────────────────── -->
+  <footer class="footer">
+    <p>Niagara Music Scene — Niagara Region, Ontario, Canada</p>
+    <p style="margin-top:5px">Know of a gig not listed? <a href="mailto:hello@niagaramusicscene.ca">Email us</a></p>
+  </footer>
+
+  <!-- ── DATA ───────────────────────────────────────────────────────────────── -->
+  <script>
+  // ── GIG DATA — update this section each week ──────────────────────────────
+  // Niagara Music Scene — Gig Data
+// HOW TO UPDATE:
+//   Each gig entry has these fields:
+//     a  = Artist / Band name
+//     v  = Venue name (must match exactly for the venue filter to work)
+//     c  = City
+//     t  = Venue type  (Bar / Pub | Winery | Brewery | Legion | Distillery |
+//                       Festival Stage | Resort / Event Centre | Concert Hall)
+//     g  = Genre       (Acoustic | Blues | Celtic | Classic Rock | Country |
+//                       Covers | Folk | Jazz | Latin | Rock | Soul | Tribute)
+//     d  = Day of week  (0=Sun 1=Mon 2=Tue 3=Wed 4=Thu 5=Fri 6=Sat)
+//     tm = Start time   (e.g. "7pm" or "8:30pm" — always use am/pm format)
+//     n  = Notes        (optional — shown in the detail popover)
+//
+// TO ADD A GIG:  copy any line below, paste at the end, update the fields.
+// TO REMOVE:     delete the line.
+// TO EDIT:       change the field values directly.
+//
+// Week of: June 4–10, 2026
+// ─────────────────────────────────────────────────────────────────────────────
+
 const GIGS = [
-  {a:"Foreshakin'",v:"My Cousin Vinny's",c:"Niagara Falls",t:"Bar / Pub",g:"Classic Rock",d:4,tm:"6:30pm",n:"Weekly residency — Thu, Sat & Mon"},
-  {a:"Kyle McDonnell",v:"Niagara Falls Brewing Co.",c:"Niagara Falls",t:"Brewery",g:"Acoustic",d:4,tm:"3pm",n:"Also at Kelsey's same evening"},
-  {a:"Kyle McDonnell",v:"Kelsey's Niagara Falls",c:"Niagara Falls",t:"Bar / Pub",g:"Acoustic",d:4,tm:"9:30pm",n:"Two gigs today"},
-  {a:"Figure Four",v:"Fallsview Casino BBQ",c:"Niagara Falls",t:"Bar / Pub",g:"Rock",d:4,tm:"5pm",n:""},
-  {a:"Ed Pizzo",v:"Spirit in Niagara Distillery",c:"Niagara-on-the-Lake",t:"Distillery",g:"Acoustic",d:4,tm:"6:30pm",n:"Intimate tasting room"},
-  {a:"Sean McDonnell & Taylor Barber",v:"Silversmith Brewery",c:"Thorold",t:"Brewery",g:"Acoustic",d:4,tm:"7pm",n:"Duo format"},
-  {a:"Latin Trio",v:"13th Street Winery",c:"St. Davids",t:"Winery",g:"Latin",d:4,tm:"5pm",n:""},
-  {a:"Rhythm & Bass",v:"Greater Niagara Boat Club",c:"St. Catharines",t:"Resort / Event Centre",g:"Soul",d:4,tm:"6pm",n:""},
-  {a:"Josh Edwards",v:"Irish Harp",c:"Niagara Falls",t:"Bar / Pub",g:"Acoustic",d:4,tm:"7:30pm",n:""},
-  {a:"Sugar Creek",v:"Ridgeway Legion",c:"Fort Erie",t:"Legion",g:"Country",d:4,tm:"4pm",n:"Regular Thursday slot"},
-  {a:"Craig McNair",v:"MT Bellies",c:"Niagara Falls",t:"Bar / Pub",g:"Acoustic",d:4,tm:"6pm",n:""},
-  {a:"Figure Four",v:"Cat's Caboose",c:"Niagara Falls",t:"Bar / Pub",g:"Rock",d:5,tm:"9pm",n:""},
-  {a:"Chris Madronich",v:"Bridgewater Brewery",c:"Port Colborne",t:"Brewery",g:"Blues",d:5,tm:"7pm",n:"Also performs as Gravely James — 3x NMA winner"},
-  {a:"Ryan Thomas",v:"Kilt & Clover",c:"Niagara Falls",t:"Bar / Pub",g:"Acoustic",d:5,tm:"9:30pm",n:""},
-  {a:"Jay Diem Band",v:"Grand Central",c:"Niagara Falls",t:"Bar / Pub",g:"Rock",d:5,tm:"10pm",n:"First of 5 gigs this week"},
-  {a:"Patsy & the Muscle",v:"Irish Harp",c:"Niagara Falls",t:"Bar / Pub",g:"Rock",d:5,tm:"8:30pm",n:""},
-  {a:"Dragan on sax",v:"Spirit in Niagara Distillery",c:"Niagara-on-the-Lake",t:"Distillery",g:"Jazz",d:5,tm:"6:30pm",n:""},
-  {a:"Mike Lynch",v:"13th Street Winery",c:"St. Davids",t:"Winery",g:"Acoustic",d:5,tm:"5pm",n:""},
-  {a:"Troy Harmer & the Persuaders",v:"Splash Bar",c:"Niagara Falls",t:"Bar / Pub",g:"Soul",d:5,tm:"9:30pm",n:""},
-  {a:"Don Sexsmith",v:"Teddy's Sports Bar",c:"Niagara Falls",t:"Bar / Pub",g:"Rock",d:5,tm:"8pm",n:""},
-  {a:"LMT Connection",v:"Welland Concerts on the Canal",c:"Welland",t:"Festival Stage",g:"Rock",d:5,tm:"7pm",n:"w/ The Mandevilles & Phil Davis"},
-  {a:"Full Mulletti",v:"Trappers Sports Bar",c:"Niagara Falls",t:"Bar / Pub",g:"Classic Rock",d:5,tm:"8pm",n:""},
-  {a:"Brad & Miles Boland",v:"Flower & Wine Festival",c:"St. Catharines",t:"Festival Stage",g:"Acoustic",d:5,tm:"4:15pm",n:"Montebello Park — free entry"},
-  {a:"Hard Rock Hooligans",v:"Flower & Wine Festival",c:"St. Catharines",t:"Festival Stage",g:"Rock",d:6,tm:"6:30pm",n:"Montebello Park"},
-  {a:"Foreshakin'",v:"My Cousin Vinny's",c:"Niagara Falls",t:"Bar / Pub",g:"Classic Rock",d:6,tm:"6:30pm",n:"Saturday residency"},
-  {a:"Jay Diem Band",v:"Trappers Sports Bar",c:"Niagara Falls",t:"Bar / Pub",g:"Rock",d:6,tm:"8pm",n:""},
-  {a:"Jay Diem",v:"Wildflower Social",c:"Niagara Falls",t:"Bar / Pub",g:"Rock",d:6,tm:"5pm",n:""},
-  {a:"Blue Etc",v:"Regency Athletic Resort",c:"St. Catharines",t:"Resort / Event Centre",g:"Blues",d:6,tm:"2:30pm",n:"Recurring Saturday format"},
-  {a:"Brant Parker Band",v:"Donnelly's Pub",c:"St. Catharines",t:"Bar / Pub",g:"Rock",d:6,tm:"2:30pm",n:"w/ guest Morgan Davis"},
-  {a:"LMT Connection",v:"Lucky's Fallsview Casino",c:"Niagara Falls",t:"Bar / Pub",g:"Rock",d:6,tm:"9pm",n:""},
-  {a:"Full Mulletti",v:"Lucky Penny",c:"Niagara Falls",t:"Bar / Pub",g:"Classic Rock",d:6,tm:"6pm",n:""},
-  {a:"Front Paige & Dane Blues Duo",v:"13th Street Winery",c:"St. Davids",t:"Winery",g:"Blues",d:6,tm:"1pm",n:""},
-  {a:"The O'Deadleys",v:"Kilt & Clover",c:"Niagara Falls",t:"Bar / Pub",g:"Celtic",d:6,tm:"9:30pm",n:""},
-  {a:"I'll Scarlett",v:"The Warehouse",c:"St. Catharines",t:"Concert Hall",g:"Rock",d:6,tm:"7pm",n:"Tickets required"},
-  {a:"Stonewall",v:"Welland Legion",c:"Welland",t:"Legion",g:"Classic Rock",d:6,tm:"7pm",n:""},
-  {a:"Tommy Davies",v:"Thorold Legion",c:"Thorold",t:"Legion",g:"Country",d:6,tm:"7pm",n:""},
-  {a:"Strictly Sabbath",v:"Sessions on the River",c:"Fort Erie",t:"Festival Stage",g:"Tribute",d:6,tm:"7pm",n:"Black Sabbath tribute — tickets required"},
-  {a:"Feverish Lemons",v:"Irish Harp",c:"Niagara Falls",t:"Bar / Pub",g:"Rock",d:6,tm:"8:30pm",n:""},
-  {a:"Cash-Crow",v:"Crystal Chandelier",c:"Niagara Falls",t:"Bar / Pub",g:"Country",d:6,tm:"7pm",n:""},
-  {a:"The Mandevilles",v:"13th Street Winery",c:"St. Davids",t:"Winery",g:"Folk",d:0,tm:"1pm",n:"Recurring Sunday slot"},
-  {a:"Taylor Barber & Kyle McDonnell",v:"Bella Terra Vineyard",c:"Niagara-on-the-Lake",t:"Winery",g:"Acoustic",d:0,tm:"11am",n:"Winery duo set"},
-  {a:"Jay Diem",v:"Trailsides Bar & Grill",c:"St. Catharines",t:"Bar / Pub",g:"Rock",d:0,tm:"4pm",n:""},
-  {a:"Feverish Lemons Trio",v:"Merchant Ale House",c:"St. Catharines",t:"Bar / Pub",g:"Rock",d:0,tm:"2pm",n:""},
-  {a:"Stonewall",v:"Ridgeway Legion",c:"Fort Erie",t:"Legion",g:"Classic Rock",d:0,tm:"4pm",n:"Played Welland Legion Saturday"},
-  {a:"Saxophonist Jim Gay",v:"Irish Harp",c:"Niagara Falls",t:"Bar / Pub",g:"Jazz",d:0,tm:"6:30pm",n:"Sunday Jazz Series"},
-  {a:"On Tap",v:"Super Mario's",c:"Niagara Falls",t:"Bar / Pub",g:"Covers",d:0,tm:"4pm",n:""},
-  {a:"Foreshakin'",v:"My Cousin Vinny's",c:"Niagara Falls",t:"Bar / Pub",g:"Classic Rock",d:1,tm:"6:30pm",n:"Monday — third night this week"},
-  {a:"Jay Diem",v:"Hard Rock Cafe",c:"Niagara Falls",t:"Bar / Pub",g:"Rock",d:1,tm:"4pm",n:"Fifth gig this week"},
+
+  // ── THURSDAY Jun 4 (d:4) ────────────────────────────────────────────────
+  { a:"Foreshakin'",                v:"My Cousin Vinny's",           c:"Niagara Falls",       t:"Bar / Pub",            g:"Classic Rock", d:4, tm:"6:30pm", n:"Weekly residency — Thu, Sat & Mon" },
+  { a:"Kyle McDonnell",             v:"Niagara Falls Brewing Co.",    c:"Niagara Falls",       t:"Brewery",              g:"Acoustic",     d:4, tm:"3pm",    n:"Also at Kelsey's same evening" },
+  { a:"Kyle McDonnell",             v:"Kelsey's Niagara Falls",       c:"Niagara Falls",       t:"Bar / Pub",            g:"Acoustic",     d:4, tm:"9:30pm", n:"Two gigs today" },
+  { a:"Figure Four",                v:"Fallsview Casino BBQ",         c:"Niagara Falls",       t:"Bar / Pub",            g:"Rock",         d:4, tm:"5pm",    n:"" },
+  { a:"Ed Pizzo",                   v:"Spirit in Niagara Distillery", c:"Niagara-on-the-Lake", t:"Distillery",           g:"Acoustic",     d:4, tm:"6:30pm", n:"Intimate tasting room" },
+  { a:"Sean McDonnell & Taylor Barber", v:"Silversmith Brewery",      c:"Thorold",             t:"Brewery",              g:"Acoustic",     d:4, tm:"7pm",    n:"Duo format" },
+  { a:"Latin Trio",                 v:"13th Street Winery",           c:"St. Davids",          t:"Winery",               g:"Latin",        d:4, tm:"5pm",    n:"" },
+  { a:"Rhythm & Bass",              v:"Greater Niagara Boat Club",    c:"St. Catharines",      t:"Resort / Event Centre", g:"Soul",        d:4, tm:"6pm",    n:"" },
+  { a:"Josh Edwards",               v:"Irish Harp",                   c:"Niagara Falls",       t:"Bar / Pub",            g:"Acoustic",     d:4, tm:"7:30pm", n:"" },
+  { a:"Sugar Creek",                v:"Ridgeway Legion",              c:"Fort Erie",           t:"Legion",               g:"Country",      d:4, tm:"4pm",    n:"Regular Thursday slot" },
+  { a:"Craig McNair",               v:"MT Bellies",                   c:"Niagara Falls",       t:"Bar / Pub",            g:"Acoustic",     d:4, tm:"6pm",    n:"" },
+
+  // ── FRIDAY Jun 5 (d:5) ──────────────────────────────────────────────────
+  { a:"Figure Four",                v:"Cat's Caboose",                c:"Niagara Falls",       t:"Bar / Pub",            g:"Rock",         d:5, tm:"9pm",    n:"" },
+  { a:"Chris Madronich",            v:"Bridgewater Brewery",          c:"Port Colborne",       t:"Brewery",              g:"Blues",        d:5, tm:"7pm",    n:"Also performs as Gravely James — 3× NMA winner" },
+  { a:"Ryan Thomas",                v:"Kilt & Clover",                c:"Niagara Falls",       t:"Bar / Pub",            g:"Acoustic",     d:5, tm:"9:30pm", n:"" },
+  { a:"Jay Diem Band",              v:"Grand Central",                c:"Niagara Falls",       t:"Bar / Pub",            g:"Rock",         d:5, tm:"10pm",   n:"First of 5 gigs this week" },
+  { a:"Patsy & the Muscle",         v:"Irish Harp",                   c:"Niagara Falls",       t:"Bar / Pub",            g:"Rock",         d:5, tm:"8:30pm", n:"" },
+  { a:"Dragan on sax",              v:"Spirit in Niagara Distillery", c:"Niagara-on-the-Lake", t:"Distillery",           g:"Jazz",         d:5, tm:"6:30pm", n:"" },
+  { a:"Mike Lynch",                 v:"13th Street Winery",           c:"St. Davids",          t:"Winery",               g:"Acoustic",     d:5, tm:"5pm",    n:"" },
+  { a:"Troy Harmer & the Persuaders", v:"Splash Bar",                 c:"Niagara Falls",       t:"Bar / Pub",            g:"Soul",         d:5, tm:"9:30pm", n:"" },
+  { a:"Don Sexsmith",               v:"Teddy's Sports Bar",           c:"Niagara Falls",       t:"Bar / Pub",            g:"Rock",         d:5, tm:"8pm",    n:"" },
+  { a:"LMT Connection",             v:"Welland Concerts on the Canal",c:"Welland",             t:"Festival Stage",       g:"Rock",         d:5, tm:"7pm",    n:"w/ The Mandevilles & Phil Davis" },
+  { a:"Full Mulletti",              v:"Trappers Sports Bar",          c:"Niagara Falls",       t:"Bar / Pub",            g:"Classic Rock", d:5, tm:"8pm",    n:"" },
+  { a:"Brad & Miles Boland",        v:"Flower & Wine Festival",       c:"St. Catharines",      t:"Festival Stage",       g:"Acoustic",     d:5, tm:"4:15pm", n:"Montebello Park — free entry" },
+
+  // ── SATURDAY Jun 6 (d:6) ────────────────────────────────────────────────
+  { a:"Hard Rock Hooligans",        v:"Flower & Wine Festival",       c:"St. Catharines",      t:"Festival Stage",       g:"Rock",         d:6, tm:"6:30pm", n:"Montebello Park" },
+  { a:"Foreshakin'",                v:"My Cousin Vinny's",            c:"Niagara Falls",       t:"Bar / Pub",            g:"Classic Rock", d:6, tm:"6:30pm", n:"Saturday residency" },
+  { a:"Jay Diem Band",              v:"Trappers Sports Bar",          c:"Niagara Falls",       t:"Bar / Pub",            g:"Rock",         d:6, tm:"8pm",    n:"" },
+  { a:"Jay Diem",                   v:"Wildflower Social",            c:"Niagara Falls",       t:"Bar / Pub",            g:"Rock",         d:6, tm:"5pm",    n:"" },
+  { a:"Blue Etc",                   v:"Regency Athletic Resort",      c:"St. Catharines",      t:"Resort / Event Centre", g:"Blues",       d:6, tm:"2:30pm", n:"Recurring Saturday format" },
+  { a:"Brant Parker Band",          v:"Donnelly's Pub",               c:"St. Catharines",      t:"Bar / Pub",            g:"Rock",         d:6, tm:"2:30pm", n:"w/ guest Morgan Davis" },
+  { a:"LMT Connection",             v:"Lucky's Fallsview Casino",     c:"Niagara Falls",       t:"Bar / Pub",            g:"Rock",         d:6, tm:"9pm",    n:"" },
+  { a:"Full Mulletti",              v:"Lucky Penny",                  c:"Niagara Falls",       t:"Bar / Pub",            g:"Classic Rock", d:6, tm:"6pm",    n:"" },
+  { a:"Front Paige & Dane Blues Duo", v:"13th Street Winery",         c:"St. Davids",          t:"Winery",               g:"Blues",        d:6, tm:"1pm",    n:"" },
+  { a:"The O'Deadleys",             v:"Kilt & Clover",                c:"Niagara Falls",       t:"Bar / Pub",            g:"Celtic",       d:6, tm:"9:30pm", n:"" },
+  { a:"I'll Scarlett",              v:"The Warehouse",                c:"St. Catharines",      t:"Concert Hall",         g:"Rock",         d:6, tm:"7pm",    n:"Tickets required" },
+  { a:"Stonewall",                  v:"Welland Legion",               c:"Welland",             t:"Legion",               g:"Classic Rock", d:6, tm:"7pm",    n:"" },
+  { a:"Tommy Davies",               v:"Thorold Legion",               c:"Thorold",             t:"Legion",               g:"Country",      d:6, tm:"7pm",    n:"" },
+  { a:"Strictly Sabbath",           v:"Sessions on the River",        c:"Fort Erie",           t:"Festival Stage",       g:"Tribute",      d:6, tm:"7pm",    n:"Black Sabbath tribute — tickets required" },
+  { a:"Feverish Lemons",            v:"Irish Harp",                   c:"Niagara Falls",       t:"Bar / Pub",            g:"Rock",         d:6, tm:"8:30pm", n:"" },
+  { a:"Cash-Crow",                  v:"Crystal Chandelier",           c:"Niagara Falls",       t:"Bar / Pub",            g:"Country",      d:6, tm:"7pm",    n:"" },
+
+  // ── SUNDAY Jun 7 (d:0) ──────────────────────────────────────────────────
+  { a:"The Mandevilles",            v:"13th Street Winery",           c:"St. Davids",          t:"Winery",               g:"Folk",         d:0, tm:"1pm",    n:"Recurring Sunday slot" },
+  { a:"Taylor Barber & Kyle McDonnell", v:"Bella Terra Vineyard",     c:"Niagara-on-the-Lake", t:"Winery",               g:"Acoustic",     d:0, tm:"11am",   n:"Winery duo set" },
+  { a:"Jay Diem",                   v:"Trailsides Bar & Grill",       c:"St. Catharines",      t:"Bar / Pub",            g:"Rock",         d:0, tm:"4pm",    n:"" },
+  { a:"Feverish Lemons Trio",       v:"Merchant Ale House",           c:"St. Catharines",      t:"Bar / Pub",            g:"Rock",         d:0, tm:"2pm",    n:"" },
+  { a:"Stonewall",                  v:"Ridgeway Legion",              c:"Fort Erie",           t:"Legion",               g:"Classic Rock", d:0, tm:"4pm",    n:"Played Welland Legion Saturday" },
+  { a:"Saxophonist Jim Gay",        v:"Irish Harp",                   c:"Niagara Falls",       t:"Bar / Pub",            g:"Jazz",         d:0, tm:"6:30pm", n:"Sunday Jazz Series" },
+  { a:"On Tap",                     v:"Super Mario's",                c:"Niagara Falls",       t:"Bar / Pub",            g:"Covers",       d:0, tm:"4pm",    n:"" },
+
+  // ── MONDAY Jun 8 (d:1) ──────────────────────────────────────────────────
+  { a:"Foreshakin'",                v:"My Cousin Vinny's",            c:"Niagara Falls",       t:"Bar / Pub",            g:"Classic Rock", d:1, tm:"6:30pm", n:"Monday — third night this week" },
+  { a:"Jay Diem",                   v:"Hard Rock Cafe",               c:"Niagara Falls",       t:"Bar / Pub",            g:"Rock",         d:1, tm:"4pm",    n:"Fifth gig this week" },
+
 ];
 
-// ── ARTIST SOCIAL LINKS — add fb/ig/yt/sp/web as needed, all optional ──────
-// fb = Facebook URL, ig = Instagram URL, yt = YouTube URL
-// sp = Spotify URL, web = website URL
-const ARTIST_SOCIALS = {
-  "Foreshakin'"        : {fb:"https://www.facebook.com/foreshakin"},
-  "Kyle McDonnell"     : {ig:"https://www.instagram.com/kylemcdonnellmusic"},
-  "Jay Diem"           : {fb:"https://www.facebook.com/jaydiemmusic", ig:"https://www.instagram.com/jaydiem"},
-  "Jay Diem Band"      : {fb:"https://www.facebook.com/jaydiemmusic"},
-  "LMT Connection"     : {fb:"https://www.facebook.com/lmtconnection"},
-  "Chris Madronich"    : {fb:"https://www.facebook.com/gravely.james", yt:"https://www.youtube.com/@GravelyJames"},
-  "Full Mulletti"      : {fb:"https://www.facebook.com/fullmulletti"},
-  "Stonewall"          : {fb:"https://www.facebook.com/stonewallband"},
-  "The Mandevilles"    : {fb:"https://www.facebook.com/themandevilles"},
-  "Feverish Lemons"    : {ig:"https://www.instagram.com/feverishlemons"},
-  "Feverish Lemons Trio": {ig:"https://www.instagram.com/feverishlemons"},
-  "Strictly Sabbath"   : {fb:"https://www.facebook.com/strictlysabbath"},
-  // Add more artists here — copy any line and update the name and URLs
-};
-</script>
+  </script>
 
-<script>
-const DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const BASE_DATE=new Date(2026,5,4);
-const TODAY_DOW=BASE_DATE.getDay();
-const TYPE_ICON={'Bar / Pub':'ti-beer','Brewery':'ti-beer-off','Winery':'ti-glass-full','Distillery':'ti-flask','Legion':'ti-shield','Concert Hall':'ti-building','Festival Stage':'ti-tent','Resort / Event Centre':'ti-building-estate'};
-const PILL_MAP={'Rock':'pill-rock','Classic Rock':'pill-rock','Soul':'pill-soul','Acoustic':'pill-acoustic','Folk':'pill-folk','Celtic':'pill-celtic','Jazz':'pill-jazz','Covers':'pill-covers','Blues':'pill-blues','Country':'pill-country','Latin':'pill-latin','Tribute':'pill-tribute'};
+  <!-- ── APP ────────────────────────────────────────────────────────────────── -->
+  <script>
+    // ── Constants ─────────────────────────────────────────────────────────────
+    const DAYS   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-let viewMode='list',weekOffset=0,activeVenue='',moreOpen=false;
+    // !! UPDATE THIS EVERY WEEK — Sunday that starts the current week
+    // Month is 0-indexed: Jan=0, Feb=1, Mar=2, Apr=3, May=4, Jun=5 ... Dec=11
+    const BASE_DATE = new Date(2026, 5, 4); // June 4 2026
+    const TODAY_DOW = BASE_DATE.getDay();
 
-function parseTime(t){if(!t)return 840;const m=t.match(/(\d+)(?::(\d+))?\s*(am|pm)/i);if(!m)return 0;let h=+m[1],min=+(m[2]||0);const ap=(m[3]||'').toLowerCase();if(ap==='pm'&&h!==12)h+=12;if(ap==='am'&&h===12)h=0;return h*60+min;}
-function pill(g){return`<span class="pill ${PILL_MAP[g]||'pill-default'}">${g}</span>`;}
+    // ── Current time ──────────────────────────────────────────────────────────
+    // For the live site replace the demo NOW line with: const NOW = new Date();
+    // Demo simulates Thursday June 4 at 5:00pm so the 3-hour lookback is visible
+    const NOW = new Date(2026, 5, 4, 17, 0, 0);
+    const NOW_MINUTES = NOW.getHours() * 60 + NOW.getMinutes();
+    const LOOKBACK_MINUTES = 3 * 60; // show gigs that started up to 3 hrs ago
 
-function getWeekDates(){const s=new Date(BASE_DATE);s.setDate(BASE_DATE.getDate()-BASE_DATE.getDay()+weekOffset*7);return Array.from({length:7},(_,i)=>{const d=new Date(s);d.setDate(s.getDate()+i);return d;});}
+    // ── State ─────────────────────────────────────────────────────────────────
+    let viewMode    = 'list';
+    let weekOffset  = 0;
+    let activeVenue = '';
+    let moreOpen    = false;
+    // Tracks which days the user has expanded to show earlier hidden gigs
+    const showEarlierDays = new Set();
 
-function filteredGigs(){const q=document.getElementById('search').value.toLowerCase().trim();const fc=document.getElementById('filter-city').value;const fg=document.getElementById('filter-genre').value;const ft=document.getElementById('filter-type').value;return GIGS.filter(g=>(!q||g.a.toLowerCase().includes(q)||g.v.toLowerCase().includes(q))&&(!activeVenue||g.v.trim()===activeVenue)&&(!fc||g.c===fc)&&(!fg||g.g===fg)&&(!ft||g.t===ft));}
+    // ── Helpers ───────────────────────────────────────────────────────────────
+    function parseTime(t) {
+      if (!t) return 840;
+      const m = t.match(/(\d+)(?::(\d+))?\s*(am|pm)/i);
+      if (!m) return 0;
+      let h = +m[1], min = +(m[2] || 0);
+      const ap = (m[3] || '').toLowerCase();
+      if (ap === 'pm' && h !== 12) h += 12;
+      if (ap === 'am' && h === 12) h = 0;
+      return h * 60 + min;
+    }
 
-function closePopover(){const el=document.getElementById('cal-wrap').querySelector('.popover');if(el)el.remove();}
+    const PILL_MAP = {
+      'Rock': 'pill-rock', 'Classic Rock': 'pill-rock', 'Soul': 'pill-soul',
+      'Acoustic': 'pill-acoustic', 'Folk': 'pill-folk', 'Celtic': 'pill-celtic',
+      'Jazz': 'pill-jazz', 'Covers': 'pill-covers',
+      'Blues': 'pill-blues',
+      'Country': 'pill-country', 'Latin': 'pill-latin',
+      'Tribute': 'pill-tribute',
+    };
+    function pill(g) {
+      return `<span class="pill ${PILL_MAP[g] || 'pill-default'}">${g}</span>`;
+    }
 
-function openPopover(event,dow,idx){event.stopPropagation();const gigs=filteredGigs().filter(g=>g.d===dow).sort((a,b)=>parseTime(a.tm)-parseTime(b.tm));const g=gigs[idx];if(!g)return;closePopover();const days=getWeekDates();const d=days.find(x=>x.getDay()===dow)||days[0];const ve=g.v.replace(/'/g,"\\'");const pop=document.createElement('div');pop.className='popover';pop.setAttribute('role','dialog');pop.setAttribute('aria-modal','true');pop.innerHTML=`<div class="pop-artist">${g.a}</div><div class="pop-row"><i class="ti ti-map-pin"></i><span><strong>${g.v}</strong> · ${g.c}</span></div><div class="pop-row"><i class="ti ti-clock"></i><span>${DAYS[dow]}, ${MONTHS[d.getMonth()]} ${d.getDate()} · ${g.tm}</span></div><div class="pop-row"><i class="ti ti-music"></i><span>${pill(g.g)} · ${g.t}</span></div>${g.n?`<div class="pop-row"><i class="ti ti-info-circle"></i><span>${g.n}</span></div>`:''}<div class="pop-actions"><button class="pop-btn-primary" onclick="window.open('https://www.google.com/search?q=${encodeURIComponent(g.a)}+Niagara+band','_blank')"><i class="ti ti-search"></i> Search ${g.a.split(' ')[0]} online</button><button class="pop-btn-secondary" onclick="closePopover();setVenue('${ve}')"><i class="ti ti-building"></i> All gigs at ${g.v}</button><button class="pop-btn-close" onclick="closePopover()">Close</button></div>`;const wrap=document.getElementById('cal-wrap');wrap.appendChild(pop);const wrapRect=wrap.getBoundingClientRect();const trigRect=event.currentTarget.getBoundingClientRect();const popW=290;const topOff=trigRect.top-wrapRect.top+wrap.scrollTop;const spaceRight=wrapRect.width-(trigRect.right-wrapRect.left);const spaceLeft=trigRect.left-wrapRect.left;if(spaceRight>=popW+20){pop.style.left=(trigRect.right-wrapRect.left+12)+'px';pop.classList.add('right');}else if(spaceLeft>=popW+20){pop.style.left=(trigRect.left-wrapRect.left-popW-12)+'px';pop.classList.add('left');}else{const cx=trigRect.left-wrapRect.left+trigRect.width/2;pop.style.left=Math.max(8,Math.min(cx-popW/2,wrapRect.width-popW-8))+'px';pop.style.top=(topOff+trigRect.height+6)+'px';}if(!pop.style.top)pop.style.top=Math.max(4,topOff-4)+'px';}
+    function getWeekDates() {
+      const s = new Date(BASE_DATE);
+      s.setDate(BASE_DATE.getDate() - BASE_DATE.getDay() + weekOffset * 7);
+      return Array.from({ length: 7 }, (_, i) => {
+        const d = new Date(s);
+        d.setDate(s.getDate() + i);
+        return d;
+      });
+    }
 
-function setVenue(v){activeVenue=v.trim();document.getElementById('filter-venue').value=activeVenue;updateMoreCount();closePopover();render();}
+    // ── Filter logic ──────────────────────────────────────────────────────────
+    function filteredGigs() {
+      const q  = document.getElementById('search').value.toLowerCase().trim();
+      const fc = document.getElementById('filter-city').value;
+      const fg = document.getElementById('filter-genre').value;
+      const ft = document.getElementById('filter-type').value;
+      return GIGS.filter(g =>
+        (!q  || g.a.toLowerCase().includes(q) || g.v.toLowerCase().includes(q)) &&
+        (!activeVenue || g.v.trim() === activeVenue) &&
+        (!fc || g.c === fc) &&
+        (!fg || g.g === fg) &&
+        (!ft || g.t === ft)
+      );
+    }
 
-function updateMoreCount(){const n=[document.getElementById('filter-genre').value,document.getElementById('filter-type').value,activeVenue].filter(Boolean).length;const el=document.getElementById('more-count');el.style.display=n?'inline':'none';if(n)el.textContent=n;document.getElementById('more-btn').classList.toggle('active',moreOpen||n>0);}
+    // ── Popover ───────────────────────────────────────────────────────────────
+    function closePopover() {
+      const el = document.getElementById('cal-wrap').querySelector('.popover');
+      if (el) el.remove();
+    }
 
-function clearAll(){['search','filter-city','filter-genre','filter-type'].forEach(id=>document.getElementById(id).value='');document.getElementById('filter-venue').value='';activeVenue='';updateMoreCount();closePopover();render();}
+    function openPopover(event, dow, idx) {
+      event.stopPropagation();
+      const gigs = filteredGigs().filter(g => g.d === dow).sort((a, b) => parseTime(a.tm) - parseTime(b.tm));
+      const g = gigs[idx];
+      if (!g) return;
 
-function navTo(id,btn){document.getElementById(id).scrollIntoView({behavior:'smooth'});if(btn){document.querySelectorAll('.nav-link').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}}
+      closePopover();
 
-// Scroll spy
-window.addEventListener('scroll',()=>{const ids=['calendar-section','artists-section','venues-section','about-section'];const btns=document.querySelectorAll('.nav-link');let cur=0;ids.forEach((id,i)=>{const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<120)cur=i;});btns.forEach((b,i)=>b.classList.toggle('active',i===cur));},{passive:true});
+      const days = getWeekDates();
+      const d = days.find(x => x.getDay() === dow) || days[0];
+      const ve = g.v.replace(/'/g, "\\'");
+      const ae = g.a.replace(/'/g, "\\'");
 
-function render(){
-  updateMoreCount();
-  const days=getWeekDates();
-  const s=days[0],e=days[6];
-  document.getElementById('week-label').textContent=`${DAYS[s.getDay()]}, ${MONTHS[s.getMonth()]} ${s.getDate()} – ${DAYS[e.getDay()]}, ${MONTHS[e.getMonth()]} ${e.getDate()}`;
-  const gigs=filteredGigs();
-  document.getElementById('stat-gigs').textContent=gigs.length;
-  document.getElementById('stat-venues').textContent=new Set(gigs.map(g=>g.v)).size;
-  document.getElementById('stat-cities').textContent=new Set(gigs.map(g=>g.c)).size;
-  document.getElementById('results-count').textContent=`${gigs.length} gig${gigs.length!==1?'s':''} found`;
-  document.getElementById('venue-tag').innerHTML=activeVenue?`<span class="venue-tag"><i class="ti ti-map-pin" style="font-size:11px"></i> ${activeVenue} <button onclick="setVenue('')">x</button></span>`:'';
-  const byDay={};days.forEach(d=>byDay[d.getDay()]=[]);gigs.forEach(g=>{if(g.d in byDay)byDay[g.d].push(g);});
-  let html='';
-  days.forEach(d=>{const dow=d.getDay();const dayGigs=(byDay[dow]||[]).slice().sort((a,b)=>parseTime(a.tm)-parseTime(b.tm));if(!dayGigs.length)return;const isToday=weekOffset===0&&dow===TODAY_DOW;html+=`<div class="day-block"><div class="day-header${isToday?' today':''}"><span class="day-name">${DAYS[dow]}</span><span class="day-date">${MONTHS[d.getMonth()]} ${d.getDate()}</span>${isToday?'<span class="today-badge">TODAY</span>':''}<span class="day-count">${dayGigs.length} gig${dayGigs.length!==1?'s':''}</span></div>`;
-  if(viewMode==='list'){dayGigs.forEach((g,i)=>{const ve=g.v.replace(/'/g,"\\'");html+=`<div class="gig-row" onclick="openPopover(event,${dow},${i})" onkeydown="if(event.key==='Enter'||event.key===' ')openPopover(event,${dow},${i})" role="button" tabindex="0"><div class="gig-time">${g.tm}</div><div class="gig-main"><div class="gig-artist">${g.a}</div><div class="gig-sub"><button class="gig-venue" onclick="event.stopPropagation();setVenue('${ve}')">${g.v}</button><span class="gig-sep"></span><span class="gig-city">${g.c}</span></div></div><div class="gig-pill-wrap">${pill(g.g)}</div></div>`;});}else{html+='<div class="card-grid">';dayGigs.forEach((g,i)=>{const ve=g.v.replace(/'/g,"\\'");html+=`<div class="gig-card" onclick="openPopover(event,${dow},${i})" role="button" tabindex="0"><div class="card-time">${g.tm}</div><div class="card-artist">${g.a}</div><button class="card-venue" onclick="event.stopPropagation();setVenue('${ve}')"><i class="ti ti-map-pin" style="font-size:10px"></i> ${g.v}</button><div class="card-pills">${pill(g.g)}</div></div>`;});html+='</div>';}
-  html+='</div>';});
-  if(!html)html='<div class="empty-state"><div class="empty-title">NOTHING FOUND</div><div class="empty-sub">Try a different filter or clear your search.</div><button class="empty-clear" onclick="clearAll()">Clear all filters</button></div>';
-  document.getElementById('calendar').innerHTML=html;
-  renderArtists();
-  renderVenues();
-}
+      const pop = document.createElement('div');
+      pop.className = 'popover';
+      pop.setAttribute('role', 'dialog');
+      pop.setAttribute('aria-modal', 'true');
+      pop.setAttribute('aria-label', `${g.a} at ${g.v}`);
+      pop.innerHTML = `
+        <div class="pop-artist">${g.a}</div>
+        <div class="pop-row"><i class="ti ti-map-pin" aria-hidden="true"></i><span><strong>${g.v}</strong> · ${g.c}</span></div>
+        <div class="pop-row"><i class="ti ti-clock" aria-hidden="true"></i><span>${DAYS[dow]}, ${MONTHS[d.getMonth()]} ${d.getDate()} · ${g.tm}</span></div>
+        <div class="pop-row"><i class="ti ti-music" aria-hidden="true"></i><span>${pill(g.g)} · ${g.t}</span></div>
+        ${g.n ? `<div class="pop-row"><i class="ti ti-info-circle" aria-hidden="true"></i><span>${g.n}</span></div>` : ''}
+        <div class="pop-actions">
+          <button class="pop-btn-primary" onclick="window.open('https://www.google.com/search?q=${encodeURIComponent(g.a)}+Niagara+band','_blank')">
+            <i class="ti ti-search" aria-hidden="true"></i> Search ${g.a.split(' ')[0]} online
+          </button>
+          <button class="pop-btn-secondary" onclick="closePopover();setVenue('${ve}')">
+            <i class="ti ti-building" aria-hidden="true"></i> All gigs at ${g.v}
+          </button>
+          <button class="pop-btn-close" onclick="closePopover()">Close</button>
+        </div>`;
 
-function renderArtists(){
-  const map={};
-  GIGS.forEach(g=>{if(!map[g.a])map[g.a]={count:0,genres:new Set()};map[g.a].count++;map[g.a].genres.add(g.g);});
-  const artists=Object.entries(map).sort((a,b)=>a[0].localeCompare(b[0]));
-  document.getElementById('artist-grid').innerHTML=artists.map(([name,info])=>{
-    const ae=name.replace(/'/g,"\\'");
-    const s=ARTIST_SOCIALS[name]||{};
-    const links=[];
-    if(s.fb)  links.push(`<a class="ac-social" href="${s.fb}" target="_blank" rel="noopener" title="Facebook" onclick="event.stopPropagation()"><i class="ti ti-brand-facebook"></i></a>`);
-    if(s.ig)  links.push(`<a class="ac-social" href="${s.ig}" target="_blank" rel="noopener" title="Instagram" onclick="event.stopPropagation()"><i class="ti ti-brand-instagram"></i></a>`);
-    if(s.yt)  links.push(`<a class="ac-social" href="${s.yt}" target="_blank" rel="noopener" title="YouTube" onclick="event.stopPropagation()"><i class="ti ti-brand-youtube"></i></a>`);
-    if(s.sp)  links.push(`<a class="ac-social" href="${s.sp}" target="_blank" rel="noopener" title="Spotify" onclick="event.stopPropagation()"><i class="ti ti-brand-spotify"></i></a>`);
-    if(s.web) links.push(`<a class="ac-social" href="${s.web}" target="_blank" rel="noopener" title="Website" onclick="event.stopPropagation()"><i class="ti ti-world"></i></a>`);
-    if(!links.length) links.push(`<a class="ac-social-search" href="https://www.google.com/search?q=${encodeURIComponent(name)}+Niagara+band" target="_blank" rel="noopener" title="Search online" onclick="event.stopPropagation()"><i class="ti ti-search"></i> Search</a>`);
-    return`<div class="artist-card" onclick="filterArtist('${ae}')" role="button" tabindex="0"><div class="ac-name">${name}</div><div class="ac-count"><i class="ti ti-calendar-event"></i> ${info.count} gig${info.count!==1?'s':''} this week</div><div class="ac-genres">${[...info.genres].map(g=>pill(g)).join('')}</div><div class="ac-socials">${links.join('')}</div></div>`;
-  }).join('');
-}
+      const wrap = document.getElementById('cal-wrap');
+      wrap.appendChild(pop);
 
-function filterArtist(name){document.getElementById('search').value=name;document.getElementById('calendar-section').scrollIntoView({behavior:'smooth'});render();}
+      const wrapRect = wrap.getBoundingClientRect();
+      const trigRect = event.currentTarget.getBoundingClientRect();
+      const popW = 290;
+      const topOff = trigRect.top - wrapRect.top + wrap.scrollTop;
+      const spaceRight = wrapRect.width - (trigRect.right - wrapRect.left);
+      const spaceLeft  = trigRect.left - wrapRect.left;
 
-function renderVenues(){
-  const map={};
-  GIGS.forEach(g=>{const k=g.v.trim();if(!map[k])map[k]={city:g.c,type:g.t,count:0};map[k].count++;});
-  const venues=Object.entries(map).sort((a,b)=>a[0].localeCompare(b[0]));
-  document.getElementById('venue-list').innerHTML=venues.map(([name,info])=>{
-    const ve=name.replace(/'/g,"\\'");const icon=TYPE_ICON[info.type]||'ti-map-pin';
-    return`<div class="venue-row" onclick="setVenue('${ve}');document.getElementById('calendar-section').scrollIntoView({behavior:'smooth'})" role="button" tabindex="0"><div class="vr-icon"><i class="ti ${icon}"></i></div><div class="vr-main"><div class="vr-name">${name}</div><div class="vr-meta">${info.city} · ${info.type}</div></div><div class="vr-count"><strong>${info.count}</strong> gig${info.count!==1?'s':''}</div></div>`;
-  }).join('');
-}
+      if (spaceRight >= popW + 20) {
+        pop.style.left = (trigRect.right - wrapRect.left + 12) + 'px';
+        pop.classList.add('right');
+      } else if (spaceLeft >= popW + 20) {
+        pop.style.left = (trigRect.left - wrapRect.left - popW - 12) + 'px';
+        pop.classList.add('left');
+      } else {
+        const cx = trigRect.left - wrapRect.left + trigRect.width / 2;
+        pop.style.left = Math.max(8, Math.min(cx - popW / 2, wrapRect.width - popW - 8)) + 'px';
+        pop.style.top  = (topOff + trigRect.height + 6) + 'px';
+      }
+      if (!pop.style.top) pop.style.top = Math.max(4, topOff - 4) + 'px';
+    }
 
-function populateVenueDropdown(){const sel=document.getElementById('filter-venue');[...new Set(GIGS.map(g=>g.v.trim()))].sort().forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;sel.appendChild(o);});}
+    // ── Venue filter helper ───────────────────────────────────────────────────
+    function setVenue(v) {
+      activeVenue = v.trim();
+      document.getElementById('filter-venue').value = activeVenue;
+      updateMoreCount();
+      closePopover();
+      render();
+    }
 
-document.getElementById('prev-week').addEventListener('click',()=>{weekOffset--;closePopover();render();});
-document.getElementById('next-week').addEventListener('click',()=>{weekOffset++;closePopover();render();});
-document.getElementById('this-week').addEventListener('click',()=>{weekOffset=0;closePopover();render();});
-document.getElementById('search').addEventListener('input',()=>{closePopover();render();});
-document.getElementById('filter-city').addEventListener('change',()=>{closePopover();render();});
-document.getElementById('filter-genre').addEventListener('change',()=>{updateMoreCount();closePopover();render();});
-document.getElementById('filter-type').addEventListener('change',()=>{updateMoreCount();closePopover();render();});
-document.getElementById('filter-venue').addEventListener('change',function(){setVenue(this.value);});
-document.getElementById('more-btn').addEventListener('click',()=>{moreOpen=!moreOpen;document.getElementById('more-filters').classList.toggle('open',moreOpen);document.getElementById('more-btn').setAttribute('aria-expanded',moreOpen);updateMoreCount();});
-document.getElementById('clear-btn').addEventListener('click',clearAll);
-document.getElementById('btn-card').addEventListener('click',()=>{viewMode='card';document.getElementById('btn-card').classList.add('active');document.getElementById('btn-list').classList.remove('active');closePopover();render();});
-document.getElementById('btn-list').addEventListener('click',()=>{viewMode='list';document.getElementById('btn-list').classList.add('active');document.getElementById('btn-card').classList.remove('active');closePopover();render();});
-document.addEventListener('click',e=>{const p=document.getElementById('cal-wrap').querySelector('.popover');if(p&&!p.contains(e.target))closePopover();});
+    // ── More filters ──────────────────────────────────────────────────────────
+    function updateMoreCount() {
+      const n = [
+        document.getElementById('filter-genre').value,
+        document.getElementById('filter-type').value,
+        activeVenue,
+      ].filter(Boolean).length;
+      const el = document.getElementById('more-count');
+      el.style.display = n ? 'inline' : 'none';
+      if (n) el.textContent = n;
+      document.getElementById('more-btn').classList.toggle('active', moreOpen || n > 0);
+    }
 
-populateVenueDropdown();
-render();
-</script>
+    function clearAll() {
+      ['search', 'filter-city', 'filter-genre', 'filter-type'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+      document.getElementById('filter-venue').value = '';
+      activeVenue = '';
+      updateMoreCount();
+      closePopover();
+      render();
+    }
+
+    // ── Render ────────────────────────────────────────────────────────────────
+    function render() {
+      updateMoreCount();
+
+      const days = getWeekDates();
+      const s = days[0], e = days[6];
+      document.getElementById('week-label').textContent =
+        `${DAYS[s.getDay()]}, ${MONTHS[s.getMonth()]} ${s.getDate()} – ${DAYS[e.getDay()]}, ${MONTHS[e.getMonth()]} ${e.getDate()}`;
+
+      const gigs = filteredGigs();
+      document.getElementById('stat-gigs').textContent   = gigs.length;
+      document.getElementById('stat-venues').textContent = new Set(gigs.map(g => g.v)).size;
+      document.getElementById('stat-cities').textContent = new Set(gigs.map(g => g.c)).size;
+      document.getElementById('results-count').textContent = `${gigs.length} gig${gigs.length !== 1 ? 's' : ''} found`;
+
+      document.getElementById('venue-tag').innerHTML = activeVenue
+        ? `<span class="venue-tag"><i class="ti ti-map-pin" style="font-size:11px" aria-hidden="true"></i> ${activeVenue} <button onclick="setVenue('')" aria-label="Clear venue filter">×</button></span>`
+        : '';
+
+      // Group by day
+      const byDay = {};
+      days.forEach(d => byDay[d.getDay()] = []);
+      gigs.forEach(g => { if (g.d in byDay) byDay[g.d].push(g); });
+
+      let html = '';
+
+      days.forEach(d => {
+        const dow = d.getDay();
+        const allDayGigs = (byDay[dow] || []).slice().sort((a, b) => parseTime(a.tm) - parseTime(b.tm));
+        if (!allDayGigs.length) return;
+
+        const isToday = weekOffset === 0 && dow === TODAY_DOW;
+
+        // On today's page: hide gigs that started more than LOOKBACK_MINUTES ago
+        // unless the user has toggled "Show earlier" for this day
+        let dayGigs = allDayGigs;
+        let hiddenCount = 0;
+        if (isToday && !showEarlierDays.has(dow)) {
+          const cutoff = NOW_MINUTES - LOOKBACK_MINUTES;
+          const visible = allDayGigs.filter(g => parseTime(g.tm) >= cutoff);
+          hiddenCount = allDayGigs.length - visible.length;
+          if (hiddenCount > 0) dayGigs = visible;
+        }
+
+        html += `<div class="day-block">
+          <div class="day-header${isToday ? ' today' : ''}" role="heading" aria-level="2">
+            <span class="day-name">${DAYS[dow]}</span>
+            <span class="day-date">${MONTHS[d.getMonth()]} ${d.getDate()}</span>
+            ${isToday ? `<span class="today-badge" aria-label="Today">TODAY</span>` : ''}
+            <span class="day-count">${allDayGigs.length} gig${allDayGigs.length !== 1 ? 's' : ''}</span>
+          </div>
+          ${hiddenCount > 0 ? `
+          <button class="show-earlier-btn" onclick="toggleEarlier(${dow})" aria-label="Show ${hiddenCount} earlier gig${hiddenCount !== 1 ? 's' : ''}">
+            <i class="ti ti-clock" aria-hidden="true"></i>
+            ${hiddenCount} earlier gig${hiddenCount !== 1 ? 's' : ''} hidden — show all
+          </button>` : ''}`;
+
+        if (viewMode === 'list') {
+          dayGigs.forEach((g, i) => {
+            const ve = g.v.replace(/'/g, "\\'");
+            html += `
+              <div class="gig-row"
+                onclick="openPopover(event, ${dow}, ${i})"
+                onkeydown="if(event.key==='Enter'||event.key===' ')openPopover(event,${dow},${i})"
+                role="button" tabindex="0"
+                aria-label="${g.a} at ${g.v}, ${g.tm}">
+                <div class="gig-time">${g.tm}</div>
+                <div class="gig-main">
+                  <div class="gig-artist">${g.a}</div>
+                  <div class="gig-sub">
+                    <button class="gig-venue"
+                      onclick="event.stopPropagation();setVenue('${ve}')"
+                      aria-label="Filter to ${g.v}">${g.v}</button>
+                    <span class="gig-sep" aria-hidden="true"></span>
+                    <span class="gig-city">${g.c}</span>
+                  </div>
+                </div>
+                <div class="gig-pill-wrap">${pill(g.g)}</div>
+              </div>`;
+          });
+        } else {
+          html += `<div class="card-grid">`;
+          dayGigs.forEach((g, i) => {
+            const ve = g.v.replace(/'/g, "\\'");
+            html += `
+              <div class="gig-card"
+                onclick="openPopover(event, ${dow}, ${i})"
+                onkeydown="if(event.key==='Enter'||event.key===' ')openPopover(event,${dow},${i})"
+                role="button" tabindex="0"
+                aria-label="${g.a} at ${g.v}, ${g.tm}">
+                <div class="card-time">${g.tm}</div>
+                <div class="card-artist">${g.a}</div>
+                <button class="card-venue"
+                  onclick="event.stopPropagation();setVenue('${ve}')"
+                  aria-label="Filter to ${g.v}">
+                  <i class="ti ti-map-pin" style="font-size:10px" aria-hidden="true"></i> ${g.v}
+                </button>
+                <div class="card-pills">${pill(g.g)}</div>
+              </div>`;
+          });
+          html += `</div>`;
+        }
+        html += `</div>`;
+      });
+
+      if (!html) {
+        html = `<div class="empty-state">
+          <div class="empty-title">NOTHING FOUND</div>
+          <div class="empty-sub">Try a different city, genre, or clear your search.</div>
+          <button class="empty-clear" onclick="clearAll()">Clear all filters</button>
+        </div>`;
+      }
+
+      document.getElementById('calendar').innerHTML = html;
+    }
+
+    // ── Venue dropdown ────────────────────────────────────────────────────────
+    function populateVenueDropdown() {
+      const sel = document.getElementById('filter-venue');
+      const venues = [...new Set(GIGS.map(g => g.v.trim()))].sort();
+      venues.forEach(v => {
+        const o = document.createElement('option');
+        o.value = v;
+        o.textContent = v;
+        sel.appendChild(o);
+      });
+    }
+
+    // ── Show earlier toggle ───────────────────────────────────────────────────
+    function toggleEarlier(dow) {
+      if (showEarlierDays.has(dow)) {
+        showEarlierDays.delete(dow);
+      } else {
+        showEarlierDays.add(dow);
+      }
+      closePopover();
+      render();
+    }
+
+    // ── Event listeners ───────────────────────────────────────────────────────
+    document.getElementById('prev-week').addEventListener('click', () => { weekOffset--; closePopover(); render(); });
+    document.getElementById('next-week').addEventListener('click', () => { weekOffset++; closePopover(); render(); });
+    document.getElementById('this-week').addEventListener('click', () => { weekOffset = 0; closePopover(); render(); });
+
+    document.getElementById('search').addEventListener('input', () => { closePopover(); render(); });
+    document.getElementById('filter-city').addEventListener('change', () => { closePopover(); render(); });
+    document.getElementById('filter-genre').addEventListener('change', () => { updateMoreCount(); closePopover(); render(); });
+    document.getElementById('filter-type').addEventListener('change', () => { updateMoreCount(); closePopover(); render(); });
+    document.getElementById('filter-venue').addEventListener('change', function() { setVenue(this.value); });
+
+    document.getElementById('more-btn').addEventListener('click', () => {
+      moreOpen = !moreOpen;
+      document.getElementById('more-filters').classList.toggle('open', moreOpen);
+      document.getElementById('more-btn').setAttribute('aria-expanded', moreOpen);
+      updateMoreCount();
+    });
+
+    document.getElementById('clear-btn').addEventListener('click', clearAll);
+
+    document.getElementById('btn-card').addEventListener('click', () => {
+      viewMode = 'card';
+      document.getElementById('btn-card').classList.add('active');
+      document.getElementById('btn-list').classList.remove('active');
+      closePopover();
+      render();
+    });
+
+    document.getElementById('btn-list').addEventListener('click', () => {
+      viewMode = 'list';
+      document.getElementById('btn-list').classList.add('active');
+      document.getElementById('btn-card').classList.remove('active');
+      closePopover();
+      render();
+    });
+
+    // Close popover when clicking outside
+    document.addEventListener('click', e => {
+      const p = document.getElementById('cal-wrap').querySelector('.popover');
+      if (p && !p.contains(e.target)) closePopover();
+    });
+
+    // ── Init ──────────────────────────────────────────────────────────────────
+    populateVenueDropdown();
+    render();
+  </script>
+
 </body>
 </html>
