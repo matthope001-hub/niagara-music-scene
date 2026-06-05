@@ -29,8 +29,8 @@ const GIGS = [
   { a:"Kyle McDonnell",             v:"Kelsey's Niagara Falls",       c:"Niagara Falls",       t:"Bar / Pub",            g:"Acoustic",     d:4, tm:"9:30pm", n:"Two gigs today" },
   { a:"Figure Four",                v:"Fallsview Casino BBQ",         c:"Niagara Falls",       t:"Bar / Pub",            g:"Rock",         d:4, tm:"5pm",    n:"" },
   { a:"Ed Pizzo",                   v:"Spirit in Niagara Distillery", c:"Niagara-on-the-Lake", t:"Distillery",           g:"Acoustic",     d:4, tm:"6:30pm", n:"Intimate tasting room" },
-  { a:"Sean McDonnell & Taylor Barber", v:"Silversmith Brewery",      c:"Thorold",             t:"Brewery",              g:"Acoustic",     d:4, tm:"7pm",    n:"Duo format" },
-  { a:"Latin Trio",                 v:"13th Street Winery",           c:"St. Davids",          t:"Winery",               g:"Latin",        d:4, tm:"5pm",    n:"" },
+  { a:"Sean McDonnell & Taylor Barber", v:"Silversmith Brewery",      c:"Virgil",             t:"Brewery",              g:"Acoustic",     d:4, tm:"7pm",    n:"Duo format" },
+  { a:"Latin Trio",                 v:"13th Street Winery",           c:"St. Catharines",          t:"Winery",               g:"Latin",        d:4, tm:"5pm",    n:"" },
   { a:"Rhythm & Bass",              v:"Greater Niagara Boat Club",    c:"St. Catharines",      t:"Resort / Event Centre", g:"Soul",        d:4, tm:"6pm",    n:"" },
   { a:"Josh Edwards",               v:"Irish Harp",                   c:"Niagara Falls",       t:"Bar / Pub",            g:"Acoustic",     d:4, tm:"7:30pm", n:"" },
   { a:"Sugar Creek",                v:"Ridgeway Legion",              c:"Fort Erie",           t:"Legion",               g:"Country",      d:4, tm:"4pm",    n:"Regular Thursday slot" },
@@ -43,7 +43,7 @@ const GIGS = [
   { a:"Jay Diem Band",              v:"Grand Central",                c:"Niagara Falls",       t:"Bar / Pub",            g:"Rock",         d:5, tm:"10pm",   n:"First of 5 gigs this week" },
   { a:"Patsy & the Muscle",         v:"Irish Harp",                   c:"Niagara Falls",       t:"Bar / Pub",            g:"Rock",         d:5, tm:"8:30pm", n:"" },
   { a:"Dragan on sax",              v:"Spirit in Niagara Distillery", c:"Niagara-on-the-Lake", t:"Distillery",           g:"Jazz",         d:5, tm:"6:30pm", n:"" },
-  { a:"Mike Lynch",                 v:"13th Street Winery",           c:"St. Davids",          t:"Winery",               g:"Acoustic",     d:5, tm:"5pm",    n:"" },
+  { a:"Mike Lynch",                 v:"13th Street Winery",           c:"St. Catharines",          t:"Winery",               g:"Acoustic",     d:5, tm:"5pm",    n:"" },
   { a:"Troy Harmer & the Persuaders", v:"Splash Bar",                 c:"Niagara Falls",       t:"Bar / Pub",            g:"Soul",         d:5, tm:"9:30pm", n:"" },
   { a:"Don Sexsmith",               v:"Teddy's Sports Bar",           c:"Niagara Falls",       t:"Bar / Pub",            g:"Rock",         d:5, tm:"8pm",    n:"" },
   { a:"LMT Connection",             v:"Welland Concerts on the Canal",c:"Welland",             t:"Festival Stage",       g:"Rock",         d:5, tm:"7pm",    n:"w/ The Mandevilles & Phil Davis" },
@@ -69,7 +69,7 @@ const GIGS = [
   { a:"Cash-Crow",                  v:"Crystal Chandelier",           c:"Niagara Falls",       t:"Bar / Pub",            g:"Country",      d:6, tm:"7pm",    n:"" },
 
   // ── SUNDAY Jun 7 (d:0) ──────────────────────────────────────────────────
-  { a:"The Mandevilles",            v:"13th Street Winery",           c:"St. Davids",          t:"Winery",               g:"Folk",         d:0, tm:"1pm",    n:"Recurring Sunday slot" },
+  { a:"The Mandevilles",            v:"13th Street Winery",           c:"St. Catharines",          t:"Winery",               g:"Folk",         d:0, tm:"1pm",    n:"Recurring Sunday slot" },
   { a:"Taylor Barber & Kyle McDonnell", v:"Bella Terra Vineyard",     c:"Niagara-on-the-Lake", t:"Winery",               g:"Acoustic",     d:0, tm:"11am",   n:"Winery duo set" },
   { a:"Jay Diem",                   v:"Trailsides Bar & Grill",       c:"St. Catharines",      t:"Bar / Pub",            g:"Rock",         d:0, tm:"4pm",    n:"" },
   { a:"Feverish Lemons Trio",       v:"Merchant Ale House",           c:"St. Catharines",      t:"Bar / Pub",            g:"Rock",         d:0, tm:"2pm",    n:"" },
