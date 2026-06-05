@@ -51,13 +51,13 @@ const VENUE_PROFILES = {
   },
 
   "Barrelhead": {
-    city:    "Niagara Falls",
-    type:    "Bar / Pub",
-    address: "4559 Queen St, Niagara Falls, ON",
-    web:     "",
+    city:    "Niagara-on-the-Lake",
+    type:    "Winery",
+    address: "1696 Niagara Stone Rd, Niagara-on-the-Lake, ON L0S 1J0",
+    web:     "https://pillitteri.com/barrelhead",
     fb:      "",
     ig:      "",
-    notes:   "Acoustic to country. Afternoon and evening slots most weekends."
+    notes:   "Wine and pizza bar at Pillitteri Estates Winery. Live music Thursday through Sunday. Patio and indoor seating."
   },
 
   "Bella Terra Vineyard": {
@@ -197,21 +197,21 @@ const VENUE_PROFILES = {
   "Doc McGilligan's": {
     city:    "Niagara Falls",
     type:    "Bar / Pub",
-    address: "Niagara Falls, ON",
+    address: "6400 Lundy's Lane, Niagara Falls, ON L2G 1T6",
     web:     "",
     fb:      "",
     ig:      "",
-    notes:   "Rock and blues. Thursday through Saturday live music."
+    notes:   "Victorian-inspired Irish pub on Lundy's Lane. Rock and blues. Thursday through Saturday live music."
   },
 
   "Donnelly's Pub": {
-    city:    "St. Catharines",
+    city:    "Thorold",
     type:    "Bar / Pub",
-    address: "18 James St, St. Catharines, ON",
+    address: "54 Front St S, Thorold, ON L2V 1X1",
     web:     "",
     fb:      "https://www.facebook.com/donnellyspub",
     ig:      "",
-    notes:   "Saturday afternoon sessions. Rock, blues, folk. Open mic on Wednesdays."
+    notes:   "Family-owned pub in Thorold. Saturday afternoon blues on the patio. Open mic Wednesdays."
   },
 
   "Dublin Stout Pub": {
@@ -251,11 +251,11 @@ const VENUE_PROFILES = {
   "Fallsview Casino Backyard BBQ": {
     city:    "Niagara Falls",
     type:    "Bar / Pub",
-    address: "6380 Fallsview Blvd, Niagara Falls, ON",
+    address: "6380 Fallsview Blvd, Niagara Falls, ON L2G 7X5",
     web:     "https://fallsviewcasinoresort.com",
     fb:      "",
     ig:      "",
-    notes:   "Outdoor patio stage. Afternoon and evening rock bookings."
+    notes:   "Outdoor patio stage at Fallsview Casino Resort. Afternoon and evening rock bookings."
   },
 
   "Flower & Wine Festival": {
@@ -319,7 +319,7 @@ const VENUE_PROFILES = {
     web:     "https://www.hardrock.com/cafes/niagara-falls",
     fb:      "",
     ig:      "",
-    notes:   "Tourist landmark on the strip. Afternoon and early evening slots."
+    notes:   "Tourist landmark on Falls Ave. Afternoon and early evening slots. Rock and covers."
   },
 
   "Helliwell Hall": {
@@ -433,11 +433,11 @@ const VENUE_PROFILES = {
   "Lucky's Fallsview Casino": {
     city:    "Niagara Falls",
     type:    "Bar / Pub",
-    address: "6380 Fallsview Blvd, Niagara Falls, ON",
+    address: "6380 Fallsview Blvd, Niagara Falls, ON L2G 7X5",
     web:     "https://fallsviewcasinoresort.com",
     fb:      "",
     ig:      "",
-    notes:   "Casino bar stage. Thursday through Saturday live music. Rock and covers."
+    notes:   "Casino bar stage at Fallsview. Thursday through Saturday live music. Rock and covers."
   },
 
   // ── M ───────────────────────────────────────────────────────────────────────
@@ -445,11 +445,11 @@ const VENUE_PROFILES = {
   "Mahtay Café": {
     city:    "St. Catharines",
     type:    "Café / Lounge",
-    address: "242 St. Paul St, St. Catharines, ON",
+    address: "241 St Paul St, St. Catharines, ON L2R 3M7",
     web:     "https://mahtay.com",
     fb:      "",
     ig:      "",
-    notes:   "All-ages. Folk, indie, acoustic. Open mic Friday nights."
+    notes:   "All-ages arts café in downtown St. Catharines. Folk, indie, acoustic. Open mic Friday nights."
   },
 
   "Manhattan's": {
@@ -465,11 +465,11 @@ const VENUE_PROFILES = {
   "Merchant Ale House": {
     city:    "St. Catharines",
     type:    "Bar / Pub",
-    address: "45 Stuart St, St. Catharines, ON",
-    web:     "",
-    fb:      "",
+    address: "98 St Paul St, St. Catharines, ON L2R 3M2",
+    web:     "https://merchantalehouse.com",
+    fb:      "https://www.facebook.com/themerchantalehouse",
     ig:      "",
-    notes:   "Blues, rock, and soul. Full PA and dedicated sound booth. Sunday sessions."
+    notes:   "St. Catharines first brewpub since 1999. House-brewed beers. Blues, rock, and soul. Sunday sessions."
   },
 
   "MT Bellies": {
@@ -511,7 +511,7 @@ const VENUE_PROFILES = {
     web:     "https://niagarafallsbrewery.com",
     fb:      "",
     ig:      "",
-    notes:   "Clifton Hill brewery. Acoustic and folk. Multiple slots weekly."
+    notes:   "Clifton Hill brewery. Acoustic and folk. Multiple slots weekly including Kyle McDonnell afternoons."
   },
 
   "Niagara Falls Legion": {
@@ -673,13 +673,13 @@ const VENUE_PROFILES = {
   },
 
   "Silversmith Brewery": {
-    city:    "Thorold",
+    city:    "Virgil",
     type:    "Brewery",
-    address: "Thorold, ON",
-    web:     "",
+    address: "1523 Niagara Stone Rd, Virgil, ON L0S 1T0",
+    web:     "https://silversmithbrewing.com",
     fb:      "",
     ig:      "",
-    notes:   "Heritage building brewery. Acoustic and folk. Thursday evening bookings."
+    notes:   "Award-winning craft brewery in a converted 1894 church in Virgil, NOTL. Acoustic and folk. Thursday evening bookings."
   },
 
   "Someplace Else": {
@@ -795,13 +795,13 @@ const VENUE_PROFILES = {
   },
 
   "13th Street Winery": {
-    city:    "St. Davids",
+    city:    "St. Catharines",
     type:    "Winery",
-    address: "1776 4th Ave, St. Catharines, ON",
+    address: "1776 4th Ave, St. Catharines, ON L2R 6P9",
     web:     "https://13thstreetwinery.com",
     fb:      "",
     ig:      "",
-    notes:   "Patio and indoor stage. Jazz, acoustic, folk, blues. Thursday through Sunday bookings. The Mandevilles Sunday residency."
+    notes:   "Award-winning winery on Fourth Avenue, St. Catharines. Jazz, acoustic, folk, blues. Thursday through Sunday. The Mandevilles Sunday residency."
   },
 
   "Thorold Legion": {
@@ -901,11 +901,11 @@ const VENUE_PROFILES = {
   "Wildflower Social": {
     city:    "Niagara Falls",
     type:    "Bar / Pub",
-    address: "Niagara Falls, ON",
-    web:     "",
+    address: "6361 Fallsview Blvd, Niagara Falls, ON L2G 3V9",
+    web:     "https://wildflowerniagara.com",
     fb:      "",
-    ig:      "",
-    notes:   "One of the busiest live music venues in the region. Multiple slots daily. Rock, country, R&B, acoustic."
+    ig:      "https://www.instagram.com/wildflowerniagara",
+    notes:   "Inside Hilton Niagara Falls lobby. Elevated cocktails and live music every evening. One of the busiest live music venues in the region."
   },
 
 };
