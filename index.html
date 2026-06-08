@@ -1086,13 +1086,15 @@
     .ar-social:hover { border-color: var(--teal); color: var(--teal); }
 
     /* venues list */
+    /* ── VENUES — alpha collapsible (reuses .alpha-* from artists) ────────── */
     .venues-list { }
     .venue-row {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 14px 16px;
+      padding: 12px 16px;
       padding-left: max(16px, var(--safe-l));
+      padding-right: max(16px, var(--safe-r));
       border-bottom: 1px solid rgba(255,255,255,.04);
       cursor: pointer;
       transition: background-color .15s;
@@ -1103,16 +1105,16 @@
     .venue-row:active { background: var(--ink-3); }
     .venue-row:hover .vr-name { color: var(--teal); }
     .vr-icon {
-      width: 36px; height: 36px; border-radius: 8px;
+      width: 38px; height: 38px; border-radius: 8px; flex-shrink: 0;
       background: var(--ink-3);
       display: flex; align-items: center; justify-content: center;
-      color: var(--teal); font-size: 16px; flex-shrink: 0;
+      color: var(--teal); font-size: 16px;
     }
     .vr-main { min-width: 0; flex: 1; }
     .vr-name { font-size: 14px; font-weight: 600; color: #fff; transition: color .15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .vr-meta { font-size: 11px; color: var(--mist); margin-top: 1px; }
+    .vr-meta { font-size: 11px; color: var(--mist); margin-top: 2px; }
     .vr-count {
-      font-size: 11px; font-weight: 600;
+      font-size: 10px; font-weight: 600;
       color: var(--gold); background: rgba(242,183,49,.1);
       border: 1px solid rgba(242,183,49,.3); border-radius: 99px;
       padding: 2px 8px; flex-shrink: 0; white-space: nowrap;
@@ -1187,7 +1189,7 @@
       .footer { padding: 24px; }
       .tab-header { padding: 28px 24px 0; }
       .about-content { padding: 28px 24px 40px; }
-      .venue-row { padding: 14px 24px; }
+      /* venue-row uses safe-area padding */
       /* artists now use alpha list layout */
       .venues-filter-row { flex-wrap: nowrap; }
     }
@@ -2120,33 +2122,84 @@
     // ── Venues tab ────────────────────────────────────────────────────────────
     const _typeIcon = t => ({'Winery':'ti-building-community','Brewery':'ti-beer','Distillery':'ti-flask','Legion':'ti-flag','Festival Stage':'ti-music','Concert Hall':'ti-building','Resort / Event Centre':'ti-building-estate','Cafe / Lounge':'ti-coffee','Yacht Club / Boat Club':'ti-sailboat'}[t]||'ti-map-pin');
 
+    // tracks which venue letter sections are open
+    const _openVenueLetters = new Set();
+
+    function toggleVenueLetter(letter) {
+      const sec = document.getElementById('valpha-' + letter);
+      if (!sec) return;
+      if (_openVenueLetters.has(letter)) {
+        _openVenueLetters.delete(letter);
+        sec.classList.remove('open');
+      } else {
+        _openVenueLetters.add(letter);
+        sec.classList.add('open');
+      }
+    }
+
     function renderVenues() {
       const q    = (document.getElementById('venue-search')?.value ?? '').toLowerCase().trim();
       const city = document.getElementById('venue-filter-city')?.value ?? '';
       const type = document.getElementById('venue-filter-type')?.value ?? '';
+
       const allNames = [...new Set(GIGS.map(g => g.v.trim()))].sort();
       const names = allNames.filter(name => {
         const v = (typeof VENUE_PROFILES !== 'undefined' && VENUE_PROFILES[name]) || {};
         const g0 = GIGS.find(g => g.v.trim() === name);
         const vCity = v.city || g0?.c || '';
         const vType = v.type || g0?.t || '';
-        return (!q || name.toLowerCase().includes(q)) && (!city || vCity === city) && (!type || vType === type);
+        return (!q || name.toLowerCase().includes(q)) &&
+               (!city || vCity === city) &&
+               (!type || vType === type);
       });
+
       const countEl = document.getElementById('venues-count');
       if (countEl) countEl.textContent = names.length + ' venue' + (names.length!==1?'s':'');
       const list = document.getElementById('venues-list');
       if (!list) return;
-      if (!names.length) { list.innerHTML = '<div style="padding:40px 16px;text-align:center;color:var(--mist);font-size:13px">No venues found</div>'; return; }
-      list.innerHTML = names.map(name => {
-        const v = (typeof VENUE_PROFILES !== 'undefined' && VENUE_PROFILES[name]) || {};
-        const gigs = GIGS.filter(g => g.v.trim() === name);
-        const g0 = gigs[0];
-        const vCity = v.city || g0?.c || '';
-        const vType = v.type || g0?.t || '';
-        return '<div class="venue-row" onclick="_venueClick(event,'+_reg(name)+')" role="button" tabindex="0" aria-label="View '+name+'">'
-          + '<div class="vr-icon"><i class="ti '+_typeIcon(vType)+'"></i></div>'
-          + '<div class="vr-main"><div class="vr-name">'+name+'</div><div class="vr-meta">'+vCity+(vType?' · '+vType:'')+'</div></div>'
-          + '<div class="vr-count">'+gigs.length+' gig'+(gigs.length!==1?'s':'')+'</div>'
+
+      if (!names.length) {
+        list.innerHTML = '<div style="padding:48px 16px;text-align:center;color:var(--mist);font-size:13px">No venues found</div>';
+        return;
+      }
+
+      // Group by first letter
+      const groups = {};
+      names.forEach(name => {
+        const letter = name.replace(/^(the |a |an )/i, '')[0].toUpperCase();
+        if (!groups[letter]) groups[letter] = [];
+        groups[letter].push(name);
+      });
+
+      const letters = Object.keys(groups).sort();
+      if (q || city || type) letters.forEach(l => _openVenueLetters.add(l));
+
+      list.innerHTML = letters.map(letter => {
+        const isOpen = _openVenueLetters.has(letter) || q || city || type;
+        const venueRows = groups[letter].map(name => {
+          const v = (typeof VENUE_PROFILES !== 'undefined' && VENUE_PROFILES[name]) || {};
+          const gigs = GIGS.filter(g => g.v.trim() === name);
+          const g0 = gigs[0];
+          const vCity = v.city || g0?.c || '';
+          const vType = v.type || g0?.t || '';
+          const idx = _reg(name);
+          return '<div class="venue-row" onclick="_venueClick(event,'+idx+')" role="button" tabindex="0" aria-label="View '+name+'">'
+            + '<div class="vr-icon"><i class="ti '+_typeIcon(vType)+'"></i></div>'
+            + '<div class="vr-main">'
+            +   '<div class="vr-name">'+name+'</div>'
+            +   '<div class="vr-meta">'+vCity+(vType?' · '+vType:'')+'</div>'
+            + '</div>'
+            + '<div class="vr-count">'+gigs.length+' gig'+(gigs.length!==1?'s':'')+'</div>'
+            + '</div>';
+        }).join('');
+
+        return '<div class="alpha-section'+(isOpen?' open':'')+'" id="valpha-'+letter+'">'
+          + '<div class="alpha-header" onclick="toggleVenueLetter(&quot;'+letter+'&quot;)" role="button" aria-expanded="'+(isOpen?'true':'false')+'">'
+          +   '<span class="alpha-letter">'+letter+'</span>'
+          +   '<span class="alpha-count">'+groups[letter].length+' venue'+(groups[letter].length!==1?'s':'')+'</span>'
+          +   '<i class="ti ti-chevron-down alpha-chevron"></i>'
+          + '</div>'
+          + '<div class="alpha-body">'+venueRows+'</div>'
           + '</div>';
       }).join('');
     }
