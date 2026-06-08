@@ -2,20 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description" content="Niagara Music Scene — every confirmed live music gig across the Niagara Region. Wineries, bars, legions, breweries and festival stages.">
   <meta property="og:title" content="Niagara Music Scene — Live Music This Week">
   <meta property="og:description" content="Every confirmed gig across Niagara — search by artist, venue, city or genre.">
   <meta property="og:type" content="website">
+  <meta name="theme-color" content="#0D1117">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Niagara Music Scene — Live Music This Week</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%230D1117'/><text y='72' x='50' text-anchor='middle' font-size='60' font-family='serif'>🎵</text></svg>">
-
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
-  <!-- Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 
   <style>
@@ -23,19 +22,25 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --teal:     #0AAFCC;
-      --teal-d:   #077A8F;
-      --teal-l:   rgba(10, 175, 204, .12);
-      --gold:     #F2B731;
-      --gold-d:   #C9940A;
-      --ink:      #0D1117;
-      --ink-2:    #1C2938;
-      --ink-3:    #2D3F50;
-      --mist:     #6B8FA8;
-      --mist-l:   #A8C4D4;
-      --card:     #14202D;
+      --teal:    #0AAFCC;
+      --teal-d:  #077A8F;
+      --teal-l:  rgba(10,175,204,.12);
+      --gold:    #F2B731;
+      --gold-d:  #C9940A;
+      --ink:     #0D1117;
+      --ink-2:   #1C2938;
+      --ink-3:   #2D3F50;
+      --mist:    #6B8FA8;
+      --mist-l:  #A8C4D4;
+      --card:    #14202D;
       --ff: 'Bebas Neue', sans-serif;
       --fb: 'Inter', sans-serif;
+      --nav-h: 56px;
+      --safe-b: env(safe-area-inset-bottom, 0px);
+      --safe-l: env(safe-area-inset-left, 0px);
+      --safe-r: env(safe-area-inset-right, 0px);
+      --transition-sheet: 320ms cubic-bezier(.32,0,.67,0);
+      --transition-sheet-in: 380ms cubic-bezier(.34,1.2,.64,1);
     }
 
     html { scroll-behavior: smooth; }
@@ -47,12 +52,15 @@
       font-size: 14px;
       line-height: 1.5;
       min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      overscroll-behavior: none;
     }
 
-    button { cursor: pointer; font-family: var(--fb); }
+    body.sheet-open { overflow: hidden; }
+
+    button { cursor: pointer; font-family: var(--fb); border: none; }
     a { color: var(--teal); }
 
-    /* Focus styles for keyboard navigation */
     :focus-visible {
       outline: 2px solid var(--teal);
       outline-offset: 2px;
@@ -64,37 +72,40 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 14px 24px;
+      padding: 0 24px;
+      padding-left: max(24px, var(--safe-l));
+      padding-right: max(24px, var(--safe-r));
+      height: var(--nav-h);
       border-bottom: 1px solid rgba(255,255,255,.06);
       position: sticky;
       top: 0;
       z-index: 40;
-      flex-wrap: wrap;
-      gap: 10px;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      background: rgba(13,17,23,.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background: rgba(13,17,23,.94);
+      gap: 12px;
     }
 
     .nav-logo {
       font-family: var(--ff);
-      font-size: 24px;
+      font-size: 22px;
       letter-spacing: 2px;
       color: #fff;
       line-height: 1;
       text-decoration: none;
+      flex-shrink: 0;
     }
     .nav-logo span { color: var(--teal); }
 
-    .nav-links { display: flex; gap: 4px; }
+    .nav-links { display: flex; gap: 2px; }
 
     .nav-link {
       font-size: 12px;
       color: var(--mist);
       background: none;
-      border: none;
-      padding: 5px 10px;
+      padding: 6px 10px;
       border-radius: 6px;
+      white-space: nowrap;
     }
     .nav-link:hover { color: #fff; background: rgba(255,255,255,.06); }
     .nav-link.active { color: var(--teal); }
@@ -102,45 +113,48 @@
     .nav-cta {
       background: var(--teal);
       color: var(--ink);
-      border: none;
       border-radius: 6px;
-      padding: 7px 16px;
+      padding: 7px 14px;
       font-size: 12px;
       font-weight: 600;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .nav-cta:hover { background: var(--teal-d); }
 
     /* ── HERO ──────────────────────────────────────────────────────────────── */
     .hero {
-      padding: 48px 24px 32px;
+      padding: 40px 24px 28px;
+      padding-left: max(24px, var(--safe-l));
+      padding-right: max(24px, var(--safe-r));
       border-bottom: 1px solid rgba(255,255,255,.06);
     }
 
     .hero-kicker {
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 600;
       color: var(--teal);
       letter-spacing: 3px;
       text-transform: uppercase;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .hero-title {
       font-family: var(--ff);
-      font-size: clamp(48px, 8vw, 72px);
+      font-size: clamp(42px, 10vw, 72px);
       line-height: .92;
       letter-spacing: 2px;
       color: #fff;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     .hero-title span { color: var(--teal); }
 
     .hero-sub {
-      font-size: 15px;
+      font-size: 14px;
       color: var(--mist);
-      max-width: 520px;
+      max-width: 480px;
       line-height: 1.6;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .week-ctrl { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
@@ -148,25 +162,32 @@
     .week-btn {
       background: rgba(255,255,255,.07);
       border: 1px solid rgba(255,255,255,.1);
-      border-radius: 6px;
-      padding: 7px 12px;
-      font-size: 13px;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 14px;
       color: var(--mist-l);
+      min-height: 44px;
+      min-width: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .week-btn:hover { background: rgba(255,255,255,.13); color: #fff; }
+    .week-btn:active { background: rgba(255,255,255,.18); }
 
-    .week-label { font-size: 14px; font-weight: 500; color: #fff; }
+    .week-label { font-size: 13px; font-weight: 500; color: #fff; }
 
     .today-btn {
       background: var(--gold);
       color: var(--ink);
-      border: none;
-      border-radius: 6px;
-      padding: 7px 16px;
+      border-radius: 8px;
+      padding: 8px 16px;
       font-size: 12px;
       font-weight: 600;
+      min-height: 44px;
     }
     .today-btn:hover { background: var(--gold-d); }
+    .today-btn:active { background: var(--gold-d); transform: scale(.97); }
 
     /* ── STATS BAR ─────────────────────────────────────────────────────────── */
     .stats {
@@ -176,66 +197,96 @@
 
     .stat {
       flex: 1;
-      padding: 14px 24px;
+      padding: 12px 16px;
       border-right: 1px solid rgba(255,255,255,.06);
+      text-align: center;
     }
     .stat:last-child { border-right: none; }
 
     .stat-n {
       font-family: var(--ff);
-      font-size: 38px;
+      font-size: 32px;
       color: var(--teal);
       letter-spacing: 1px;
       line-height: 1;
     }
 
     .stat-l {
-      font-size: 11px;
+      font-size: 10px;
       color: var(--mist);
       text-transform: uppercase;
-      letter-spacing: .8px;
-      margin-top: 3px;
+      letter-spacing: .6px;
+      margin-top: 2px;
     }
 
     /* ── FILTER BAR ────────────────────────────────────────────────────────── */
     .filter-bar {
-      padding: 12px 24px;
+      padding: 10px 16px;
+      padding-left: max(16px, var(--safe-l));
+      padding-right: max(16px, var(--safe-r));
       display: flex;
-      gap: 7px;
-      flex-wrap: wrap;
+      gap: 6px;
       align-items: center;
       border-bottom: 1px solid rgba(255,255,255,.06);
       background: var(--ink-2);
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
+    .filter-bar::-webkit-scrollbar { display: none; }
 
     .filter-bar input,
     .filter-bar select {
       background: var(--ink-3);
       border: 1px solid rgba(255,255,255,.1);
-      border-radius: 6px;
-      padding: 0 10px;
-      font-size: 12px;
+      border-radius: 8px;
+      padding: 0 12px;
+      font-size: 13px;
       color: #fff;
       font-family: var(--fb);
-      height: 32px;
+      height: 40px;
+      flex-shrink: 0;
+      -webkit-appearance: none;
+      appearance: none;
     }
-    .filter-bar input { min-width: 160px; max-width: 260px; }
+    .filter-bar input { width: 100%; min-width: 140px; flex-shrink: 1; }
     .filter-bar input::placeholder { color: var(--mist); }
     .filter-bar select option { background: var(--ink-3); }
 
-    .more-btn {
+    .filter-search-wrap {
+      position: relative;
+      flex: 1;
+      min-width: 120px;
+    }
+    .filter-search-wrap i {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--mist);
+      font-size: 16px;
+      pointer-events: none;
+    }
+    .filter-search-wrap input { padding-left: 32px; }
+
+    .filter-pill-btn {
       background: var(--ink-3);
       border: 1px solid rgba(255,255,255,.1);
-      border-radius: 6px;
-      height: 32px;
+      border-radius: 8px;
+      height: 40px;
       padding: 0 12px;
       display: flex;
       align-items: center;
       gap: 5px;
       font-size: 12px;
       color: var(--mist);
+      white-space: nowrap;
+      flex-shrink: 0;
+      min-width: 44px;
+      justify-content: center;
     }
-    .more-btn:hover, .more-btn.active { border-color: var(--teal); color: var(--teal); }
+    .filter-pill-btn:hover, .filter-pill-btn.active { border-color: var(--teal); color: var(--teal); }
+    .filter-pill-btn:active { transform: scale(.96); }
 
     .more-count {
       display: none;
@@ -251,31 +302,49 @@
       font-size: 12px;
       color: var(--mist);
       background: none;
-      border: none;
-      padding: 3px 8px;
+      padding: 4px 8px;
+      min-height: 40px;
+      flex-shrink: 0;
     }
     .clear-btn:hover { color: var(--teal); }
 
-    .more-filters {
-      padding: 8px 24px 10px;
-      display: none;
-      flex-wrap: wrap;
-      gap: 7px;
-      background: var(--ink-2);
+    /* ── RESULTS BAR ───────────────────────────────────────────────────────── */
+    .results-bar {
+      padding: 8px 16px;
+      padding-left: max(16px, var(--safe-l));
+      padding-right: max(16px, var(--safe-r));
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       border-bottom: 1px solid rgba(255,255,255,.06);
+      gap: 8px;
     }
-    .more-filters.open { display: flex; }
-    .more-filters select {
-      background: var(--ink-3);
+
+    .results-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      font-size: 12px;
+      color: var(--mist);
+      min-width: 0;
+    }
+
+    .view-toggle { display: flex; gap: 4px; flex-shrink: 0; }
+
+    .view-btn {
+      background: rgba(255,255,255,.05);
       border: 1px solid rgba(255,255,255,.1);
       border-radius: 6px;
-      padding: 0 10px;
-      font-size: 12px;
-      color: #fff;
-      font-family: var(--fb);
-      height: 32px;
+      padding: 5px 10px;
+      font-size: 11px;
+      color: var(--mist);
+      min-height: 36px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
-    .more-filters select option { background: var(--ink-3); }
+    .view-btn.active { background: var(--teal); border-color: var(--teal); color: var(--ink); font-weight: 600; }
 
     .venue-tag {
       display: inline-flex;
@@ -284,58 +353,36 @@
       background: var(--teal-l);
       border: 1px solid var(--teal);
       border-radius: 99px;
-      padding: 2px 10px;
+      padding: 3px 10px;
       font-size: 11px;
       color: var(--teal);
       font-weight: 600;
+      max-width: 160px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     .venue-tag button {
       background: none;
-      border: none;
       color: var(--teal);
-      font-size: 15px;
+      font-size: 16px;
       line-height: 1;
       padding: 0;
-    }
-
-    /* ── RESULTS BAR ───────────────────────────────────────────────────────── */
-    .results-bar {
-      padding: 9px 24px;
+      flex-shrink: 0;
+      min-width: 20px;
+      min-height: 20px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid rgba(255,255,255,.06);
-      flex-wrap: wrap;
-      gap: 8px;
+      justify-content: center;
     }
-
-    .results-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      font-size: 12px;
-      color: var(--mist);
-    }
-
-    .view-toggle { display: flex; gap: 4px; }
-
-    .view-btn {
-      background: rgba(255,255,255,.05);
-      border: 1px solid rgba(255,255,255,.1);
-      border-radius: 6px;
-      padding: 4px 10px;
-      font-size: 11px;
-      color: var(--mist);
-    }
-    .view-btn.active { background: var(--teal); border-color: var(--teal); color: var(--ink); font-weight: 600; }
 
     /* ── DAY HEADERS ───────────────────────────────────────────────────────── */
     .day-block { border-bottom: 1px solid rgba(255,255,255,.04); }
     .day-block:last-child { border-bottom: none; }
 
     .day-header {
-      padding: 10px 24px;
+      padding: 10px 16px;
+      padding-left: max(16px, var(--safe-l));
       display: flex;
       align-items: center;
       gap: 10px;
@@ -343,9 +390,9 @@
       border-bottom: 1px solid rgba(255,255,255,.06);
       border-top: 1px solid rgba(255,255,255,.06);
     }
-    .day-header.today { border-left: 3px solid var(--teal); padding-left: 21px; }
+    .day-header.today { border-left: 3px solid var(--teal); padding-left: max(13px, calc(var(--safe-l) - 3px)); }
 
-    .day-name { font-family: var(--ff); font-size: 20px; letter-spacing: 1px; color: #fff; }
+    .day-name { font-family: var(--ff); font-size: 18px; letter-spacing: 1px; color: #fff; }
     .day-date { font-size: 12px; color: var(--mist); }
 
     .today-badge {
@@ -363,15 +410,20 @@
     /* ── LIST VIEW ─────────────────────────────────────────────────────────── */
     .gig-row {
       display: grid;
-      grid-template-columns: 64px 1fr auto;
-      align-items: start;
-      padding: 12px 24px;
+      grid-template-columns: 56px 1fr auto;
+      align-items: center;
+      padding: 14px 16px;
+      padding-left: max(16px, var(--safe-l));
+      padding-right: max(16px, var(--safe-r));
       border-bottom: 1px solid rgba(255,255,255,.04);
       cursor: pointer;
-      transition: background-color .1s;
+      transition: background-color .15s;
+      min-height: 64px;
+      gap: 4px;
     }
     .gig-row:last-child { border-bottom: none; }
     .gig-row:hover { background: var(--ink-2); }
+    .gig-row:active { background: var(--ink-3); }
     .gig-row:hover .gig-artist-btn { color: var(--teal); }
     .gig-row:hover .gig-venue-btn  { color: var(--teal); }
 
@@ -379,7 +431,8 @@
       font-size: 11px;
       color: var(--mist);
       font-variant-numeric: tabular-nums;
-      padding-top: 2px;
+      line-height: 1.3;
+      padding-right: 4px;
     }
 
     .gig-main { min-width: 0; }
@@ -387,27 +440,28 @@
     .gig-sub {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       flex-wrap: wrap;
+      margin-top: 1px;
     }
 
     .gig-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--ink-3); flex-shrink: 0; }
     .gig-city { font-size: 11px; color: var(--mist); white-space: nowrap; flex-shrink: 0; }
-    .gig-pill-wrap { padding-left: 10px; flex-shrink: 0; padding-top: 2px; }
+    .gig-pill-wrap { padding-left: 8px; flex-shrink: 0; }
 
     /* ── CARD VIEW ─────────────────────────────────────────────────────────── */
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 1px;
-      background: rgba(255,255,255,.06);
+      background: rgba(255,255,255,.05);
     }
 
     .gig-card {
       background: var(--card);
-      padding: 20px;
+      padding: 18px 16px;
       cursor: pointer;
-      transition: background-color .1s;
+      transition: background-color .15s;
       position: relative;
       overflow: hidden;
     }
@@ -418,15 +472,16 @@
       height: 2px;
       background: var(--teal);
       opacity: 0;
-      transition: opacity .1s;
+      transition: opacity .15s;
     }
     .gig-card:hover { background: var(--ink-3); }
     .gig-card:hover::before { opacity: 1; }
+    .gig-card:active { background: var(--ink-3); }
     .gig-card:hover .card-artist-btn { color: var(--teal); }
     .gig-card:hover .card-venue-btn  { color: var(--teal); }
 
-    .card-time { font-size: 11px; color: var(--mist); margin-bottom: 8px; font-weight: 500; letter-spacing: .4px; }
-    .card-pills { display: flex; gap: 5px; flex-wrap: wrap; }
+    .card-time { font-size: 11px; color: var(--mist); margin-bottom: 6px; font-weight: 500; letter-spacing: .4px; }
+    .card-pills { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 10px; }
 
     /* ── GENRE PILLS ───────────────────────────────────────────────────────── */
     .pill {
@@ -436,57 +491,296 @@
       font-weight: 600;
       white-space: nowrap;
     }
-    .pill-rock    { background: rgba(220,60,60,.2);   color: #FF8080; border: 1px solid rgba(220,60,60,.3); }
-    .pill-soul    { background: rgba(220,60,60,.2);   color: #FF8080; border: 1px solid rgba(220,60,60,.3); }
-    .pill-acoustic, .pill-folk, .pill-celtic { background: rgba(50,180,100,.12); color: #6DD89A; border: 1px solid rgba(50,180,100,.22); }
-    .pill-jazz, .pill-covers { background: rgba(10,175,204,.12); color: #6DD4E8; border: 1px solid rgba(10,175,204,.22); }
+    .pill-rock    { background: rgba(220,60,60,.2);    color: #FF8080; border: 1px solid rgba(220,60,60,.3); }
+    .pill-soul    { background: rgba(220,60,60,.2);    color: #FF8080; border: 1px solid rgba(220,60,60,.3); }
+    .pill-acoustic,.pill-folk,.pill-celtic { background: rgba(50,180,100,.12); color: #6DD89A; border: 1px solid rgba(50,180,100,.22); }
+    .pill-jazz,.pill-covers { background: rgba(10,175,204,.12); color: #6DD4E8; border: 1px solid rgba(10,175,204,.22); }
     .pill-blues   { background: rgba(180,120,220,.12); color: #C49AE8; border: 1px solid rgba(180,120,220,.22); }
-    .pill-country, .pill-latin { background: rgba(242,183,49,.12); color: #F2CC6A; border: 1px solid rgba(242,183,49,.22); }
-    .pill-tribute, .pill-default { background: rgba(255,255,255,.06); color: var(--mist-l); border: 1px solid rgba(255,255,255,.1); }
+    .pill-country,.pill-latin { background: rgba(242,183,49,.12); color: #F2CC6A; border: 1px solid rgba(242,183,49,.22); }
+    .pill-tribute,.pill-default { background: rgba(255,255,255,.06); color: var(--mist-l); border: 1px solid rgba(255,255,255,.1); }
 
-    /* ── ARTIST / VENUE BUTTONS ────────────────────────────────────────────── */
+    /* ── BUTTONS INSIDE GIG ROWS ───────────────────────────────────────────── */
     .gig-artist-btn {
       font-size: 14px; font-weight: 600; color: #fff;
-      background: none; border: none; padding: 0;
+      background: none; padding: 0;
       text-align: left; font-family: var(--fb);
       cursor: pointer; transition: color .1s;
-      display: block; margin-bottom: 3px;
+      display: block;
+      line-height: 1.3;
     }
-    .gig-artist-btn:hover { color: var(--teal); text-decoration: underline; }
+    .gig-artist-btn:hover { color: var(--teal); }
 
     .gig-venue-btn {
       font-size: 12px; color: var(--mist-l);
-      background: none; border: none; padding: 0;
+      background: none; padding: 0;
       text-align: left; font-family: var(--fb);
       transition: color .1s; white-space: normal; cursor: pointer;
+      line-height: 1.3;
     }
     .gig-venue-btn:hover { color: var(--teal); text-decoration: underline; }
 
     .card-artist-btn {
-      font-family: var(--ff); font-size: 22px; letter-spacing: .5px;
-      color: #fff; margin-bottom: 4px; line-height: 1.1;
-      background: none; border: none; padding: 0;
+      font-family: var(--ff); font-size: 20px; letter-spacing: .5px;
+      color: #fff; line-height: 1.1;
+      background: none; padding: 0;
       text-align: left; cursor: pointer; transition: color .1s;
       display: block; width: 100%;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
     }
     .card-artist-btn:hover { color: var(--teal); }
 
     .card-venue-btn {
       font-size: 12px; color: var(--mist-l);
-      background: none; border: none; padding: 0;
+      background: none; padding: 0;
       text-align: left; font-family: var(--fb);
       transition: color .1s; white-space: normal;
-      cursor: pointer; display: block; width: 100%; margin-bottom: 8px;
+      cursor: pointer; display: block; width: 100%;
     }
     .card-venue-btn:hover { color: var(--teal); text-decoration: underline; }
 
-    /* ── POPOVER ───────────────────────────────────────────────────────────── */
-    .cal-container { position: relative; }
+    /* ── SHOW EARLIER BUTTON ──────────────────────────────────────────────── */
+    .show-earlier-btn {
+      display: flex; align-items: center; gap: 6px;
+      width: 100%; padding: 10px 16px;
+      padding-left: max(16px, var(--safe-l));
+      background: none;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+      font-size: 12px; color: var(--mist);
+      font-family: var(--fb); text-align: left; cursor: pointer;
+      transition: color .1s, background-color .1s;
+      min-height: 44px;
+    }
+    .show-earlier-btn:hover { color: var(--teal); background-color: rgba(10,175,204,.06); }
+    .show-earlier-btn i { font-size: 14px; flex-shrink: 0; }
 
-    .popover::-webkit-scrollbar { width: 4px; }
-    .popover::-webkit-scrollbar-track { background: transparent; }
-    .popover::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 99px; }
+    /* ── BOTTOM SHEET OVERLAY ─────────────────────────────────────────────── */
+    .sheet-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.6);
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 280ms ease;
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+    }
+    .sheet-overlay.visible {
+      opacity: 1;
+      pointer-events: all;
+    }
 
+    /* ── BOTTOM SHEET ─────────────────────────────────────────────────────── */
+    .bottom-sheet {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      z-index: 101;
+      background: var(--ink-2);
+      border-radius: 20px 20px 0 0;
+      border-top: 1px solid rgba(255,255,255,.1);
+      max-height: 85vh;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+      transform: translateY(100%);
+      transition: transform var(--transition-sheet);
+      padding-bottom: var(--safe-b);
+      will-change: transform;
+    }
+    .bottom-sheet.open {
+      transform: translateY(0);
+      transition: transform var(--transition-sheet-in);
+    }
+    .bottom-sheet::-webkit-scrollbar { display: none; }
+
+    /* drag handle */
+    .sheet-handle {
+      width: 36px; height: 4px;
+      background: rgba(255,255,255,.2);
+      border-radius: 99px;
+      margin: 12px auto 0;
+      flex-shrink: 0;
+    }
+
+    .sheet-content { padding: 20px 20px 24px; }
+
+    /* gig detail sheet */
+    .sheet-artist {
+      font-family: var(--ff);
+      font-size: 32px;
+      letter-spacing: .5px;
+      color: #fff;
+      line-height: 1;
+      word-break: break-word;
+      margin-bottom: 16px;
+    }
+
+    .sheet-row {
+      font-size: 13px;
+      color: var(--mist-l);
+      margin-bottom: 10px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      line-height: 1.5;
+    }
+    .sheet-row i { color: var(--teal); flex-shrink: 0; margin-top: 2px; font-size: 16px; }
+    .sheet-row strong { color: #fff; }
+
+    .sheet-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 20px; }
+
+    .sheet-btn-primary {
+      padding: 14px 16px;
+      border-radius: 10px;
+      background: var(--teal);
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 600;
+      font-family: var(--fb);
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background .1s, transform .1s;
+    }
+    .sheet-btn-primary:hover  { background: var(--teal-d); }
+    .sheet-btn-primary:active { transform: scale(.98); }
+
+    .sheet-btn-secondary {
+      padding: 13px 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 10px;
+      background: transparent;
+      font-size: 14px;
+      color: #fff;
+      font-family: var(--fb);
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: border-color .1s, color .1s, transform .1s;
+    }
+    .sheet-btn-secondary:hover  { border-color: var(--teal); color: var(--teal); }
+    .sheet-btn-secondary:active { transform: scale(.98); }
+
+    .sheet-btn-close {
+      padding: 13px 16px;
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 10px;
+      background: transparent;
+      font-size: 14px;
+      color: var(--mist);
+      font-family: var(--fb);
+      text-align: center;
+      transition: color .1s;
+    }
+    .sheet-btn-close:hover { color: #fff; }
+
+    /* artist/venue sheet header */
+    .ap-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
+    .ap-avatar {
+      width: 52px; height: 52px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--teal-d), var(--ink-3));
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--ff); font-size: 20px; color: #fff;
+      flex-shrink: 0; letter-spacing: 1px;
+    }
+    .ap-name { font-family: var(--ff); font-size: 28px; letter-spacing: .5px; color: #fff; line-height: 1; margin-bottom: 4px; word-break: break-word; }
+    .ap-meta { font-size: 12px; color: var(--mist); }
+    .ap-bio  { font-size: 13px; color: var(--mist-l); line-height: 1.6; margin-bottom: 14px; }
+
+    .ap-gig-count {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 12px; font-weight: 600;
+      color: var(--teal); background: var(--teal-l);
+      border: 1px solid var(--teal); border-radius: 99px;
+      padding: 4px 12px; margin-bottom: 14px;
+    }
+
+    .ap-socials { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .ap-social-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 500;
+      padding: 8px 14px; border-radius: 8px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color: var(--mist-l); text-decoration: none;
+      transition: border-color .1s, color .1s;
+      min-height: 40px;
+    }
+    .ap-social-btn:hover { border-color: var(--teal); color: var(--teal); }
+    .ap-social-btn i { font-size: 15px; }
+
+    /* venue sheet specifics */
+    .vp-name { font-family: var(--ff); font-size: 28px; letter-spacing: .5px; color: #fff; line-height: 1.1; margin-bottom: 6px; word-break: break-word; }
+    .vp-meta { font-size: 12px; color: var(--mist); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+    .vp-type-badge {
+      font-size: 10px; font-weight: 600;
+      padding: 2px 8px; border-radius: 4px;
+      background: var(--teal-l); color: var(--teal); border: 1px solid var(--teal);
+    }
+    .vp-notes { font-size: 13px; color: var(--mist-l); line-height: 1.6; margin-bottom: 14px; }
+    .vp-gig-count {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 12px; font-weight: 600;
+      color: var(--gold); background: rgba(242,183,49,.1);
+      border: 1px solid rgba(242,183,49,.3); border-radius: 99px;
+      padding: 4px 12px; margin-bottom: 14px;
+    }
+    .vp-links { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+
+    /* ── FILTER SHEET ─────────────────────────────────────────────────────── */
+    .filter-sheet-title {
+      font-family: var(--ff);
+      font-size: 22px;
+      letter-spacing: 1px;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+    .filter-group { margin-bottom: 18px; }
+    .filter-group-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--mist);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .filter-group select {
+      width: 100%;
+      background: var(--ink-3);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 10px;
+      padding: 0 14px;
+      font-size: 14px;
+      color: #fff;
+      font-family: var(--fb);
+      height: 48px;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .filter-group select option { background: var(--ink-3); }
+    .filter-apply-btn {
+      width: 100%;
+      padding: 15px;
+      border-radius: 10px;
+      background: var(--teal);
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 600;
+      font-family: var(--fb);
+      text-align: center;
+      margin-top: 4px;
+      transition: background .1s;
+    }
+    .filter-apply-btn:hover  { background: var(--teal-d); }
+    .filter-apply-btn:active { transform: scale(.98); }
+
+    /* ── DESKTOP POPOVER (≥ 768px) ────────────────────────────────────────── */
     .popover {
       position: absolute;
       z-index: 50;
@@ -498,219 +792,140 @@
       box-shadow: 0 8px 32px rgba(0,0,0,.6);
       max-height: 380px;
       overflow-y: auto;
+      opacity: 0;
+      transform: scale(.95) translateY(-4px);
+      transition: opacity 180ms ease, transform 180ms ease;
+      pointer-events: none;
     }
+    .popover.visible {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      pointer-events: all;
+    }
+    .popover::-webkit-scrollbar { width: 4px; }
+    .popover::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 99px; }
 
     .popover.right::before { content:''; position:absolute; left:-9px; top:20px; width:0; height:0; border-top:8px solid transparent; border-bottom:8px solid transparent; border-right:9px solid rgba(255,255,255,.14); }
     .popover.right::after  { content:''; position:absolute; left:-7px; top:21px; width:0; height:0; border-top:7px solid transparent; border-bottom:7px solid transparent; border-right:8px solid var(--ink-2); }
     .popover.left::before  { content:''; position:absolute; right:-9px; top:20px; width:0; height:0; border-top:8px solid transparent; border-bottom:8px solid transparent; border-left:9px solid rgba(255,255,255,.14); }
     .popover.left::after   { content:''; position:absolute; right:-7px; top:21px; width:0; height:0; border-top:7px solid transparent; border-bottom:7px solid transparent; border-left:8px solid var(--ink-2); }
 
-    .pop-artist {
-      font-family: var(--ff);
-      font-size: 28px;
-      letter-spacing: .5px;
-      color: #fff;
-      margin-bottom: 12px;
-      line-height: 1;
-      word-break: break-word;
-    }
+    .pop-artist { font-family:var(--ff); font-size:28px; letter-spacing:.5px; color:#fff; margin-bottom:12px; line-height:1; word-break:break-word; }
+    .pop-row { font-size:12px; color:var(--mist-l); margin-bottom:7px; display:flex; gap:8px; align-items:flex-start; line-height:1.5; }
+    .pop-row i { color:var(--teal); flex-shrink:0; margin-top:1px; font-size:14px; }
+    .pop-row strong { color:#fff; }
+    .pop-actions { display:flex; flex-direction:column; gap:7px; margin-top:14px; }
+    .pop-btn-primary { padding:9px; border-radius:6px; background:var(--teal); color:var(--ink); font-size:12px; font-weight:600; font-family:var(--fb); text-align:left; transition:background .1s; }
+    .pop-btn-primary:hover { background:var(--teal-d); }
+    .pop-btn-secondary { padding:8px; border:1px solid rgba(255,255,255,.1); border-radius:6px; background:transparent; font-size:12px; color:#fff; font-family:var(--fb); text-align:left; transition:border-color .1s,color .1s; }
+    .pop-btn-secondary:hover { border-color:var(--teal); color:var(--teal); }
+    .pop-btn-close { padding:7px; border:1px solid rgba(255,255,255,.07); border-radius:6px; background:transparent; font-size:12px; color:var(--mist); font-family:var(--fb); }
 
-    .pop-row {
-      font-size: 12px;
-      color: var(--mist-l);
-      margin-bottom: 7px;
-      display: flex;
-      gap: 8px;
-      align-items: flex-start;
-      line-height: 1.5;
-    }
-    .pop-row i { color: var(--teal); flex-shrink: 0; margin-top: 1px; font-size: 14px; }
-    .pop-row strong { color: #fff; }
-
-    .pop-actions { display: flex; flex-direction: column; gap: 7px; margin-top: 14px; }
-
-    .pop-btn-primary {
-      padding: 9px; border: none; border-radius: 6px;
-      background: var(--teal); color: var(--ink);
-      font-size: 12px; font-weight: 600; font-family: var(--fb); text-align: left;
-    }
-    .pop-btn-primary:hover { background: var(--teal-d); }
-
-    .pop-btn-secondary {
-      padding: 8px; border: 1px solid rgba(255,255,255,.1); border-radius: 6px;
-      background: transparent; font-size: 12px; color: #fff;
-      font-family: var(--fb); text-align: left;
-    }
-    .pop-btn-secondary:hover { border-color: var(--teal); color: var(--teal); }
-
-    .pop-btn-close {
-      padding: 7px; border: 1px solid rgba(255,255,255,.07); border-radius: 6px;
-      background: transparent; font-size: 12px; color: var(--mist); font-family: var(--fb);
-    }
-
-    /* ── ARTIST PROFILE POPOVER ───────────────────────────────────────────── */
-    .artist-pop {
+    /* artist/venue desktop popovers */
+    .artist-pop, .venue-pop {
       position: absolute; z-index: 60; width: 300px;
       background: var(--ink-2); border: 1px solid rgba(255,255,255,.14);
       border-radius: 12px; padding: 20px;
       box-shadow: 0 12px 40px rgba(0,0,0,.7);
       max-height: 420px; overflow-y: auto;
+      opacity: 0;
+      transform: scale(.95) translateY(-4px);
+      transition: opacity 180ms ease, transform 180ms ease;
+      pointer-events: none;
     }
-    .artist-pop::-webkit-scrollbar { width: 4px; }
-    .artist-pop::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 99px; }
-    .artist-pop.right::before { content:''; position:absolute; left:-9px; top:20px; width:0; height:0; border-top:8px solid transparent; border-bottom:8px solid transparent; border-right:9px solid rgba(255,255,255,.14); }
-    .artist-pop.right::after  { content:''; position:absolute; left:-7px; top:21px; width:0; height:0; border-top:7px solid transparent; border-bottom:7px solid transparent; border-right:8px solid var(--ink-2); }
-    .artist-pop.left::before  { content:''; position:absolute; right:-9px; top:20px; width:0; height:0; border-top:8px solid transparent; border-bottom:8px solid transparent; border-left:9px solid rgba(255,255,255,.14); }
-    .artist-pop.left::after   { content:''; position:absolute; right:-7px; top:21px; width:0; height:0; border-top:7px solid transparent; border-bottom:7px solid transparent; border-left:8px solid var(--ink-2); }
+    .artist-pop.visible, .venue-pop.visible {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      pointer-events: all;
+    }
+    .artist-pop::-webkit-scrollbar, .venue-pop::-webkit-scrollbar { width: 4px; }
+    .artist-pop::-webkit-scrollbar-thumb, .venue-pop::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 99px; }
 
-    .ap-header { display:flex; align-items:flex-start; gap:12px; margin-bottom:14px; }
-    .ap-avatar {
-      width:44px; height:44px; border-radius:8px;
-      background: linear-gradient(135deg, var(--teal-d), var(--ink-3));
-      display:flex; align-items:center; justify-content:center;
-      font-family:var(--ff); font-size:18px; color:#fff;
-      flex-shrink:0; letter-spacing:1px;
-    }
-    .ap-name { font-family:var(--ff); font-size:24px; letter-spacing:.5px; color:#fff; line-height:1; margin-bottom:4px; word-break:break-word; }
-    .ap-meta { font-size:11px; color:var(--mist); }
-    .ap-bio { font-size:12px; color:var(--mist-l); line-height:1.6; margin-bottom:12px; }
-    .ap-gig-count {
-      display:inline-flex; align-items:center; gap:5px;
-      font-size:11px; font-weight:600;
-      color:var(--teal); background:var(--teal-l);
-      border:1px solid var(--teal); border-radius:99px;
-      padding:2px 9px; margin-bottom:12px;
-    }
-    .ap-socials { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
-    .ap-social-btn {
-      display:inline-flex; align-items:center; gap:4px;
-      font-size:11px; font-weight:500;
-      padding:4px 10px; border-radius:6px;
-      border:1px solid rgba(255,255,255,.1);
-      background:rgba(255,255,255,.04);
-      color:var(--mist-l); text-decoration:none;
-      transition:border-color .1s, color .1s;
-    }
-    .ap-social-btn:hover { border-color:var(--teal); color:var(--teal); }
-    .ap-social-btn i { font-size:13px; }
-    .ap-actions { display:flex; flex-direction:column; gap:6px; }
-    .ap-filter-btn {
-      padding:8px; border:1px solid rgba(255,255,255,.1); border-radius:6px;
-      background:transparent; font-size:12px; color:#fff;
-      font-family:var(--fb); text-align:left; cursor:pointer;
-    }
-    .ap-filter-btn:hover { border-color:var(--teal); color:var(--teal); }
-    .ap-close-btn {
-      padding:7px; border:1px solid rgba(255,255,255,.07); border-radius:6px;
-      background:transparent; font-size:12px; color:var(--mist);
-      font-family:var(--fb); cursor:pointer;
-    }
+    .artist-pop.right::before,.venue-pop.right::before { content:''; position:absolute; left:-9px; top:20px; width:0; height:0; border-top:8px solid transparent; border-bottom:8px solid transparent; border-right:9px solid rgba(255,255,255,.14); }
+    .artist-pop.right::after,.venue-pop.right::after   { content:''; position:absolute; left:-7px; top:21px; width:0; height:0; border-top:7px solid transparent; border-bottom:7px solid transparent; border-right:8px solid var(--ink-2); }
+    .artist-pop.left::before,.venue-pop.left::before   { content:''; position:absolute; right:-9px; top:20px; width:0; height:0; border-top:8px solid transparent; border-bottom:8px solid transparent; border-left:9px solid rgba(255,255,255,.14); }
+    .artist-pop.left::after,.venue-pop.left::after     { content:''; position:absolute; right:-7px; top:21px; width:0; height:0; border-top:7px solid transparent; border-bottom:7px solid transparent; border-left:8px solid var(--ink-2); }
 
-    /* ── VENUE PROFILE POPOVER ────────────────────────────────────────────── */
-    .venue-pop {
-      position:absolute; z-index:60; width:300px;
-      background:var(--ink-2); border:1px solid rgba(255,255,255,.14);
-      border-radius:12px; padding:20px;
-      box-shadow:0 12px 40px rgba(0,0,0,.7);
-      max-height:420px; overflow-y:auto;
-    }
-    .venue-pop::-webkit-scrollbar { width:4px; }
-    .venue-pop::-webkit-scrollbar-thumb { background:rgba(255,255,255,.15); border-radius:99px; }
-    .venue-pop.right::before { content:''; position:absolute; left:-9px; top:20px; width:0; height:0; border-top:8px solid transparent; border-bottom:8px solid transparent; border-right:9px solid rgba(255,255,255,.14); }
-    .venue-pop.right::after  { content:''; position:absolute; left:-7px; top:21px; width:0; height:0; border-top:7px solid transparent; border-bottom:7px solid transparent; border-right:8px solid var(--ink-2); }
-    .venue-pop.left::before  { content:''; position:absolute; right:-9px; top:20px; width:0; height:0; border-top:8px solid transparent; border-bottom:8px solid transparent; border-left:9px solid rgba(255,255,255,.14); }
-    .venue-pop.left::after   { content:''; position:absolute; right:-7px; top:21px; width:0; height:0; border-top:7px solid transparent; border-bottom:7px solid transparent; border-left:8px solid var(--ink-2); }
+    /* desktop-only popover subcomponents (match sheet styles above) */
+    .ap-header-d { display:flex; align-items:flex-start; gap:12px; margin-bottom:14px; }
+    .ap-avatar-d { width:44px; height:44px; border-radius:8px; background:linear-gradient(135deg,var(--teal-d),var(--ink-3)); display:flex; align-items:center; justify-content:center; font-family:var(--ff); font-size:18px; color:#fff; flex-shrink:0; letter-spacing:1px; }
+    .ap-name-d  { font-family:var(--ff); font-size:24px; letter-spacing:.5px; color:#fff; line-height:1; margin-bottom:4px; word-break:break-word; }
+    .ap-meta-d  { font-size:11px; color:var(--mist); }
+    .ap-bio-d   { font-size:12px; color:var(--mist-l); line-height:1.6; margin-bottom:12px; }
+    .ap-gig-d   { display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:600; color:var(--teal); background:var(--teal-l); border:1px solid var(--teal); border-radius:99px; padding:2px 9px; margin-bottom:12px; }
+    .ap-socials-d { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
+    .ap-social-d  { display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:500; padding:4px 10px; border-radius:6px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.04); color:var(--mist-l); text-decoration:none; transition:border-color .1s,color .1s; }
+    .ap-social-d:hover { border-color:var(--teal); color:var(--teal); }
+    .ap-social-d i { font-size:13px; }
+    .ap-actions-d { display:flex; flex-direction:column; gap:6px; }
+    .ap-filter-d  { padding:8px; border:1px solid rgba(255,255,255,.1); border-radius:6px; background:transparent; font-size:12px; color:#fff; font-family:var(--fb); text-align:left; cursor:pointer; transition:border-color .1s,color .1s; }
+    .ap-filter-d:hover { border-color:var(--teal); color:var(--teal); }
+    .ap-close-d   { padding:7px; border:1px solid rgba(255,255,255,.07); border-radius:6px; background:transparent; font-size:12px; color:var(--mist); font-family:var(--fb); cursor:pointer; }
+    .vp-filter-d  { padding:8px; border:none; border-radius:6px; background:var(--teal); color:var(--ink); cursor:pointer; font-size:12px; font-weight:600; font-family:var(--fb); text-align:left; transition:background .1s; }
+    .vp-filter-d:hover { background:var(--teal-d); }
+    .vp-dir-d     { padding:8px; border:1px solid rgba(255,255,255,.1); border-radius:6px; background:transparent; cursor:pointer; font-size:12px; color:#fff; font-family:var(--fb); text-align:left; text-decoration:none; display:block; transition:border-color .1s,color .1s; }
+    .vp-dir-d:hover { border-color:var(--teal); color:var(--teal); }
+    .vp-close-d   { padding:7px; border:1px solid rgba(255,255,255,.07); border-radius:6px; background:transparent; cursor:pointer; font-size:12px; color:var(--mist); font-family:var(--fb); }
+    .vp-gig-d     { display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:600; color:var(--gold); background:rgba(242,183,49,.1); border:1px solid rgba(242,183,49,.3); border-radius:99px; padding:2px 9px; margin-bottom:12px; }
+    .vp-links-d   { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
+    .vp-link-d    { display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:500; padding:4px 10px; border-radius:6px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.04); color:var(--mist-l); text-decoration:none; transition:border-color .1s,color .1s; }
+    .vp-link-d:hover { border-color:var(--teal); color:var(--teal); }
+    .vp-link-d i { font-size:13px; }
 
-    .vp-header { margin-bottom:12px; }
-    .vp-name { font-family:var(--ff); font-size:24px; letter-spacing:.5px; color:#fff; line-height:1.1; margin-bottom:4px; word-break:break-word; }
-    .vp-meta { font-size:11px; color:var(--mist); display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
-    .vp-type-badge {
-      font-size:10px; font-weight:600;
-      padding:2px 7px; border-radius:4px;
-      background:var(--teal-l); color:var(--teal); border:1px solid var(--teal);
-    }
-    .vp-notes { font-size:12px; color:var(--mist-l); line-height:1.6; margin-bottom:12px; }
-    .vp-gig-count {
-      display:inline-flex; align-items:center; gap:5px;
-      font-size:11px; font-weight:600;
-      color:var(--gold); background:rgba(242,183,49,.1);
-      border:1px solid rgba(242,183,49,.3); border-radius:99px;
-      padding:2px 9px; margin-bottom:12px;
-    }
-    .vp-links { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
-    .vp-link-btn {
-      display:inline-flex; align-items:center; gap:4px;
-      font-size:11px; font-weight:500;
-      padding:4px 10px; border-radius:6px;
-      border:1px solid rgba(255,255,255,.1);
-      background:rgba(255,255,255,.04);
-      color:var(--mist-l); text-decoration:none;
-      transition:border-color .1s, color .1s;
-    }
-    .vp-link-btn:hover { border-color:var(--teal); color:var(--teal); }
-    .vp-link-btn i { font-size:13px; }
-    .vp-actions { display:flex; flex-direction:column; gap:6px; }
-    .vp-filter-btn {
-      padding:8px; border:none; border-radius:6px;
-      background:var(--teal); color:var(--ink);
-      cursor:pointer; font-size:12px; font-weight:600;
-      font-family:var(--fb); text-align:left;
-    }
-    .vp-filter-btn:hover { background:var(--teal-d); }
-    .vp-dir-btn {
-      padding:8px; border:1px solid rgba(255,255,255,.1); border-radius:6px;
-      background:transparent; cursor:pointer; font-size:12px;
-      color:#fff; font-family:var(--fb); text-align:left;
-    }
-    .vp-dir-btn:hover { border-color:var(--teal); color:var(--teal); }
-    .vp-close-btn {
-      padding:7px; border:1px solid rgba(255,255,255,.07); border-radius:6px;
-      background:transparent; cursor:pointer; font-size:12px;
-      color:var(--mist); font-family:var(--fb);
-    }
-
-    /* ── SHOW EARLIER BUTTON ──────────────────────────────────────────────── */
-    .show-earlier-btn {
-      display:flex; align-items:center; gap:6px;
-      width:100%; padding:8px 24px;
-      background:none; border:none;
-      border-bottom:1px solid rgba(255,255,255,.04);
-      font-size:12px; color:var(--mist);
-      font-family:var(--fb); text-align:left; cursor:pointer;
-      transition:color .1s, background-color .1s;
-    }
-    .show-earlier-btn:hover { color:var(--teal); background-color:rgba(10,175,204,.06); }
-    .show-earlier-btn i { font-size:13px; flex-shrink:0; }
+    .cal-container { position: relative; }
 
     /* ── EMPTY STATE ───────────────────────────────────────────────────────── */
-    .empty-state { padding:56px 24px; text-align:center; }
+    .empty-state { padding: 56px 24px; text-align: center; }
     .empty-title { font-family:var(--ff); font-size:32px; color:var(--mist); letter-spacing:1px; margin-bottom:8px; }
-    .empty-sub { font-size:13px; color:var(--mist); margin-bottom:16px; }
-    .empty-clear {
-      background:var(--teal); color:var(--ink); border:none; border-radius:6px;
-      padding:9px 22px; font-size:13px; font-weight:600; font-family:var(--fb);
-    }
+    .empty-sub   { font-size:13px; color:var(--mist); margin-bottom:16px; }
+    .empty-clear { background:var(--teal); color:var(--ink); border-radius:8px; padding:12px 24px; font-size:14px; font-weight:600; font-family:var(--fb); min-height:48px; }
 
     /* ── FOOTER ────────────────────────────────────────────────────────────── */
     .footer {
-      padding:24px; border-top:1px solid rgba(255,255,255,.06);
-      text-align:center; font-size:12px; color:var(--mist); margin-top:40px;
+      padding: 24px 16px;
+      padding-left: max(16px, var(--safe-l));
+      padding-right: max(16px, var(--safe-r));
+      padding-bottom: max(24px, var(--safe-b));
+      border-top: 1px solid rgba(255,255,255,.06);
+      text-align: center;
+      font-size: 12px;
+      color: var(--mist);
+      margin-top: 40px;
     }
-    .footer a { color:var(--teal); text-decoration:none; }
-    .footer a:hover { text-decoration:underline; }
+    .footer a { color: var(--teal); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
 
     /* ── RESPONSIVE ────────────────────────────────────────────────────────── */
-    @media (max-width: 600px) {
-      .nav-links { display:none; }
-      .hero { padding:32px 16px 24px; }
-      .stats .stat { padding:12px 16px; }
-      .filter-bar { padding:10px 16px; }
-      .more-filters { padding:8px 16px 10px; }
-      .results-bar { padding:8px 16px; }
-      .day-header { padding:9px 16px; }
-      .gig-row { padding:10px 16px; }
-      .card-grid { grid-template-columns:1fr 1fr; }
-      .popover { width:calc(100vw - 32px); max-width:300px; }
+    @media (max-width: 767px) {
+      .nav-links { display: none; }
+      .nav-cta   { display: none; }
+      .hero-sub  { display: none; }
+      .card-grid { grid-template-columns: 1fr; }
+      /* desktop popovers never show on mobile */
+      .popover, .artist-pop, .venue-pop { display: none !important; }
+    }
+
+    @media (min-width: 768px) {
+      /* bottom sheets never show on desktop */
+      .sheet-overlay { display: none !important; }
+      .bottom-sheet  { display: none !important; }
+      .stats .stat { padding: 14px 24px; text-align: left; }
+      .stat-n { font-size: 38px; }
+      .stat-l { font-size: 11px; }
+      .day-header { padding: 10px 24px; }
+      .gig-row { padding: 12px 24px; grid-template-columns: 64px 1fr auto; }
+      .show-earlier-btn { padding: 8px 24px; }
+      .filter-bar { padding: 12px 24px; overflow-x: visible; }
+      .filter-bar input { min-width: 180px; max-width: 280px; }
+      .results-bar { padding: 9px 24px; }
+      .hero { padding: 48px 24px 32px; }
+      .hero-sub { display: block; }
+      .nav { padding: 0 24px; }
+      .footer { padding: 24px; }
+    }
+
+    @media (min-width: 1024px) {
+      .card-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
     }
   </style>
 </head>
@@ -733,25 +948,28 @@
   <header class="hero">
     <p class="hero-kicker">Niagara Region · Ontario · Canada</p>
     <h1 class="hero-title">LIVE MUSIC<br><span>THIS WEEK</span></h1>
-    <p class="hero-sub">Every confirmed gig from Grimsby to Fort Erie — wineries, bars, legions, breweries, and festival stages. Click any gig for details right where you clicked.</p>
+    <p class="hero-sub">Every confirmed gig from Grimsby to Fort Erie — wineries, bars, legions, breweries, and festival stages. Click any gig for details.</p>
     <div class="week-ctrl">
-      <button class="week-btn" id="prev-week" aria-label="Previous week"><i class="ti ti-arrow-left" aria-hidden="true"></i></button>
+      <button class="week-btn" id="prev-week" aria-label="Previous week"><i class="ti ti-arrow-left"></i></button>
       <time class="week-label" id="week-label" aria-live="polite"></time>
-      <button class="week-btn" id="next-week" aria-label="Next week"><i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+      <button class="week-btn" id="next-week" aria-label="Next week"><i class="ti ti-arrow-right"></i></button>
       <button class="today-btn" id="this-week">This week</button>
     </div>
   </header>
 
   <!-- ── STATS ─────────────────────────────────────────────────────────────── -->
   <section class="stats" aria-label="This week's summary">
-    <div class="stat"><div class="stat-n" id="stat-gigs">0</div><div class="stat-l">Gigs this week</div></div>
+    <div class="stat"><div class="stat-n" id="stat-gigs">0</div><div class="stat-l">Gigs</div></div>
     <div class="stat"><div class="stat-n" id="stat-venues">0</div><div class="stat-l">Venues</div></div>
     <div class="stat"><div class="stat-n" id="stat-cities">0</div><div class="stat-l">Cities</div></div>
   </section>
 
   <!-- ── FILTERS ───────────────────────────────────────────────────────────── -->
   <div class="filter-bar" role="search">
-    <input type="text" id="search" placeholder="Search artist or venue…" aria-label="Search by artist or venue">
+    <div class="filter-search-wrap">
+      <i class="ti ti-search"></i>
+      <input type="text" id="search" placeholder="Artist or venue…" aria-label="Search by artist or venue" autocomplete="off" autocorrect="off" spellcheck="false">
+    </div>
     <select id="filter-city" aria-label="Filter by city">
       <option value="">All cities</option>
       <option>St. Catharines</option>
@@ -765,29 +983,11 @@
       <option>Port Colborne</option>
       <option>Thorold</option>
     </select>
-    <button class="more-btn" id="more-btn" aria-expanded="false" aria-controls="more-filters">
-      <i class="ti ti-sliders" aria-hidden="true"></i>
-      More filters
-      <span class="more-count" id="more-count" aria-label="active filters"></span>
+    <button class="filter-pill-btn" id="more-btn" aria-label="More filters">
+      <i class="ti ti-sliders"></i>
+      <span class="more-count" id="more-count"></span>
     </button>
-    <button class="clear-btn" id="clear-btn"><i class="ti ti-x" aria-hidden="true"></i> Clear</button>
-  </div>
-
-  <div class="more-filters" id="more-filters" role="region" aria-label="Additional filters">
-    <select id="filter-venue" aria-label="Filter by venue"><option value="">All venues</option></select>
-    <select id="filter-genre" aria-label="Filter by genre">
-      <option value="">All genres</option>
-      <option>Acoustic</option><option>Blues</option><option>Celtic</option>
-      <option>Classic Rock</option><option>Country</option><option>Covers</option>
-      <option>Folk</option><option>Jazz</option><option>Latin</option>
-      <option>Rock</option><option>Soul</option><option>Tribute</option>
-    </select>
-    <select id="filter-type" aria-label="Filter by venue type">
-      <option value="">All types</option>
-      <option>Bar / Pub</option><option>Brewery</option><option>Concert Hall</option>
-      <option>Distillery</option><option>Festival Stage</option><option>Legion</option>
-      <option>Resort / Event Centre</option><option>Winery</option>
-    </select>
+    <button class="clear-btn" id="clear-btn" aria-label="Clear filters"><i class="ti ti-x"></i></button>
   </div>
 
   <!-- ── RESULTS BAR ────────────────────────────────────────────────────────── -->
@@ -797,8 +997,8 @@
       <span id="venue-tag"></span>
     </div>
     <div class="view-toggle" role="group" aria-label="View style">
-      <button class="view-btn" id="btn-card" aria-label="Card view"><i class="ti ti-layout-grid" aria-hidden="true"></i> Cards</button>
-      <button class="view-btn active" id="btn-list" aria-label="List view"><i class="ti ti-list" aria-hidden="true"></i> List</button>
+      <button class="view-btn" id="btn-card" aria-label="Card view"><i class="ti ti-layout-grid"></i> <span class="view-lbl">Cards</span></button>
+      <button class="view-btn active" id="btn-list" aria-label="List view"><i class="ti ti-list"></i> <span class="view-lbl">List</span></button>
     </div>
   </div>
 
@@ -813,7 +1013,16 @@
     <p style="margin-top:5px">Know of a gig not listed? <a href="mailto:hello@niagaramusicscene.ca">Email us</a></p>
   </footer>
 
-  <!-- ── DATA — loaded from separate files for easy weekly updates ──────────── -->
+  <!-- ── BOTTOM SHEET OVERLAY ──────────────────────────────────────────────── -->
+  <div class="sheet-overlay" id="sheet-overlay"></div>
+
+  <!-- ── BOTTOM SHEET ───────────────────────────────────────────────────────── -->
+  <div class="bottom-sheet" id="bottom-sheet" role="dialog" aria-modal="true" aria-label="Details">
+    <div class="sheet-handle"></div>
+    <div class="sheet-content" id="sheet-content"></div>
+  </div>
+
+  <!-- ── DATA ───────────────────────────────────────────────────────────────── -->
   <script src="data/gigs.js"></script>
   <script src="data/artists.js"></script>
   <script src="data/venues.js"></script>
@@ -828,26 +1037,28 @@
     const BASE_DATE = new Date(2026, 5, 4); // June 4 2026
     const TODAY_DOW = BASE_DATE.getDay();
 
-    // For the live site use: const NOW = new Date();
-    const NOW = new Date();
-    const NOW_MINUTES = NOW.getHours() * 60 + NOW.getMinutes();
-    const LOOKBACK_MINUTES = 3 * 60;
+    const NOW          = new Date();
+    const NOW_MINUTES  = NOW.getHours() * 60 + NOW.getMinutes();
+    const LOOKBACK_MIN = 180;
 
     let viewMode    = 'list';
     let weekOffset  = 0;
     let activeVenue = '';
-    let moreOpen    = false;
     const showEarlierDays = new Set();
 
+    // ── Breakpoint helper ─────────────────────────────────────────────────────
+    const isMobile = () => window.innerWidth < 768;
+
+    // ── Time parsing ──────────────────────────────────────────────────────────
     function parseTime(t) {
       if (!t) return 840;
       const m = t.match(/(\d+)(?::(\d+))?\s*(am|pm)/i);
       if (!m) return 0;
-      let h = +m[1], min = +(m[2] || 0);
-      const ap = (m[3] || '').toLowerCase();
-      if (ap === 'pm' && h !== 12) h += 12;
-      if (ap === 'am' && h === 12) h = 0;
-      return h * 60 + min;
+      let h = +m[1], min = +(m[2]||0);
+      const ap = (m[3]||'').toLowerCase();
+      if (ap==='pm' && h!==12) h+=12;
+      if (ap==='am' && h===12) h=0;
+      return h*60+min;
     }
 
     const PILL_MAP = {
@@ -860,212 +1071,390 @@
 
     function getWeekDates() {
       const s = new Date(BASE_DATE);
-      s.setDate(BASE_DATE.getDate() - BASE_DATE.getDay() + weekOffset * 7);
-      return Array.from({length:7},(_,i) => { const d=new Date(s); d.setDate(s.getDate()+i); return d; });
+      s.setDate(BASE_DATE.getDate() - BASE_DATE.getDay() + weekOffset*7);
+      return Array.from({length:7},(_,i)=>{ const d=new Date(s); d.setDate(s.getDate()+i); return d; });
     }
 
     function filteredGigs() {
       const q  = document.getElementById('search').value.toLowerCase().trim();
       const fc = document.getElementById('filter-city').value;
-      const fg = document.getElementById('filter-genre').value;
-      const ft = document.getElementById('filter-type').value;
-      return GIGS.filter(g =>
+      const fg = _filterGenre;
+      const ft = _filterType;
+      const fv = _filterVenue;
+      return GIGS.filter(g=>
         (!q  || g.a.toLowerCase().includes(q) || g.v.toLowerCase().includes(q)) &&
-        (!activeVenue || g.v.trim() === activeVenue) &&
-        (!fc || g.c === fc) && (!fg || g.g === fg) && (!ft || g.t === ft)
+        (!activeVenue || g.v.trim()===activeVenue) &&
+        (!fc || g.c===fc) && (!fg || g.g===fg) && (!ft || g.t===ft) &&
+        (!fv || g.v.trim()===fv)
       );
     }
 
-    // ── Popover close helpers ─────────────────────────────────────────────────
-    function closePopover()      { const el=document.getElementById('cal-wrap').querySelector('.popover');    if(el)el.remove(); }
-    function closeArtistProfile(){ const el=document.getElementById('cal-wrap').querySelector('.artist-pop'); if(el)el.remove(); }
-    function closeVenueProfile() { const el=document.getElementById('cal-wrap').querySelector('.venue-pop');  if(el)el.remove(); }
+    // ── Filter state (replaces selects on mobile) ─────────────────────────────
+    let _filterGenre = '';
+    let _filterType  = '';
+    let _filterVenue = '';
 
-    // ── Popover positioning ───────────────────────────────────────────────────
+    // ── Bottom sheet ──────────────────────────────────────────────────────────
+    let _sheetOpen = false;
+    let _touchStartY = 0;
+    let _touchCurrentY = 0;
+
+    function openSheet(html, label) {
+      const overlay = document.getElementById('sheet-overlay');
+      const sheet   = document.getElementById('bottom-sheet');
+      const content = document.getElementById('sheet-content');
+      content.innerHTML = html;
+      sheet.setAttribute('aria-label', label||'Details');
+      overlay.classList.add('visible');
+      sheet.classList.add('open');
+      document.body.classList.add('sheet-open');
+      _sheetOpen = true;
+    }
+
+    function closeSheet() {
+      const overlay = document.getElementById('sheet-overlay');
+      const sheet   = document.getElementById('bottom-sheet');
+      overlay.classList.remove('visible');
+      sheet.classList.remove('open');
+      document.body.classList.remove('sheet-open');
+      _sheetOpen = false;
+    }
+
+    // swipe-to-dismiss
+    const _sheet = document.getElementById('bottom-sheet');
+    _sheet.addEventListener('touchstart', e => { _touchStartY = e.touches[0].clientY; }, {passive:true});
+    _sheet.addEventListener('touchmove', e => {
+      const dy = e.touches[0].clientY - _touchStartY;
+      if (dy > 0) {
+        _sheet.style.transform = `translateY(${dy}px)`;
+        _sheet.style.transition = 'none';
+      }
+    }, {passive:true});
+    _sheet.addEventListener('touchend', e => {
+      const dy = e.changedTouches[0].clientY - _touchStartY;
+      _sheet.style.transition = '';
+      _sheet.style.transform  = '';
+      if (dy > 80) closeSheet();
+    });
+
+    document.getElementById('sheet-overlay').addEventListener('click', closeSheet);
+
+    // ── Desktop popover helpers ───────────────────────────────────────────────
+    function removeDesktopPopovers() {
+      document.querySelectorAll('.popover,.artist-pop,.venue-pop').forEach(el=>el.remove());
+    }
+
     function positionPop(pop, event, popW) {
       const wrap     = document.getElementById('cal-wrap');
       const wrapRect = wrap.getBoundingClientRect();
       const trigRect = event.currentTarget.getBoundingClientRect();
       const topOff   = trigRect.top - wrapRect.top + wrap.scrollTop;
-      const spaceRight = wrapRect.width - (trigRect.right - wrapRect.left);
-      const spaceLeft  = trigRect.left  - wrapRect.left;
+      const spaceR   = wrapRect.width - (trigRect.right - wrapRect.left);
+      const spaceL   = trigRect.left  - wrapRect.left;
 
-      if (spaceRight >= popW + 20) {
-        pop.style.left = (trigRect.right - wrapRect.left + 12) + 'px';
+      if (spaceR >= popW+20) {
+        pop.style.left = (trigRect.right - wrapRect.left + 12)+'px';
         pop.classList.add('right');
-      } else if (spaceLeft >= popW + 20) {
-        pop.style.left = (trigRect.left - wrapRect.left - popW - 12) + 'px';
+      } else if (spaceL >= popW+20) {
+        pop.style.left = (trigRect.left - wrapRect.left - popW - 12)+'px';
         pop.classList.add('left');
       } else {
-        const cx = trigRect.left - wrapRect.left + trigRect.width / 2;
-        pop.style.left = Math.max(8, Math.min(cx - popW/2, wrapRect.width - popW - 8)) + 'px';
-        pop.style.top  = (topOff + trigRect.height + 6) + 'px';
+        const cx = trigRect.left - wrapRect.left + trigRect.width/2;
+        pop.style.left = Math.max(8, Math.min(cx-popW/2, wrapRect.width-popW-8))+'px';
+        pop.style.top  = (topOff + trigRect.height + 6)+'px';
       }
-      if (!pop.style.top) pop.style.top = Math.max(4, topOff - 4) + 'px';
+      if (!pop.style.top) pop.style.top = Math.max(4, topOff-4)+'px';
+      requestAnimationFrame(()=>pop.classList.add('visible'));
     }
 
-    // ── Gig detail popover ────────────────────────────────────────────────────
-    function openPopover(event, dow, idx) {
+    // ── GIG DETAIL ───────────────────────────────────────────────────────────
+    function openGigDetail(event, dow, idx) {
       event.stopPropagation();
       const gigs = filteredGigs().filter(g=>g.d===dow).sort((a,b)=>parseTime(a.tm)-parseTime(b.tm));
       const g = gigs[idx];
       if (!g) return;
-      closePopover();
+
       const days = getWeekDates();
       const d = days.find(x=>x.getDay()===dow)||days[0];
       const ve = g.v.replace(/'/g,"\\'");
+      const ae = g.a.replace(/'/g,"\\'");
 
-      const pop = document.createElement('div');
-      pop.className = 'popover';
-      pop.setAttribute('role','dialog'); pop.setAttribute('aria-modal','true');
-      pop.setAttribute('aria-label',`${g.a} at ${g.v}`);
-      pop.innerHTML = `
-        <div class="pop-artist">${g.a}</div>
-        <div class="pop-row"><i class="ti ti-map-pin"></i><span><strong>${g.v}</strong> · ${g.c}</span></div>
-        <div class="pop-row"><i class="ti ti-clock"></i><span>${DAYS[dow]}, ${MONTHS[d.getMonth()]} ${d.getDate()} · ${g.tm}</span></div>
-        <div class="pop-row"><i class="ti ti-music"></i><span>${pill(g.g)} · ${g.t}</span></div>
-        ${g.n?`<div class="pop-row"><i class="ti ti-info-circle"></i><span>${g.n}</span></div>`:''}
-        <div class="pop-actions">
-          <button class="pop-btn-primary" onclick="window.open('https://www.google.com/search?q=${encodeURIComponent(g.a)}+Niagara+band','_blank')">
-            <i class="ti ti-search"></i> Search ${g.a.split(' ')[0]} online
-          </button>
-          <button class="pop-btn-secondary" onclick="closePopover();openVenueProfile(event,'${ve}')">
-            <i class="ti ti-building"></i> View ${g.v}
-          </button>
-          <button class="pop-btn-close" onclick="closePopover()">Close</button>
-        </div>`;
-
-      document.getElementById('cal-wrap').appendChild(pop);
-      positionPop(pop, event, 290);
+      if (isMobile()) {
+        openSheet(`
+          <div class="sheet-artist">${g.a}</div>
+          <div class="sheet-row"><i class="ti ti-map-pin"></i><span><strong>${g.v}</strong> · ${g.c}</span></div>
+          <div class="sheet-row"><i class="ti ti-clock"></i><span>${DAYS[dow]}, ${MONTHS[d.getMonth()]} ${d.getDate()} · ${g.tm}</span></div>
+          <div class="sheet-row"><i class="ti ti-music"></i><span>${pill(g.g)} · ${g.t}</span></div>
+          ${g.n?`<div class="sheet-row"><i class="ti ti-info-circle"></i><span>${g.n}</span></div>`:''}
+          <div class="sheet-actions">
+            <button class="sheet-btn-primary" onclick="window.open('https://www.google.com/search?q=${encodeURIComponent(g.a)}+Niagara+band','_blank')">
+              <i class="ti ti-search"></i> Search ${g.a.split(' ')[0]} online
+            </button>
+            <button class="sheet-btn-secondary" onclick="closeSheet();openVenueDetail(event,'${ve}')">
+              <i class="ti ti-building"></i> View ${g.v}
+            </button>
+            <button class="sheet-btn-secondary" onclick="closeSheet();openArtistDetail(event,'${ae}')">
+              <i class="ti ti-user"></i> View ${g.a.split(' ')[0]}
+            </button>
+            <button class="sheet-btn-close" onclick="closeSheet()">Close</button>
+          </div>`, g.a);
+      } else {
+        removeDesktopPopovers();
+        const pop = document.createElement('div');
+        pop.className = 'popover';
+        pop.innerHTML = `
+          <div class="pop-artist">${g.a}</div>
+          <div class="pop-row"><i class="ti ti-map-pin"></i><span><strong>${g.v}</strong> · ${g.c}</span></div>
+          <div class="pop-row"><i class="ti ti-clock"></i><span>${DAYS[dow]}, ${MONTHS[d.getMonth()]} ${d.getDate()} · ${g.tm}</span></div>
+          <div class="pop-row"><i class="ti ti-music"></i><span>${pill(g.g)} · ${g.t}</span></div>
+          ${g.n?`<div class="pop-row"><i class="ti ti-info-circle"></i><span>${g.n}</span></div>`:''}
+          <div class="pop-actions">
+            <button class="pop-btn-primary" onclick="window.open('https://www.google.com/search?q=${encodeURIComponent(g.a)}+Niagara+band','_blank')">
+              <i class="ti ti-search"></i> Search ${g.a.split(' ')[0]} online
+            </button>
+            <button class="pop-btn-secondary" onclick="removeDesktopPopovers();openVenueDetail(event,'${ve}')">
+              <i class="ti ti-building"></i> View ${g.v}
+            </button>
+            <button class="pop-btn-close" onclick="removeDesktopPopovers()">Close</button>
+          </div>`;
+        document.getElementById('cal-wrap').appendChild(pop);
+        positionPop(pop, event, 290);
+      }
     }
 
-    // ── Artist profile popover ────────────────────────────────────────────────
-    function openArtistProfile(event, artistName) {
-      event.stopPropagation();
-      closeArtistProfile(); closePopover();
-      const p = (typeof ARTIST_PROFILES !== 'undefined' && ARTIST_PROFILES[artistName]) || {};
+    // ── ARTIST DETAIL ─────────────────────────────────────────────────────────
+    function openArtistDetail(event, artistName) {
+      if (event) event.stopPropagation();
+      const p = (typeof ARTIST_PROFILES!=='undefined' && ARTIST_PROFILES[artistName])||{};
       const gigs = GIGS.filter(g=>g.a===artistName);
       const initials = artistName.split(' ').map(w=>w[0]).filter(Boolean).slice(0,2).join('').toUpperCase();
       const ae = artistName.replace(/'/g,"\\'");
 
-      const socials = [];
-      if(p.fb)  socials.push(`<a class="ap-social-btn" href="${p.fb}"  target="_blank" rel="noopener"><i class="ti ti-brand-facebook"></i> Facebook</a>`);
-      if(p.ig)  socials.push(`<a class="ap-social-btn" href="${p.ig}"  target="_blank" rel="noopener"><i class="ti ti-brand-instagram"></i> Instagram</a>`);
-      if(p.yt)  socials.push(`<a class="ap-social-btn" href="${p.yt}"  target="_blank" rel="noopener"><i class="ti ti-brand-youtube"></i> YouTube</a>`);
-      if(p.sp)  socials.push(`<a class="ap-social-btn" href="${p.sp}"  target="_blank" rel="noopener"><i class="ti ti-brand-spotify"></i> Spotify</a>`);
-      if(p.web) socials.push(`<a class="ap-social-btn" href="${p.web}" target="_blank" rel="noopener"><i class="ti ti-world"></i> Website</a>`);
-      socials.push(`<a class="ap-social-btn" href="https://www.google.com/search?q=${encodeURIComponent(artistName+' Niagara band')}" target="_blank" rel="noopener"><i class="ti ti-search"></i> Search</a>`);
+      const socials = (cls,size) => {
+        const btns = [];
+        if(p.fb)  btns.push(`<a class="${cls}" href="${p.fb}"  target="_blank" rel="noopener"><i class="ti ti-brand-facebook" style="font-size:${size}px"></i> Facebook</a>`);
+        if(p.ig)  btns.push(`<a class="${cls}" href="${p.ig}"  target="_blank" rel="noopener"><i class="ti ti-brand-instagram" style="font-size:${size}px"></i> Instagram</a>`);
+        if(p.yt)  btns.push(`<a class="${cls}" href="${p.yt}"  target="_blank" rel="noopener"><i class="ti ti-brand-youtube" style="font-size:${size}px"></i> YouTube</a>`);
+        if(p.sp)  btns.push(`<a class="${cls}" href="${p.sp}"  target="_blank" rel="noopener"><i class="ti ti-brand-spotify" style="font-size:${size}px"></i> Spotify</a>`);
+        if(p.web) btns.push(`<a class="${cls}" href="${p.web}" target="_blank" rel="noopener"><i class="ti ti-world" style="font-size:${size}px"></i> Website</a>`);
+        btns.push(`<a class="${cls}" href="https://www.google.com/search?q=${encodeURIComponent(artistName+' Niagara band')}" target="_blank" rel="noopener"><i class="ti ti-search" style="font-size:${size}px"></i> Search</a>`);
+        return btns.join('');
+      };
 
-      const pop = document.createElement('div');
-      pop.className = 'artist-pop';
-      pop.setAttribute('role','dialog'); pop.setAttribute('aria-modal','true');
-      pop.setAttribute('aria-label', artistName + ' profile');
-      pop.innerHTML = `
-        <div class="ap-header">
-          <div class="ap-avatar">${initials}</div>
-          <div>
-            <div class="ap-name">${artistName}</div>
-            <div class="ap-meta">${p.city||''} ${p.genre?'· '+p.genre:''}</div>
+      if (isMobile()) {
+        openSheet(`
+          <div class="ap-header">
+            <div class="ap-avatar">${initials}</div>
+            <div>
+              <div class="ap-name">${artistName}</div>
+              <div class="ap-meta">${p.city||''} ${p.genre?'· '+p.genre:''}</div>
+            </div>
           </div>
-        </div>
-        ${p.bio?`<div class="ap-bio">${p.bio}</div>`:''}
-        <div class="ap-gig-count"><i class="ti ti-calendar" style="font-size:11px"></i> ${gigs.length} gig${gigs.length!==1?'s':''} this week</div>
-        <div class="ap-socials">${socials.join('')}</div>
-        <div class="ap-actions">
-          <button class="ap-filter-btn" onclick="closeArtistProfile();setArtistFilter('${ae}')">
-            <i class="ti ti-list"></i> See all gigs by ${artistName.split(' ')[0]}
-          </button>
-          <button class="ap-close-btn" onclick="closeArtistProfile()">Close</button>
-        </div>`;
-
-      document.getElementById('cal-wrap').appendChild(pop);
-      positionPop(pop, event, 300);
+          ${p.bio?`<div class="ap-bio">${p.bio}</div>`:''}
+          <div class="ap-gig-count"><i class="ti ti-calendar" style="font-size:12px"></i> ${gigs.length} gig${gigs.length!==1?'s':''} this week</div>
+          <div class="ap-socials">${socials('ap-social-btn',15)}</div>
+          <div class="sheet-actions">
+            <button class="sheet-btn-secondary" onclick="closeSheet();setArtistFilter('${ae}')">
+              <i class="ti ti-list"></i> All gigs by ${artistName.split(' ')[0]}
+            </button>
+            <button class="sheet-btn-close" onclick="closeSheet()">Close</button>
+          </div>`, artistName);
+      } else {
+        removeDesktopPopovers();
+        const pop = document.createElement('div');
+        pop.className = 'artist-pop';
+        pop.innerHTML = `
+          <div class="ap-header-d">
+            <div class="ap-avatar-d">${initials}</div>
+            <div>
+              <div class="ap-name-d">${artistName}</div>
+              <div class="ap-meta-d">${p.city||''} ${p.genre?'· '+p.genre:''}</div>
+            </div>
+          </div>
+          ${p.bio?`<div class="ap-bio-d">${p.bio}</div>`:''}
+          <div class="ap-gig-d"><i class="ti ti-calendar" style="font-size:11px"></i> ${gigs.length} gig${gigs.length!==1?'s':''} this week</div>
+          <div class="ap-socials-d">${socials('ap-social-d',13)}</div>
+          <div class="ap-actions-d">
+            <button class="ap-filter-d" onclick="removeDesktopPopovers();setArtistFilter('${ae}')">
+              <i class="ti ti-list"></i> All gigs by ${artistName.split(' ')[0]}
+            </button>
+            <button class="ap-close-d" onclick="removeDesktopPopovers()">Close</button>
+          </div>`;
+        document.getElementById('cal-wrap').appendChild(pop);
+        positionPop(pop, event, 300);
+      }
     }
 
-    // ── Venue profile popover ─────────────────────────────────────────────────
-    function openVenueProfile(event, venueName) {
-      event.stopPropagation();
-      closeVenueProfile(); closeArtistProfile(); closePopover();
-      const v = (typeof VENUE_PROFILES !== 'undefined' && VENUE_PROFILES[venueName]) || {};
+    // ── VENUE DETAIL ──────────────────────────────────────────────────────────
+    function openVenueDetail(event, venueName) {
+      if (event) event.stopPropagation();
+      const v = (typeof VENUE_PROFILES!=='undefined' && VENUE_PROFILES[venueName])||{};
       const gigs = GIGS.filter(g=>g.v===venueName);
       const ve = venueName.replace(/'/g,"\\'");
 
-      const links = [];
-      if(v.web) links.push(`<a class="vp-link-btn" href="${v.web}" target="_blank" rel="noopener"><i class="ti ti-world"></i> Website</a>`);
-      if(v.fb)  links.push(`<a class="vp-link-btn" href="${v.fb}"  target="_blank" rel="noopener"><i class="ti ti-brand-facebook"></i> Facebook</a>`);
-      if(v.ig)  links.push(`<a class="vp-link-btn" href="${v.ig}"  target="_blank" rel="noopener"><i class="ti ti-brand-instagram"></i> Instagram</a>`);
-
+      const links = (cls) => {
+        const l=[];
+        if(v.web) l.push(`<a class="${cls}" href="${v.web}" target="_blank" rel="noopener"><i class="ti ti-world"></i> Website</a>`);
+        if(v.fb)  l.push(`<a class="${cls}" href="${v.fb}"  target="_blank" rel="noopener"><i class="ti ti-brand-facebook"></i> Facebook</a>`);
+        if(v.ig)  l.push(`<a class="${cls}" href="${v.ig}"  target="_blank" rel="noopener"><i class="ti ti-brand-instagram"></i> Instagram</a>`);
+        return l.join('');
+      };
       const mapsUrl = v.address
         ? 'https://www.google.com/maps/search/'+encodeURIComponent(v.address)
         : 'https://www.google.com/maps/search/'+encodeURIComponent(venueName+' '+(v.city||'Niagara'));
 
-      const pop = document.createElement('div');
-      pop.className = 'venue-pop';
-      pop.setAttribute('role','dialog'); pop.setAttribute('aria-modal','true');
-      pop.setAttribute('aria-label', venueName + ' profile');
-      pop.innerHTML = `
-        <div class="vp-header">
+      if (isMobile()) {
+        openSheet(`
           <div class="vp-name">${venueName}</div>
           <div class="vp-meta">
             <i class="ti ti-map-pin" style="font-size:11px;color:var(--teal)"></i>
             <span>${v.city||''}</span>
             ${v.type?`<span class="vp-type-badge">${v.type}</span>`:''}
           </div>
-        </div>
-        ${v.notes?`<div class="vp-notes">${v.notes}</div>`:''}
-        <div class="vp-gig-count"><i class="ti ti-music" style="font-size:11px"></i> ${gigs.length} gig${gigs.length!==1?'s':''} this week</div>
-        ${links.length?`<div class="vp-links">${links.join('')}</div>`:''}
-        <div class="vp-actions">
-          <button class="vp-filter-btn" onclick="closeVenueProfile();setVenue('${ve}')">
-            <i class="ti ti-list"></i> See all gigs at ${venueName}
-          </button>
-          <a class="vp-dir-btn" href="${mapsUrl}" target="_blank" rel="noopener" style="text-decoration:none;display:block">
-            <i class="ti ti-map"></i> Get directions
-          </a>
-          <button class="vp-close-btn" onclick="closeVenueProfile()">Close</button>
-        </div>`;
+          ${v.notes?`<div class="vp-notes">${v.notes}</div>`:''}
+          <div class="vp-gig-count"><i class="ti ti-music" style="font-size:12px"></i> ${gigs.length} gig${gigs.length!==1?'s':''} this week</div>
+          ${links('ap-social-btn')?`<div class="ap-socials">${links('ap-social-btn')}</div>`:''}
+          <div class="sheet-actions">
+            <button class="sheet-btn-primary" onclick="closeSheet();setVenue('${ve}')">
+              <i class="ti ti-list"></i> All gigs at ${venueName}
+            </button>
+            <a class="sheet-btn-secondary" href="${mapsUrl}" target="_blank" rel="noopener" style="text-decoration:none;display:flex;align-items:center;gap:8px">
+              <i class="ti ti-map"></i> Get directions
+            </a>
+            <button class="sheet-btn-close" onclick="closeSheet()">Close</button>
+          </div>`, venueName);
+      } else {
+        removeDesktopPopovers();
+        const pop = document.createElement('div');
+        pop.className = 'venue-pop';
+        pop.innerHTML = `
+          <div style="margin-bottom:12px">
+            <div class="vp-name" style="font-size:22px">${venueName}</div>
+            <div class="vp-meta">
+              <i class="ti ti-map-pin" style="font-size:11px;color:var(--teal)"></i>
+              <span>${v.city||''}</span>
+              ${v.type?`<span class="vp-type-badge">${v.type}</span>`:''}
+            </div>
+          </div>
+          ${v.notes?`<div class="ap-bio-d">${v.notes}</div>`:''}
+          <div class="vp-gig-d"><i class="ti ti-music" style="font-size:11px"></i> ${gigs.length} gig${gigs.length!==1?'s':''} this week</div>
+          ${links('vp-link-d')?`<div class="vp-links-d">${links('vp-link-d')}</div>`:''}
+          <div class="ap-actions-d">
+            <button class="vp-filter-d" onclick="removeDesktopPopovers();setVenue('${ve}')">
+              <i class="ti ti-list"></i> All gigs at ${venueName}
+            </button>
+            <a class="vp-dir-d" href="${mapsUrl}" target="_blank" rel="noopener">
+              <i class="ti ti-map"></i> Get directions
+            </a>
+            <button class="vp-close-d" onclick="removeDesktopPopovers()">Close</button>
+          </div>`;
+        document.getElementById('cal-wrap').appendChild(pop);
+        positionPop(pop, event, 300);
+      }
+    }
 
-      document.getElementById('cal-wrap').appendChild(pop);
-      positionPop(pop, event, 300);
+    // ── FILTER SHEET (mobile more-filters) ────────────────────────────────────
+    function openFilterSheet() {
+      const venues = [...new Set(GIGS.map(g=>g.v.trim()))].sort();
+      const vOpts  = venues.map(v=>`<option value="${v}" ${_filterVenue===v?'selected':''}>${v}</option>`).join('');
+      openSheet(`
+        <div class="filter-sheet-title">FILTERS</div>
+        <div class="filter-group">
+          <span class="filter-group-label">Venue</span>
+          <select id="fs-venue" aria-label="Filter by venue">
+            <option value="">All venues</option>${vOpts}
+          </select>
+        </div>
+        <div class="filter-group">
+          <span class="filter-group-label">Genre</span>
+          <select id="fs-genre" aria-label="Filter by genre">
+            <option value="">All genres</option>
+            <option ${_filterGenre==='Acoustic'?'selected':''}>Acoustic</option>
+            <option ${_filterGenre==='Blues'?'selected':''}>Blues</option>
+            <option ${_filterGenre==='Celtic'?'selected':''}>Celtic</option>
+            <option ${_filterGenre==='Classic Rock'?'selected':''}>Classic Rock</option>
+            <option ${_filterGenre==='Country'?'selected':''}>Country</option>
+            <option ${_filterGenre==='Covers'?'selected':''}>Covers</option>
+            <option ${_filterGenre==='Folk'?'selected':''}>Folk</option>
+            <option ${_filterGenre==='Jazz'?'selected':''}>Jazz</option>
+            <option ${_filterGenre==='Latin'?'selected':''}>Latin</option>
+            <option ${_filterGenre==='Rock'?'selected':''}>Rock</option>
+            <option ${_filterGenre==='Soul'?'selected':''}>Soul</option>
+            <option ${_filterGenre==='Tribute'?'selected':''}>Tribute</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <span class="filter-group-label">Venue Type</span>
+          <select id="fs-type" aria-label="Filter by venue type">
+            <option value="">All types</option>
+            <option ${_filterType==='Bar / Pub'?'selected':''}>Bar / Pub</option>
+            <option ${_filterType==='Brewery'?'selected':''}>Brewery</option>
+            <option ${_filterType==='Concert Hall'?'selected':''}>Concert Hall</option>
+            <option ${_filterType==='Distillery'?'selected':''}>Distillery</option>
+            <option ${_filterType==='Festival Stage'?'selected':''}>Festival Stage</option>
+            <option ${_filterType==='Legion'?'selected':''}>Legion</option>
+            <option ${_filterType==='Resort / Event Centre'?'selected':''}>Resort / Event Centre</option>
+            <option ${_filterType==='Winery'?'selected':''}>Winery</option>
+          </select>
+        </div>
+        <button class="filter-apply-btn" onclick="applyFilterSheet()">Apply Filters</button>
+      `, 'Filters');
+    }
+
+    function applyFilterSheet() {
+      _filterVenue = document.getElementById('fs-venue')?.value || '';
+      _filterGenre = document.getElementById('fs-genre')?.value || '';
+      _filterType  = document.getElementById('fs-type')?.value  || '';
+      if (_filterVenue) activeVenue = _filterVenue;
+      closeSheet();
+      updateMoreCount();
+      render();
     }
 
     // ── Filter helpers ────────────────────────────────────────────────────────
     function setVenue(v) {
-      activeVenue = v.trim();
-      document.getElementById('filter-venue').value = activeVenue;
-      updateMoreCount(); closePopover(); closeVenueProfile(); render();
+      activeVenue  = v.trim();
+      _filterVenue = activeVenue;
+      updateMoreCount();
+      removeDesktopPopovers();
+      render();
     }
 
-    function setArtistFilter(artistName) {
-      document.getElementById('search').value = artistName;
-      closePopover(); render();
+    function setArtistFilter(name) {
+      document.getElementById('search').value = name;
+      removeDesktopPopovers();
+      render();
     }
 
     function updateMoreCount() {
-      const n = [document.getElementById('filter-genre').value, document.getElementById('filter-type').value, activeVenue].filter(Boolean).length;
+      const n = [_filterGenre, _filterType, activeVenue].filter(Boolean).length;
       const el = document.getElementById('more-count');
       el.style.display = n ? 'inline' : 'none';
       if (n) el.textContent = n;
-      document.getElementById('more-btn').classList.toggle('active', moreOpen || n > 0);
+      document.getElementById('more-btn').classList.toggle('active', n > 0);
     }
 
     function clearAll() {
-      ['search','filter-city','filter-genre','filter-type'].forEach(id => document.getElementById(id).value = '');
-      document.getElementById('filter-venue').value = '';
-      activeVenue = '';
-      updateMoreCount(); closePopover(); render();
+      document.getElementById('search').value = '';
+      document.getElementById('filter-city').value = '';
+      _filterGenre = ''; _filterType = ''; _filterVenue = '';
+      activeVenue  = '';
+      updateMoreCount();
+      removeDesktopPopovers();
+      render();
     }
 
     function toggleEarlier(dow) {
       showEarlierDays.has(dow) ? showEarlierDays.delete(dow) : showEarlierDays.add(dow);
-      closePopover(); render();
+      removeDesktopPopovers();
+      render();
     }
 
     // ── Render ────────────────────────────────────────────────────────────────
     function render() {
       updateMoreCount();
       const days = getWeekDates();
-      const s = days[0], e = days[6];
+      const s=days[0], e=days[6];
       document.getElementById('week-label').textContent =
         `${DAYS[s.getDay()]}, ${MONTHS[s.getMonth()]} ${s.getDate()} – ${DAYS[e.getDay()]}, ${MONTHS[e.getMonth()]} ${e.getDate()}`;
 
@@ -1076,28 +1465,28 @@
       document.getElementById('results-count').textContent = `${gigs.length} gig${gigs.length!==1?'s':''} found`;
 
       document.getElementById('venue-tag').innerHTML = activeVenue
-        ? `<span class="venue-tag"><i class="ti ti-map-pin" style="font-size:11px"></i> ${activeVenue} <button onclick="setVenue('')" aria-label="Clear venue filter">×</button></span>`
+        ? `<span class="venue-tag"><i class="ti ti-map-pin" style="font-size:10px"></i> ${activeVenue} <button onclick="setVenue('')" aria-label="Clear venue filter">×</button></span>`
         : '';
 
       const byDay = {};
-      days.forEach(d => byDay[d.getDay()] = []);
-      gigs.forEach(g => { if (g.d in byDay) byDay[g.d].push(g); });
+      days.forEach(d=>byDay[d.getDay()]=[]);
+      gigs.forEach(g=>{ if(g.d in byDay) byDay[g.d].push(g); });
 
       let html = '';
 
       days.forEach(d => {
         const dow = d.getDay();
-        const allDayGigs = (byDay[dow]||[]).slice().sort((a,b)=>parseTime(a.tm)-parseTime(b.tm));
-        if (!allDayGigs.length) return;
+        const all = (byDay[dow]||[]).slice().sort((a,b)=>parseTime(a.tm)-parseTime(b.tm));
+        if (!all.length) return;
 
-        const isToday = weekOffset === 0 && dow === TODAY_DOW;
-        let dayGigs = allDayGigs, hiddenCount = 0;
+        const isToday = weekOffset===0 && dow===TODAY_DOW;
+        let dayGigs = all, hiddenCount = 0;
 
         if (isToday && !showEarlierDays.has(dow)) {
-          const cutoff = NOW_MINUTES - LOOKBACK_MINUTES;
-          const visible = allDayGigs.filter(g => parseTime(g.tm) >= cutoff);
-          hiddenCount = allDayGigs.length - visible.length;
-          if (hiddenCount > 0) dayGigs = visible;
+          const cutoff = NOW_MINUTES - LOOKBACK_MIN;
+          const visible = all.filter(g=>parseTime(g.tm)>=cutoff);
+          hiddenCount = all.length - visible.length;
+          if (hiddenCount>0) dayGigs = visible;
         }
 
         html += `<div class="day-block">
@@ -1105,31 +1494,30 @@
             <span class="day-name">${DAYS[dow]}</span>
             <span class="day-date">${MONTHS[d.getMonth()]} ${d.getDate()}</span>
             ${isToday?`<span class="today-badge">TODAY</span>`:''}
-            <span class="day-count">${allDayGigs.length} gig${allDayGigs.length!==1?'s':''}</span>
+            <span class="day-count">${all.length} gig${all.length!==1?'s':''}</span>
           </div>
           ${hiddenCount>0?`
           <button class="show-earlier-btn" onclick="toggleEarlier(${dow})">
-            <i class="ti ti-clock"></i> ${hiddenCount} earlier gig${hiddenCount!==1?'s':''} hidden — show all
+            <i class="ti ti-clock"></i> ${hiddenCount} earlier gig${hiddenCount!==1?'s':''} — show all
           </button>`:''}`;
 
-        if (viewMode === 'list') {
-          dayGigs.forEach((g,i) => {
-            const ve = g.v.replace(/'/g,"\\'");
-            const ae = g.a.replace(/'/g,"\\'");
-            html += `
+        if (viewMode==='list') {
+          dayGigs.forEach((g,i)=>{
+            const ve=g.v.replace(/'/g,"\\'"), ae=g.a.replace(/'/g,"\\'");
+            html+=`
               <div class="gig-row"
-                onclick="openPopover(event,${dow},${i})"
-                onkeydown="if(event.key==='Enter'||event.key===' ')openPopover(event,${dow},${i})"
+                onclick="openGigDetail(event,${dow},${i})"
+                onkeydown="if(event.key==='Enter'||event.key===' ')openGigDetail(event,${dow},${i})"
                 role="button" tabindex="0" aria-label="${g.a} at ${g.v}, ${g.tm}">
                 <div class="gig-time">${g.tm}</div>
                 <div class="gig-main">
                   <button class="gig-artist-btn"
-                    onclick="event.stopPropagation();openArtistProfile(event,'${ae}')"
-                    aria-label="View profile for ${g.a}">${g.a}</button>
+                    onclick="event.stopPropagation();openArtistDetail(event,'${ae}')"
+                    aria-label="View ${g.a}">${g.a}</button>
                   <div class="gig-sub">
                     <button class="gig-venue-btn"
-                      onclick="event.stopPropagation();openVenueProfile(event,'${ve}')"
-                      aria-label="View profile for ${g.v}">${g.v}</button>
+                      onclick="event.stopPropagation();openVenueDetail(event,'${ve}')"
+                      aria-label="View ${g.v}">${g.v}</button>
                     <span class="gig-sep"></span>
                     <span class="gig-city">${g.c}</span>
                   </div>
@@ -1138,36 +1526,35 @@
               </div>`;
           });
         } else {
-          html += `<div class="card-grid">`;
-          dayGigs.forEach((g,i) => {
-            const ve = g.v.replace(/'/g,"\\'");
-            const ae = g.a.replace(/'/g,"\\'");
-            html += `
+          html+=`<div class="card-grid">`;
+          dayGigs.forEach((g,i)=>{
+            const ve=g.v.replace(/'/g,"\\'"), ae=g.a.replace(/'/g,"\\'");
+            html+=`
               <div class="gig-card"
-                onclick="openPopover(event,${dow},${i})"
-                onkeydown="if(event.key==='Enter'||event.key===' ')openPopover(event,${dow},${i})"
+                onclick="openGigDetail(event,${dow},${i})"
+                onkeydown="if(event.key==='Enter'||event.key===' ')openGigDetail(event,${dow},${i})"
                 role="button" tabindex="0" aria-label="${g.a} at ${g.v}, ${g.tm}">
                 <div class="card-time">${g.tm}</div>
                 <button class="card-artist-btn"
-                  onclick="event.stopPropagation();openArtistProfile(event,'${ae}')"
-                  aria-label="View profile for ${g.a}">${g.a}</button>
+                  onclick="event.stopPropagation();openArtistDetail(event,'${ae}')"
+                  aria-label="View ${g.a}">${g.a}</button>
                 <button class="card-venue-btn"
-                  onclick="event.stopPropagation();openVenueProfile(event,'${ve}')"
-                  aria-label="View profile for ${g.v}">
+                  onclick="event.stopPropagation();openVenueDetail(event,'${ve}')"
+                  aria-label="View ${g.v}">
                   <i class="ti ti-map-pin" style="font-size:10px"></i> ${g.v}
                 </button>
                 <div class="card-pills">${pill(g.g)}</div>
               </div>`;
           });
-          html += `</div>`;
+          html+=`</div>`;
         }
-        html += `</div>`;
+        html+=`</div>`;
       });
 
       if (!html) {
-        html = `<div class="empty-state">
+        html=`<div class="empty-state">
           <div class="empty-title">NOTHING FOUND</div>
-          <div class="empty-sub">Try a different city, genre, or clear your search.</div>
+          <div class="empty-sub">Try clearing your filters.</div>
           <button class="empty-clear" onclick="clearAll()">Clear all filters</button>
         </div>`;
       }
@@ -1175,30 +1562,48 @@
       document.getElementById('calendar').innerHTML = html;
     }
 
-    function populateVenueDropdown() {
-      const sel = document.getElementById('filter-venue');
-      [...new Set(GIGS.map(g=>g.v.trim()))].sort().forEach(v => {
-        const o = document.createElement('option');
-        o.value = v; o.textContent = v;
-        sel.appendChild(o);
-      });
-    }
-
     // ── Event listeners ───────────────────────────────────────────────────────
-    document.getElementById('prev-week').addEventListener('click', ()=>{ weekOffset--; closePopover(); render(); });
-    document.getElementById('next-week').addEventListener('click', ()=>{ weekOffset++; closePopover(); render(); });
-    document.getElementById('this-week').addEventListener('click', ()=>{ weekOffset=0; closePopover(); render(); });
-    document.getElementById('search').addEventListener('input', ()=>{ closePopover(); render(); });
-    document.getElementById('filter-city').addEventListener('change', ()=>{ closePopover(); render(); });
-    document.getElementById('filter-genre').addEventListener('change', ()=>{ updateMoreCount(); closePopover(); render(); });
-    document.getElementById('filter-type').addEventListener('change', ()=>{ updateMoreCount(); closePopover(); render(); });
-    document.getElementById('filter-venue').addEventListener('change', function(){ setVenue(this.value); });
+    document.getElementById('prev-week').addEventListener('click', ()=>{ weekOffset--; removeDesktopPopovers(); render(); });
+    document.getElementById('next-week').addEventListener('click', ()=>{ weekOffset++; removeDesktopPopovers(); render(); });
+    document.getElementById('this-week').addEventListener('click', ()=>{ weekOffset=0; removeDesktopPopovers(); render(); });
+    document.getElementById('search').addEventListener('input',   ()=>{ removeDesktopPopovers(); render(); });
+    document.getElementById('filter-city').addEventListener('change', ()=>{ removeDesktopPopovers(); render(); });
 
     document.getElementById('more-btn').addEventListener('click', ()=>{
-      moreOpen = !moreOpen;
-      document.getElementById('more-filters').classList.toggle('open', moreOpen);
-      document.getElementById('more-btn').setAttribute('aria-expanded', moreOpen);
-      updateMoreCount();
+      if (isMobile()) {
+        openFilterSheet();
+      } else {
+        // desktop: toggle inline filter panel
+        const panel = document.getElementById('desktop-filters');
+        if (panel) { panel.remove(); return; }
+        const venues = [...new Set(GIGS.map(g=>g.v.trim()))].sort();
+        const vOpts  = venues.map(v=>`<option value="${v}" ${_filterVenue===v?'selected':''}>${v}</option>`).join('');
+        const bar = document.querySelector('.filter-bar');
+        const fRow = document.createElement('div');
+        fRow.id = 'desktop-filters';
+        fRow.style.cssText = 'padding:8px 24px 10px;display:flex;flex-wrap:wrap;gap:7px;background:var(--ink-2);border-bottom:1px solid rgba(255,255,255,.06)';
+        fRow.innerHTML = `
+          <select id="filter-venue" aria-label="Filter by venue" style="background:var(--ink-3);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:0 10px;font-size:12px;color:#fff;font-family:var(--fb);height:32px">
+            <option value="">All venues</option>${vOpts}
+          </select>
+          <select id="filter-genre" aria-label="Filter by genre" style="background:var(--ink-3);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:0 10px;font-size:12px;color:#fff;font-family:var(--fb);height:32px">
+            <option value="">All genres</option>
+            <option ${_filterGenre==='Acoustic'?'selected':''}>Acoustic</option><option ${_filterGenre==='Blues'?'selected':''}>Blues</option><option ${_filterGenre==='Celtic'?'selected':''}>Celtic</option>
+            <option ${_filterGenre==='Classic Rock'?'selected':''}>Classic Rock</option><option ${_filterGenre==='Country'?'selected':''}>Country</option><option ${_filterGenre==='Covers'?'selected':''}>Covers</option>
+            <option ${_filterGenre==='Folk'?'selected':''}>Folk</option><option ${_filterGenre==='Jazz'?'selected':''}>Jazz</option><option ${_filterGenre==='Latin'?'selected':''}>Latin</option>
+            <option ${_filterGenre==='Rock'?'selected':''}>Rock</option><option ${_filterGenre==='Soul'?'selected':''}>Soul</option><option ${_filterGenre==='Tribute'?'selected':''}>Tribute</option>
+          </select>
+          <select id="filter-type" aria-label="Filter by type" style="background:var(--ink-3);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:0 10px;font-size:12px;color:#fff;font-family:var(--fb);height:32px">
+            <option value="">All types</option>
+            <option ${_filterType==='Bar / Pub'?'selected':''}>Bar / Pub</option><option ${_filterType==='Brewery'?'selected':''}>Brewery</option><option ${_filterType==='Concert Hall'?'selected':''}>Concert Hall</option>
+            <option ${_filterType==='Distillery'?'selected':''}>Distillery</option><option ${_filterType==='Festival Stage'?'selected':''}>Festival Stage</option><option ${_filterType==='Legion'?'selected':''}>Legion</option>
+            <option ${_filterType==='Resort / Event Centre'?'selected':''}>Resort / Event Centre</option><option ${_filterType==='Winery'?'selected':''}>Winery</option>
+          </select>`;
+        bar.insertAdjacentElement('afterend', fRow);
+        fRow.querySelector('#filter-venue').addEventListener('change', function(){ _filterVenue=this.value; activeVenue=this.value; updateMoreCount(); render(); });
+        fRow.querySelector('#filter-genre').addEventListener('change', function(){ _filterGenre=this.value; updateMoreCount(); render(); });
+        fRow.querySelector('#filter-type').addEventListener('change',  function(){ _filterType=this.value;  updateMoreCount(); render(); });
+      }
     });
 
     document.getElementById('clear-btn').addEventListener('click', clearAll);
@@ -1207,26 +1612,22 @@
       viewMode='card';
       document.getElementById('btn-card').classList.add('active');
       document.getElementById('btn-list').classList.remove('active');
-      closePopover(); render();
+      removeDesktopPopovers(); render();
     });
     document.getElementById('btn-list').addEventListener('click', ()=>{
       viewMode='list';
       document.getElementById('btn-list').classList.add('active');
       document.getElementById('btn-card').classList.remove('active');
-      closePopover(); render();
+      removeDesktopPopovers(); render();
     });
 
-    document.addEventListener('click', e => {
-      const p  = document.getElementById('cal-wrap').querySelector('.popover');
-      if (p  && !p.contains(e.target))  closePopover();
-      const ap = document.getElementById('cal-wrap').querySelector('.artist-pop');
-      if (ap && !ap.contains(e.target)) closeArtistProfile();
-      const vp = document.getElementById('cal-wrap').querySelector('.venue-pop');
-      if (vp && !vp.contains(e.target)) closeVenueProfile();
+    document.addEventListener('click', e=>{
+      document.querySelectorAll('.popover,.artist-pop,.venue-pop').forEach(p=>{
+        if (!p.contains(e.target)) { p.classList.remove('visible'); setTimeout(()=>p.remove(),200); }
+      });
     });
 
     // ── Init ──────────────────────────────────────────────────────────────────
-    populateVenueDropdown();
     render();
   </script>
 
