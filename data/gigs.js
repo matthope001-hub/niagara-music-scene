@@ -84,7 +84,7 @@ const GIGS = [
 
   // ── MONDAY Jun 8 (d:1) ──────────────────────────────────────────────────
   { a:"Alfie Duo",                      v:"13th Street Winery",            c:"St. Catharines",      t:"Winery",                g:"Acoustic",     d:1, tm:"1pm",    n:"1pm–4pm" },
-  { a:"Will Rowe",                      v:"Canalside Restaurant",          c:"Niagara Falls",       t:"Bar / Pub",             g:"Acoustic",     d:1, tm:"7pm",    n:"" },
+  { a:"Will Rowe",                      v:"Canalside Restaurant",          c:"Port Colborne",       t:"Bar / Pub",             g:"Acoustic",     d:1, tm:"7pm",    n:"" },
   { a:"Open Mic",                       v:"Irish Harp",                    c:"Niagara Falls",       t:"Bar / Pub",             g:"Covers",       d:1, tm:"7:30pm", n:"7:30pm–10:30pm" },
   { a:"Jay Diem",                       v:"Hard Rock Cafe",                c:"Niagara Falls",       t:"Bar / Pub",             g:"Rock",         d:1, tm:"4pm",    n:"" },
   { a:"Foreshakin'",                    v:"My Cousin Vinny's",             c:"Niagara Falls",       t:"Bar / Pub",             g:"Classic Rock", d:1, tm:"6:30pm", n:"6:30pm–9:30pm — Monday residency" },
@@ -94,11 +94,11 @@ const GIGS = [
   { a:"Open Mic w/ Mark Swayze",        v:"Borderline Bar",                c:"Niagara Falls",       t:"Bar / Pub",             g:"Covers",       d:2, tm:"8pm",    n:"8pm–11pm" },
   { a:"Zach Preston",                   v:"Eh Amigos",                     c:"Port Colborne",       t:"Bar / Pub",             g:"Acoustic",     d:2, tm:"5:30pm", n:"5:30pm–8:30pm" },
   { a:"Open Mic",                       v:"Puddy's",                       c:"Niagara Falls",       t:"Bar / Pub",             g:"Covers",       d:2, tm:"6pm",    n:"6pm–9pm" },
-  { a:"Heavy Metal Jam",                v:"Westside Pizzeria",             c:"Niagara Falls",       t:"Bar / Pub",             g:"Rock",         d:2, tm:"7pm",    n:"" },
+  { a:"Heavy Metal Jam",                v:"Westside Pizzeria",             c:"St. Catharines",      t:"Bar / Pub",             g:"Rock",         d:2, tm:"7pm",    n:"" },
 
   // ── WEDNESDAY Jun 10 (d:3) ──────────────────────────────────────────────
   { a:"Open Mic",                       v:"Donnelly's Pub",                c:"St. Catharines",      t:"Bar / Pub",             g:"Covers",       d:3, tm:"7pm",    n:"" },
   { a:"The Other Band",                 v:"Irish Harp",                    c:"Niagara Falls",       t:"Bar / Pub",             g:"Rock",         d:3, tm:"6:30pm", n:"6:30pm–9:30pm" },
-  { a:"John Atlee",                     v:"Smithville Legion",             c:"Smithville",          t:"Legion",                g:"Country",      d:3, tm:"7pm",    n:"" },
+  { a:"John Atlee",                     v:"Smithville Legion",             c:"Smithville",          t:"Legion",                g:"Country",      d:3, tm:"7pm",    n:"West Lincoln" },
 
 ];
