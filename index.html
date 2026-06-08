@@ -1366,6 +1366,19 @@
 
   <!-- ── APP ────────────────────────────────────────────────────────────────── -->
   <script>
+
+    // ── Name registry — avoids apostrophe injection in onclick strings ─────────
+    const _NAMES = [];
+    function _reg(name) {
+      let i = _NAMES.indexOf(name);
+      if (i === -1) { i = _NAMES.length; _NAMES.push(name); }
+      return i;
+    }
+    function _artistClick(event, idx) { openArtistDetail(event, _NAMES[idx]); }
+    function _venueClick(event, idx)  { openVenueDetail(event,  _NAMES[idx]); }
+    function _venueSet(idx)           { setVenue(_NAMES[idx]); }
+    function _artistFilter(idx)       { setArtistFilter(_NAMES[idx]); }
+
     const DAYS   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
     const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
@@ -1527,10 +1540,10 @@
             <button class="sheet-btn-primary" onclick="window.open('https://www.google.com/search?q=${encodeURIComponent(g.a)}+Niagara+band','_blank')">
               <i class="ti ti-search"></i> Search ${g.a.split(' ')[0]} online
             </button>
-            <button class="sheet-btn-secondary" onclick="closeSheet();openVenueDetail(event,'${ve}')">
+            <button class="sheet-btn-secondary" onclick="closeSheet();_venueClick(event,${_reg(g.v)})">
               <i class="ti ti-building"></i> View ${g.v}
             </button>
-            <button class="sheet-btn-secondary" onclick="closeSheet();openArtistDetail(event,'${ae}')">
+            <button class="sheet-btn-secondary" onclick="closeSheet();_artistClick(event,${_reg(g.a)})">
               <i class="ti ti-user"></i> View ${g.a.split(' ')[0]}
             </button>
             <button class="sheet-btn-close" onclick="closeSheet()">Close</button>
@@ -1549,7 +1562,7 @@
             <button class="pop-btn-primary" onclick="window.open('https://www.google.com/search?q=${encodeURIComponent(g.a)}+Niagara+band','_blank')">
               <i class="ti ti-search"></i> Search ${g.a.split(' ')[0]} online
             </button>
-            <button class="pop-btn-secondary" onclick="removeDesktopPopovers();openVenueDetail(event,'${ve}')">
+            <button class="pop-btn-secondary" onclick="removeDesktopPopovers();_venueClick(event,${_reg(g.v)})">
               <i class="ti ti-building"></i> View ${g.v}
             </button>
             <button class="pop-btn-close" onclick="removeDesktopPopovers()">Close</button>
@@ -1591,7 +1604,7 @@
           <div class="ap-gig-count"><i class="ti ti-calendar" style="font-size:12px"></i> ${gigs.length} gig${gigs.length!==1?'s':''} this week</div>
           <div class="ap-socials">${socials('ap-social-btn',15)}</div>
           <div class="sheet-actions">
-            <button class="sheet-btn-secondary" onclick="closeSheet();setArtistFilter('${ae}')">
+            <button class="sheet-btn-secondary" onclick="closeSheet();_artistFilter(${_reg(artistName)})">
               <i class="ti ti-list"></i> All gigs by ${artistName.split(' ')[0]}
             </button>
             <button class="sheet-btn-close" onclick="closeSheet()">Close</button>
@@ -1612,7 +1625,7 @@
           <div class="ap-gig-d"><i class="ti ti-calendar" style="font-size:11px"></i> ${gigs.length} gig${gigs.length!==1?'s':''} this week</div>
           <div class="ap-socials-d">${socials('ap-social-d',13)}</div>
           <div class="ap-actions-d">
-            <button class="ap-filter-d" onclick="removeDesktopPopovers();setArtistFilter('${ae}')">
+            <button class="ap-filter-d" onclick="removeDesktopPopovers();_artistFilter(${_reg(artistName)})">
               <i class="ti ti-list"></i> All gigs by ${artistName.split(' ')[0]}
             </button>
             <button class="ap-close-d" onclick="removeDesktopPopovers()">Close</button>
@@ -1652,7 +1665,7 @@
           <div class="vp-gig-count"><i class="ti ti-music" style="font-size:12px"></i> ${gigs.length} gig${gigs.length!==1?'s':''} this week</div>
           ${links('ap-social-btn')?`<div class="ap-socials">${links('ap-social-btn')}</div>`:''}
           <div class="sheet-actions">
-            <button class="sheet-btn-primary" onclick="closeSheet();setVenue('${ve}')">
+            <button class="sheet-btn-primary" onclick="closeSheet();_venueSet(${_reg(venueName)})">
               <i class="ti ti-list"></i> All gigs at ${venueName}
             </button>
             <a class="sheet-btn-secondary" href="${mapsUrl}" target="_blank" rel="noopener" style="text-decoration:none;display:flex;align-items:center;gap:8px">
@@ -1677,7 +1690,7 @@
           <div class="vp-gig-d"><i class="ti ti-music" style="font-size:11px"></i> ${gigs.length} gig${gigs.length!==1?'s':''} this week</div>
           ${links('vp-link-d')?`<div class="vp-links-d">${links('vp-link-d')}</div>`:''}
           <div class="ap-actions-d">
-            <button class="vp-filter-d" onclick="removeDesktopPopovers();setVenue('${ve}')">
+            <button class="vp-filter-d" onclick="removeDesktopPopovers();_venueSet(${_reg(venueName)})">
               <i class="ti ti-list"></i> All gigs at ${venueName}
             </button>
             <a class="vp-dir-d" href="${mapsUrl}" target="_blank" rel="noopener">
@@ -1849,11 +1862,11 @@
                 <div class="gig-time">${g.tm}</div>
                 <div class="gig-main">
                   <button class="gig-artist-btn"
-                    onclick="event.stopPropagation();openArtistDetail(event,'${ae}')"
+                    onclick="event.stopPropagation();_artistClick(event,${_reg(g.a)})"
                     aria-label="View ${g.a}">${g.a}</button>
                   <div class="gig-sub">
                     <button class="gig-venue-btn"
-                      onclick="event.stopPropagation();openVenueDetail(event,'${ve}')"
+                      onclick="event.stopPropagation();_venueClick(event,${_reg(g.v)})"
                       aria-label="View ${g.v}">${g.v}</button>
                     <span class="gig-sep"></span>
                     <span class="gig-city">${g.c}</span>
@@ -1873,10 +1886,10 @@
                 role="button" tabindex="0" aria-label="${g.a} at ${g.v}, ${g.tm}">
                 <div class="card-time">${g.tm}</div>
                 <button class="card-artist-btn"
-                  onclick="event.stopPropagation();openArtistDetail(event,'${ae}')"
+                  onclick="event.stopPropagation();_artistClick(event,${_reg(g.a)})"
                   aria-label="View ${g.a}">${g.a}</button>
                 <button class="card-venue-btn"
-                  onclick="event.stopPropagation();openVenueDetail(event,'${ve}')"
+                  onclick="event.stopPropagation();_venueClick(event,${_reg(g.v)})"
                   aria-label="View ${g.v}">
                   <i class="ti ti-map-pin" style="font-size:10px"></i> ${g.v}
                 </button>
@@ -2007,7 +2020,7 @@
         if(p.yt)  socials.push('<a class="ac-social" href="'+p.yt+'"  target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-brand-youtube"></i></a>');
         if(p.sp)  socials.push('<a class="ac-social" href="'+p.sp+'"  target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-brand-spotify"></i></a>');
         if(p.web) socials.push('<a class="ac-social" href="'+p.web+'" target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-world"></i></a>');
-        return '<div class="artist-card" onclick="openArtistDetail(event,\''+ae+'\')" role="button" tabindex="0" aria-label="View '+name+'">'
+        return '<div class="artist-card" onclick="_artistClick(event,'+_reg(name)+')" role="button" tabindex="0" aria-label="View '+name+'">'
           + '<div class="ac-initials">'+initials+'</div>'
           + '<div class="ac-name">'+name+'</div>'
           + '<div class="ac-meta">'+(p.city||'')+' '+(p.genre?'· '+p.genre:'')+'</div>'
@@ -2044,7 +2057,7 @@
         const vCity = v.city || g0?.c || '';
         const vType = v.type || g0?.t || '';
         const ve = name.replace(/'/g,"\'");
-        return '<div class="venue-row" onclick="openVenueDetail(event,\''+ve+'\')" role="button" tabindex="0" aria-label="View '+name+'">'
+        return '<div class="venue-row" onclick="_venueClick(event,'+_reg(name)+')" role="button" tabindex="0" aria-label="View '+name+'">'
           + '<div class="vr-icon"><i class="ti '+_typeIcon(vType)+'"></i></div>'
           + '<div class="vr-main"><div class="vr-name">'+name+'</div><div class="vr-meta">'+vCity+(vType?' · '+vType:'')+'</div></div>'
           + '<div class="vr-count">'+gigs.length+' gig'+(gigs.length!==1?'s':'')+'</div>'
