@@ -1155,6 +1155,119 @@
       text-transform: uppercase; letter-spacing: .6px; margin-top: 4px;
     }
 
+
+    /* ── DATE PICK BUTTON ─────────────────────────────────────────────────── */
+    .date-pick-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #fff;
+      cursor: pointer;
+      transition: background .15s, border-color .15s;
+      min-height: 44px;
+      font-family: var(--fb);
+    }
+    .date-pick-btn:hover { background: rgba(255,255,255,.13); border-color: rgba(255,255,255,.2); }
+    .date-pick-btn.open  { border-color: var(--teal); background: rgba(10,175,204,.08); }
+    .date-pick-btn i { font-size: 16px; color: var(--teal); }
+
+    /* ── DATE PICKER DROPDOWN ─────────────────────────────────────────────── */
+    .date-picker {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      z-index: 80;
+      background: var(--ink-2);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.7);
+      width: 300px;
+      display: none;
+      animation: dpFadeIn 160ms ease;
+    }
+    .date-picker.open { display: block; }
+    @keyframes dpFadeIn {
+      from { opacity:0; transform: translateY(-6px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+
+    .dp-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .dp-nav {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 6px;
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--mist-l); font-size: 14px; cursor: pointer;
+      transition: background .1s, color .1s;
+    }
+    .dp-nav:hover { background: rgba(255,255,255,.12); color: #fff; }
+    .dp-month-label { font-family: var(--ff); font-size: 18px; letter-spacing: 1px; color: #fff; }
+
+    .dp-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      margin-bottom: 4px;
+    }
+    .dp-weekdays span {
+      text-align: center;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--mist);
+      letter-spacing: .5px;
+      padding: 4px 0;
+      text-transform: uppercase;
+    }
+
+    .dp-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+    }
+    .dp-day {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      border-radius: 6px;
+      cursor: pointer;
+      color: #fff;
+      transition: background .1s, color .1s;
+      border: none;
+      background: none;
+      font-family: var(--fb);
+      position: relative;
+    }
+    .dp-day:hover { background: rgba(255,255,255,.1); }
+    .dp-day.has-gigs::after {
+      content: '';
+      position: absolute;
+      bottom: 3px;
+      left: 50%; transform: translateX(-50%);
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--teal);
+    }
+    .dp-day.today { font-weight: 700; color: var(--gold); }
+    .dp-day.selected { background: var(--teal); color: var(--ink); font-weight: 700; }
+    .dp-day.selected::after { background: var(--ink); }
+    .dp-day.empty { cursor: default; }
+    .dp-day.other-month { color: var(--mist); opacity: .4; }
+    .dp-day.other-month:hover { background: rgba(255,255,255,.05); }
+
     /* ── RESPONSIVE ────────────────────────────────────────────────────────── */
     @media (max-width: 767px) {
       .nav-links { display: none; }
@@ -1225,10 +1338,26 @@
       <h1 class="hero-title">LIVE MUSIC<br><span>THIS WEEK</span></h1>
       <p class="hero-sub">Every confirmed gig from Grimsby to Fort Erie — wineries, bars, legions, breweries, and festival stages.</p>
       <div class="week-ctrl">
-        <button class="week-btn" id="prev-week" aria-label="Previous week"><i class="ti ti-arrow-left"></i></button>
-        <time class="week-label" id="week-label" aria-live="polite"></time>
-        <button class="week-btn" id="next-week" aria-label="Next week"><i class="ti ti-arrow-right"></i></button>
-        <button class="today-btn" id="this-week">This week</button>
+        <button class="date-pick-btn" id="date-pick-btn" aria-label="Pick a date" aria-haspopup="true" aria-expanded="false">
+          <i class="ti ti-calendar"></i>
+          <time id="week-label" aria-live="polite"></time>
+          <i class="ti ti-chevron-down" id="date-pick-chevron" style="font-size:13px;opacity:.6"></i>
+        </button>
+        <button class="today-btn" id="this-week">Today</button>
+      </div>
+
+      <!-- ── DATE PICKER DROPDOWN ─────────────────────────────────────── -->
+      <div class="date-picker" id="date-picker" aria-label="Date picker" role="dialog">
+        <div class="dp-header">
+          <button class="dp-nav" id="dp-prev" aria-label="Previous month"><i class="ti ti-arrow-left"></i></button>
+          <span class="dp-month-label" id="dp-month-label"></span>
+          <button class="dp-nav" id="dp-next" aria-label="Next month"><i class="ti ti-arrow-right"></i></button>
+        </div>
+        <div class="dp-weekdays">
+          <span>Su</span><span>Mo</span><span>Tu</span><span>We</span>
+          <span>Th</span><span>Fr</span><span>Sa</span>
+        </div>
+        <div class="dp-grid" id="dp-grid"></div>
       </div>
     </header>
 
@@ -1424,17 +1553,23 @@
     const DAYS   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
     const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-    // !! UPDATE THIS EVERY WEEK — the Sunday that starts the current week
-    // Month is 0-indexed: Jan=0, Feb=1, Mar=2, Apr=3, May=4, Jun=5 ... Dec=11
-    const BASE_DATE = new Date(2026, 5, 4); // June 4 2026
-    const TODAY_DOW = BASE_DATE.getDay();
+    // ── Date state — driven by real today, no manual BASE_DATE needed ─────────
+    const NOW         = new Date();
+    const NOW_MINUTES = NOW.getHours() * 60 + NOW.getMinutes();
 
-    const NOW          = new Date();
-    const NOW_MINUTES  = NOW.getHours() * 60 + NOW.getMinutes();
-    const LOOKBACK_MIN = 180;
+    // selectedDate = the date the calendar is anchored to (default: today)
+    let selectedDate  = new Date(NOW.getFullYear(), NOW.getMonth(), NOW.getDate());
+
+    function todayDate() { return new Date(NOW.getFullYear(), NOW.getMonth(), NOW.getDate()); }
+    function sameDay(a, b) { return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate(); }
+    function dateKey(d) { return d.getFullYear()*10000 + d.getMonth()*100 + d.getDate(); }
+
+    // Gig days as a Set of dateKey values (for dot indicators)
+    // GIGS use d=day-of-week, so we map them against week windows dynamically
+    // For the dot we just track day-of-week presence across all gigs
+    const GIG_DOWS = new Set(GIGS.map(g=>g.d));
 
     let viewMode    = 'list';
-    let weekOffset  = 0;
     let activeVenue = '';
     const showEarlierDays = new Set();
 
@@ -1461,10 +1596,24 @@
     };
     function pill(g) { return `<span class="pill ${PILL_MAP[g]||'pill-default'}">${g}</span>`; }
 
+    // Returns the 7 dates of the week containing selectedDate (Sun–Sat)
     function getWeekDates() {
-      const s = new Date(BASE_DATE);
-      s.setDate(BASE_DATE.getDate() - BASE_DATE.getDay() + weekOffset*7);
+      const s = new Date(selectedDate);
+      s.setDate(selectedDate.getDate() - selectedDate.getDay());
       return Array.from({length:7},(_,i)=>{ const d=new Date(s); d.setDate(s.getDate()+i); return d; });
+    }
+
+    // Jump selectedDate to a specific Date object
+    function goToDate(date) {
+      selectedDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      showEarlierDays.clear();
+      removeDesktopPopovers();
+      closeDatePicker();
+      render();
+    }
+
+    function goToToday() {
+      goToDate(todayDate());
     }
 
     function filteredGigs() {
@@ -1847,8 +1996,11 @@
       updateMoreCount();
       const days = getWeekDates();
       const s=days[0], e=days[6];
-      document.getElementById('week-label').textContent =
-        `${DAYS[s.getDay()]}, ${MONTHS[s.getMonth()]} ${s.getDate()} – ${DAYS[e.getDay()]}, ${MONTHS[e.getMonth()]} ${e.getDate()}`;
+      const today2 = todayDate();
+      const isCurrentWeek = days.some(d=>sameDay(d,today2));
+      document.getElementById('week-label').textContent = isCurrentWeek
+        ? 'This week'
+        : `${MONTHS[s.getMonth()]} ${s.getDate()} – ${MONTHS[e.getMonth()]} ${e.getDate()}`;
 
       const gigs = filteredGigs();
       document.getElementById('stat-gigs').textContent   = gigs.length;
@@ -1860,6 +2012,7 @@
         ? `<span class="venue-tag"><i class="ti ti-map-pin" style="font-size:10px"></i> ${activeVenue} <button onclick="setVenue('')" aria-label="Clear venue filter">×</button></span>`
         : '';
 
+      const today = todayDate();
       const byDay = {};
       days.forEach(d=>byDay[d.getDay()]=[]);
       gigs.forEach(g=>{ if(g.d in byDay) byDay[g.d].push(g); });
@@ -1871,16 +2024,23 @@
         const all = (byDay[dow]||[]).slice().sort((a,b)=>parseTime(a.tm)-parseTime(b.tm));
         if (!all.length) return;
 
-        const isToday = weekOffset===0 && dow===TODAY_DOW;
+        const isToday   = sameDay(d, today);
+        const isPast    = d < today && !isToday;
+
+        // Hide past days unless user has explicitly toggled them
+        if (isPast && !showEarlierDays.has(dateKey(d))) return;
+
         let dayGigs = all, hiddenCount = 0;
 
-        if (isToday && !showEarlierDays.has(dow)) {
-          const cutoff = NOW_MINUTES - LOOKBACK_MIN;
+        // On today: hide gigs that ended >3hrs ago
+        if (isToday && !showEarlierDays.has(dateKey(d))) {
+          const cutoff = NOW_MINUTES - 180;
           const visible = all.filter(g=>parseTime(g.tm)>=cutoff);
           hiddenCount = all.length - visible.length;
           if (hiddenCount>0) dayGigs = visible;
         }
 
+        const dk = dateKey(d);
         html += `<div class="day-block">
           <div class="day-header${isToday?' today':''}" role="heading" aria-level="2">
             <span class="day-name">${DAYS[dow]}</span>
@@ -1888,9 +2048,9 @@
             ${isToday?`<span class="today-badge">TODAY</span>`:''}
             <span class="day-count">${all.length} gig${all.length!==1?'s':''}</span>
           </div>
-          ${hiddenCount>0?`
-          <button class="show-earlier-btn" onclick="toggleEarlier(${dow})">
-            <i class="ti ti-clock"></i> ${hiddenCount} earlier gig${hiddenCount!==1?'s':''} — show all
+          ${(hiddenCount>0||isPast)?`
+          <button class="show-earlier-btn" onclick="toggleEarlier(${dk})">
+            <i class="ti ti-clock"></i> ${isPast?'Past day — tap to show':'${hiddenCount} earlier gig'+(hiddenCount!==1?'s':'')+' — show all'}
           </button>`:''}`;
 
         if (viewMode==='list') {
@@ -1955,9 +2115,7 @@
     }
 
     // ── Event listeners ───────────────────────────────────────────────────────
-    document.getElementById('prev-week').addEventListener('click', ()=>{ weekOffset--; removeDesktopPopovers(); render(); });
-    document.getElementById('next-week').addEventListener('click', ()=>{ weekOffset++; removeDesktopPopovers(); render(); });
-    document.getElementById('this-week').addEventListener('click', ()=>{ weekOffset=0; removeDesktopPopovers(); render(); });
+    document.getElementById('this-week').addEventListener('click', ()=>{ goToToday(); });
     document.getElementById('search').addEventListener('input',   ()=>{ removeDesktopPopovers(); render(); });
     document.getElementById('filter-city').addEventListener('change', ()=>{ removeDesktopPopovers(); render(); });
 
@@ -2215,6 +2373,86 @@
       if(aEl) aEl.textContent = artists;
       if(vEl) vEl.textContent = venues;
     }
+
+
+    // ── Date Picker ───────────────────────────────────────────────────────────
+    let _dpMonth = new Date(NOW.getFullYear(), NOW.getMonth(), 1);
+    let _dpOpen  = false;
+
+    function openDatePicker() {
+      _dpMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+      renderDpGrid();
+      document.getElementById('date-picker').classList.add('open');
+      document.getElementById('date-pick-btn').classList.add('open');
+      document.getElementById('date-pick-btn').setAttribute('aria-expanded','true');
+      _dpOpen = true;
+    }
+
+    function closeDatePicker() {
+      document.getElementById('date-picker').classList.remove('open');
+      document.getElementById('date-pick-btn').classList.remove('open');
+      document.getElementById('date-pick-btn').setAttribute('aria-expanded','false');
+      _dpOpen = false;
+    }
+
+    function toggleDatePicker() {
+      _dpOpen ? closeDatePicker() : openDatePicker();
+    }
+
+    function renderDpGrid() {
+      const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      document.getElementById('dp-month-label').textContent = months[_dpMonth.getMonth()] + ' ' + _dpMonth.getFullYear();
+
+      const today = todayDate();
+      const firstDay = new Date(_dpMonth.getFullYear(), _dpMonth.getMonth(), 1).getDay();
+      const daysInMonth = new Date(_dpMonth.getFullYear(), _dpMonth.getMonth()+1, 0).getDate();
+      const daysInPrevMonth = new Date(_dpMonth.getFullYear(), _dpMonth.getMonth(), 0).getDate();
+
+      let cells = '';
+
+      // Prev month padding
+      for (let i = firstDay-1; i >= 0; i--) {
+        const d = new Date(_dpMonth.getFullYear(), _dpMonth.getMonth()-1, daysInPrevMonth-i);
+        const hasGigs = GIG_DOWS.has(d.getDay());
+        cells += `<button class="dp-day other-month${hasGigs?' has-gigs':''}" onclick="goToDate(new Date(${d.getFullYear()},${d.getMonth()},${d.getDate()}))">${daysInPrevMonth-i}</button>`;
+      }
+
+      // This month
+      for (let i = 1; i <= daysInMonth; i++) {
+        const d = new Date(_dpMonth.getFullYear(), _dpMonth.getMonth(), i);
+        const isToday   = sameDay(d, today);
+        const isSelected = sameDay(d, selectedDate);
+        const hasGigs   = GIG_DOWS.has(d.getDay());
+        let cls = 'dp-day';
+        if (isSelected) cls += ' selected';
+        else if (isToday) cls += ' today';
+        if (hasGigs) cls += ' has-gigs';
+        cells += `<button class="${cls}" onclick="goToDate(new Date(${d.getFullYear()},${d.getMonth()},${d.getDate()}))">${i}</button>`;
+      }
+
+      // Next month padding to complete grid
+      const remaining = (7 - ((firstDay + daysInMonth) % 7)) % 7;
+      for (let i = 1; i <= remaining; i++) {
+        const d = new Date(_dpMonth.getFullYear(), _dpMonth.getMonth()+1, i);
+        const hasGigs = GIG_DOWS.has(d.getDay());
+        cells += `<button class="dp-day other-month${hasGigs?' has-gigs':''}" onclick="goToDate(new Date(${d.getFullYear()},${d.getMonth()},${d.getDate()}))">${i}</button>`;
+      }
+
+      document.getElementById('dp-grid').innerHTML = cells;
+    }
+
+    document.getElementById('date-pick-btn').addEventListener('click', e=>{ e.stopPropagation(); toggleDatePicker(); });
+    document.getElementById('dp-prev').addEventListener('click', e=>{ e.stopPropagation(); _dpMonth.setMonth(_dpMonth.getMonth()-1); renderDpGrid(); });
+    document.getElementById('dp-next').addEventListener('click', e=>{ e.stopPropagation(); _dpMonth.setMonth(_dpMonth.getMonth()+1); renderDpGrid(); });
+
+    // Close picker when clicking outside
+    document.addEventListener('click', e=>{
+      if (_dpOpen) {
+        const picker = document.getElementById('date-picker');
+        const btn    = document.getElementById('date-pick-btn');
+        if (!picker.contains(e.target) && !btn.contains(e.target)) closeDatePicker();
+      }
+    });
 
     // ── Init ──────────────────────────────────────────────────────────────────
     render();
