@@ -895,6 +895,152 @@
     .footer a { color: var(--teal); text-decoration: none; }
     .footer a:hover { text-decoration: underline; }
 
+    /* ── PAGE SECTIONS ────────────────────────────────────────────────────── */
+    .section-header {
+      padding: 32px 16px 20px;
+      padding-left: max(16px, var(--safe-l));
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .section-title {
+      font-family: var(--ff);
+      font-size: clamp(32px, 6vw, 48px);
+      letter-spacing: 2px;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .section-sub { font-size: 13px; color: var(--mist); }
+
+    /* artists grid */
+    .artists-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 1px;
+      background: rgba(255,255,255,.05);
+    }
+    .artist-card {
+      background: var(--card);
+      padding: 16px;
+      cursor: pointer;
+      transition: background-color .15s;
+      position: relative;
+      overflow: hidden;
+    }
+    .artist-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--teal);
+      opacity: 0;
+      transition: opacity .15s;
+    }
+    .artist-card:hover { background: var(--ink-3); }
+    .artist-card:hover::before { opacity: 1; }
+    .artist-card:active { background: var(--ink-3); }
+    .ac-initials {
+      width: 40px; height: 40px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--teal-d), var(--ink-3));
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--ff); font-size: 16px; color: #fff;
+      letter-spacing: 1px; margin-bottom: 10px;
+    }
+    .ac-name {
+      font-size: 13px; font-weight: 600; color: #fff;
+      line-height: 1.3; margin-bottom: 4px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+    .ac-meta { font-size: 11px; color: var(--mist); }
+    .ac-gig-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 10px; font-weight: 600;
+      color: var(--teal); background: var(--teal-l);
+      border: 1px solid var(--teal); border-radius: 99px;
+      padding: 2px 7px; margin-top: 8px;
+    }
+    .ac-socials { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+    .ac-social {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px; border-radius: 6px;
+      border: 1px solid rgba(255,255,255,.1);
+      background: rgba(255,255,255,.04);
+      color: var(--mist-l); text-decoration: none;
+      font-size: 14px;
+      transition: border-color .1s, color .1s;
+    }
+    .ac-social:hover { border-color: var(--teal); color: var(--teal); }
+
+    /* venues list */
+    .venues-list { }
+    .venue-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      padding-left: max(16px, var(--safe-l));
+      border-bottom: 1px solid rgba(255,255,255,.04);
+      cursor: pointer;
+      transition: background-color .15s;
+      min-height: 56px;
+    }
+    .venue-row:last-child { border-bottom: none; }
+    .venue-row:hover { background: var(--ink-2); }
+    .venue-row:active { background: var(--ink-3); }
+    .venue-row:hover .vr-name { color: var(--teal); }
+    .vr-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: var(--ink-3);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--teal); font-size: 16px; flex-shrink: 0;
+    }
+    .vr-main { min-width: 0; flex: 1; }
+    .vr-name { font-size: 14px; font-weight: 600; color: #fff; transition: color .15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .vr-meta { font-size: 11px; color: var(--mist); margin-top: 1px; }
+    .vr-count {
+      font-size: 11px; font-weight: 600;
+      color: var(--gold); background: rgba(242,183,49,.1);
+      border: 1px solid rgba(242,183,49,.3); border-radius: 99px;
+      padding: 2px 8px; flex-shrink: 0; white-space: nowrap;
+    }
+
+    /* about section */
+    .about-content {
+      padding: 24px 16px 32px;
+      padding-left: max(16px, var(--safe-l));
+      padding-right: max(16px, var(--safe-r));
+      max-width: 600px;
+    }
+    .about-content p {
+      font-size: 14px; color: var(--mist-l); line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    .about-content a { color: var(--teal); }
+    .about-stats {
+      display: flex;
+      gap: 1px;
+      background: rgba(255,255,255,.05);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 24px;
+    }
+    .about-stat {
+      flex: 1; padding: 16px 12px; text-align: center;
+      background: var(--card);
+    }
+    .about-stat-n {
+      display: block;
+      font-family: var(--ff); font-size: 32px;
+      color: var(--teal); letter-spacing: 1px; line-height: 1;
+    }
+    .about-stat-l {
+      display: block;
+      font-size: 10px; color: var(--mist);
+      text-transform: uppercase; letter-spacing: .6px; margin-top: 4px;
+    }
+
     /* ── RESPONSIVE ────────────────────────────────────────────────────────── */
     @media (max-width: 767px) {
       .nav-links { display: none; }
@@ -922,6 +1068,10 @@
       .hero-sub { display: block; }
       .nav { padding: 0 24px; }
       .footer { padding: 24px; }
+      .section-header { padding: 40px 24px 24px; }
+      .about-content { padding: 28px 24px 40px; }
+      .venue-row { padding: 14px 24px; }
+      .artists-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
     }
 
     @media (min-width: 1024px) {
@@ -936,10 +1086,10 @@
   <nav class="nav" role="navigation" aria-label="Main navigation">
     <a href="/" class="nav-logo" aria-label="Niagara Music Scene home">NIAGARA<span>MUSIC</span>SCENE</a>
     <div class="nav-links">
-      <button class="nav-link active" aria-current="page">Calendar</button>
-      <button class="nav-link">Artists</button>
-      <button class="nav-link">Venues</button>
-      <button class="nav-link">About</button>
+      <button class="nav-link active" id="nav-calendar" onclick="navTo('calendar')" aria-current="page">Calendar</button>
+      <button class="nav-link" id="nav-artists"  onclick="navTo('artists')">Artists</button>
+      <button class="nav-link" id="nav-venues"   onclick="navTo('venues')">Venues</button>
+      <button class="nav-link" id="nav-about"    onclick="navTo('about')">About</button>
     </div>
     <button class="nav-cta">Submit a gig</button>
   </nav>
@@ -1003,9 +1153,44 @@
   </div>
 
   <!-- ── CALENDAR ───────────────────────────────────────────────────────────── -->
-  <main class="cal-container" id="cal-wrap">
+  <main class="cal-container" id="cal-wrap" data-section="calendar">
     <div id="calendar" aria-label="Gig calendar"></div>
   </main>
+
+  <!-- ── ARTISTS ───────────────────────────────────────────────────────────── -->
+  <section id="section-artists" data-section="artists">
+    <div class="section-header">
+      <h2 class="section-title">ARTISTS</h2>
+      <p class="section-sub">Everyone performing in the Niagara Region this week.</p>
+    </div>
+    <div id="artists-grid" class="artists-grid"></div>
+  </section>
+
+  <!-- ── VENUES ────────────────────────────────────────────────────────────── -->
+  <section id="section-venues" data-section="venues">
+    <div class="section-header">
+      <h2 class="section-title">VENUES</h2>
+      <p class="section-sub">Every venue hosting live music this week.</p>
+    </div>
+    <div id="venues-list" class="venues-list"></div>
+  </section>
+
+  <!-- ── ABOUT ─────────────────────────────────────────────────────────────── -->
+  <section id="section-about" data-section="about">
+    <div class="section-header">
+      <h2 class="section-title">ABOUT</h2>
+    </div>
+    <div class="about-content">
+      <p>Niagara Music Scene is a free, community-run live music calendar for the Niagara Region of Ontario. Every confirmed gig from Grimsby to Fort Erie — wineries, bars, legions, breweries, and festival stages — in one searchable place.</p>
+      <p>It was built to replace the weekly Facebook post with something searchable, linkable, and always current. No login required. No database. Just the music.</p>
+      <p>Know of a gig not listed? <a href="mailto:hello@niagaramusicscene.ca">Email us</a> and we'll add it.</p>
+      <div class="about-stats">
+        <div class="about-stat"><span class="about-stat-n" id="about-stat-gigs">0</span><span class="about-stat-l">Gigs tracked</span></div>
+        <div class="about-stat"><span class="about-stat-n" id="about-stat-artists">0</span><span class="about-stat-l">Artists</span></div>
+        <div class="about-stat"><span class="about-stat-n" id="about-stat-venues">0</span><span class="about-stat-l">Venues</span></div>
+      </div>
+    </div>
+  </section>
 
   <!-- ── FOOTER ─────────────────────────────────────────────────────────────── -->
   <footer class="footer">
@@ -1627,9 +1812,117 @@
       });
     });
 
+    // ── Nav sections ──────────────────────────────────────────────────────────
+    function navTo(section) {
+      if (section === 'calendar') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        const el = document.getElementById('section-' + section);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    function setActiveNav(section) {
+      document.querySelectorAll('.nav-link').forEach(b => {
+        b.classList.remove('active');
+        b.removeAttribute('aria-current');
+      });
+      const active = document.getElementById('nav-' + section);
+      if (active) { active.classList.add('active'); active.setAttribute('aria-current', 'page'); }
+    }
+
+    function initScrollSpy() {
+      const sections = [
+        { id: 'cal-wrap',        nav: 'calendar' },
+        { id: 'section-artists', nav: 'artists'  },
+        { id: 'section-venues',  nav: 'venues'   },
+        { id: 'section-about',   nav: 'about'    },
+      ];
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            const match = sections.find(s => s.id === e.target.id);
+            if (match) setActiveNav(match.nav);
+          }
+        });
+      }, { rootMargin: '-50% 0px -50% 0px' });
+      sections.forEach(s => {
+        const el = document.getElementById(s.id);
+        if (el) obs.observe(el);
+      });
+    }
+
+    function renderArtists() {
+      const artistNames = [...new Set(GIGS.map(g => g.a))].sort();
+      const grid = document.getElementById('artists-grid');
+      if (!grid) return;
+      grid.innerHTML = artistNames.map(name => {
+        const p = (typeof ARTIST_PROFILES !== 'undefined' && ARTIST_PROFILES[name]) || {};
+        const gigs = GIGS.filter(g => g.a === name);
+        const initials = name.split(' ').map(w => w[0]).filter(Boolean).slice(0,2).join('').toUpperCase();
+        const ae = name.replace(/'/g, "\\'");
+        const socials = [];
+        if (p.fb)  socials.push(`<a class="ac-social" href="${p.fb}"  target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-brand-facebook"></i></a>`);
+        if (p.ig)  socials.push(`<a class="ac-social" href="${p.ig}"  target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-brand-instagram"></i></a>`);
+        if (p.yt)  socials.push(`<a class="ac-social" href="${p.yt}"  target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-brand-youtube"></i></a>`);
+        if (p.sp)  socials.push(`<a class="ac-social" href="${p.sp}"  target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-brand-spotify"></i></a>`);
+        if (p.web) socials.push(`<a class="ac-social" href="${p.web}" target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-world"></i></a>`);
+        return `<div class="artist-card" onclick="openArtistDetail(event,'${ae}')" role="button" tabindex="0" aria-label="View ${name}">
+          <div class="ac-initials">${initials}</div>
+          <div class="ac-name">${name}</div>
+          <div class="ac-meta">${p.city || ''} ${p.genre ? '· ' + p.genre : ''}</div>
+          <div class="ac-gig-badge"><i class="ti ti-music" style="font-size:10px"></i> ${gigs.length} gig${gigs.length!==1?'s':''}</div>
+          ${socials.length ? `<div class="ac-socials">${socials.join('')}</div>` : ''}
+        </div>`;
+      }).join('');
+    }
+
+    function renderVenues() {
+      const venueNames = [...new Set(GIGS.map(g => g.v.trim()))].sort();
+      const list = document.getElementById('venues-list');
+      if (!list) return;
+      const typeIcon = t => {
+        const map = {
+          'Winery':'ti-building-community', 'Brewery':'ti-beer',
+          'Distillery':'ti-flask', 'Legion':'ti-flag',
+          'Festival Stage':'ti-music', 'Concert Hall':'ti-building',
+          'Resort / Event Centre':'ti-building-estate',
+          'Café / Lounge':'ti-coffee', 'Yacht Club / Boat Club':'ti-sailboat',
+        };
+        return map[t] || 'ti-map-pin';
+      };
+      list.innerHTML = venueNames.map(name => {
+        const v = (typeof VENUE_PROFILES !== 'undefined' && VENUE_PROFILES[name]) || {};
+        const gigs = GIGS.filter(g => g.v.trim() === name);
+        const ve = name.replace(/'/g, "\\'");
+        return `<div class="venue-row" onclick="openVenueDetail(event,'${ve}')" role="button" tabindex="0" aria-label="View ${name}">
+          <div class="vr-icon"><i class="ti ${typeIcon(v.type || gigs[0]?.t)}"></i></div>
+          <div class="vr-main">
+            <div class="vr-name">${name}</div>
+            <div class="vr-meta">${v.city || gigs[0]?.c || ''} ${v.type || gigs[0]?.t ? '· ' + (v.type || gigs[0]?.t) : ''}</div>
+          </div>
+          <div class="vr-count">${gigs.length} gig${gigs.length!==1?'s':''}</div>
+        </div>`;
+      }).join('');
+    }
+
+    function renderAboutStats() {
+      const artists = new Set(GIGS.map(g => g.a)).size;
+      const venues  = new Set(GIGS.map(g => g.v)).size;
+      const gigEl = document.getElementById('about-stat-gigs');
+      const artEl = document.getElementById('about-stat-artists');
+      const venEl = document.getElementById('about-stat-venues');
+      if (gigEl) gigEl.textContent = GIGS.length;
+      if (artEl) artEl.textContent = artists;
+      if (venEl) venEl.textContent = venues;
+    }
+
     // ── Init ──────────────────────────────────────────────────────────────────
     render();
-  </script>
+    renderArtists();
+    renderVenues();
+    renderAboutStats();
+    initScrollSpy();
 
 </body>
 </html>
