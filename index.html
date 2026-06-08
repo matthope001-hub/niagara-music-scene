@@ -984,66 +984,103 @@
     .section-sub { font-size: 13px; color: var(--mist); }
 
     /* artists grid */
-    .artists-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 1px;
-      background: rgba(255,255,255,.05);
+    /* ── ARTISTS — alpha collapsible ─────────────────────────────────────── */
+    .alpha-section { border-bottom: 1px solid rgba(255,255,255,.05); }
+    .alpha-section:last-child { border-bottom: none; }
+
+    .alpha-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      padding-left: max(16px, var(--safe-l));
+      cursor: pointer;
+      background: var(--ink);
+      transition: background-color .15s;
+      user-select: none;
+      -webkit-user-select: none;
+      min-height: 52px;
     }
-    .artist-card {
-      background: var(--card);
-      padding: 16px;
+    .alpha-header:hover { background: var(--ink-2); }
+    .alpha-header:active { background: var(--ink-3); }
+
+    .alpha-letter {
+      font-family: var(--ff);
+      font-size: 28px;
+      letter-spacing: 1px;
+      color: var(--teal);
+      line-height: 1;
+      width: 32px;
+      flex-shrink: 0;
+    }
+    .alpha-count {
+      font-size: 11px;
+      color: var(--mist);
+      flex: 1;
+    }
+    .alpha-chevron {
+      font-size: 16px;
+      color: var(--mist);
+      transition: transform .2s ease;
+      flex-shrink: 0;
+    }
+    .alpha-section.open .alpha-chevron { transform: rotate(180deg); }
+
+    .alpha-body {
+      display: none;
+      border-top: 1px solid rgba(255,255,255,.04);
+    }
+    .alpha-section.open .alpha-body { display: block; }
+
+    /* artist rows inside each letter group */
+    .artist-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      padding-left: max(16px, var(--safe-l));
+      padding-right: max(16px, var(--safe-r));
+      border-bottom: 1px solid rgba(255,255,255,.04);
       cursor: pointer;
       transition: background-color .15s;
-      position: relative;
-      overflow: hidden;
+      min-height: 56px;
     }
-    .artist-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: var(--teal);
-      opacity: 0;
-      transition: opacity .15s;
-    }
-    .artist-card:hover { background: var(--ink-3); }
-    .artist-card:hover::before { opacity: 1; }
-    .artist-card:active { background: var(--ink-3); }
-    .ac-initials {
-      width: 40px; height: 40px; border-radius: 8px;
+    .artist-row:last-child { border-bottom: none; }
+    .artist-row:hover { background: var(--ink-2); }
+    .artist-row:active { background: var(--ink-3); }
+    .artist-row:hover .ar-name { color: var(--teal); }
+
+    .ar-initials {
+      width: 38px; height: 38px; border-radius: 8px; flex-shrink: 0;
       background: linear-gradient(135deg, var(--teal-d), var(--ink-3));
       display: flex; align-items: center; justify-content: center;
-      font-family: var(--ff); font-size: 16px; color: #fff;
-      letter-spacing: 1px; margin-bottom: 10px;
+      font-family: var(--ff); font-size: 15px; color: #fff; letter-spacing: 1px;
     }
-    .ac-name {
-      font-size: 13px; font-weight: 600; color: #fff;
-      line-height: 1.3; margin-bottom: 4px;
-      overflow: hidden;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
+    .ar-main { flex: 1; min-width: 0; }
+    .ar-name {
+      font-size: 14px; font-weight: 600; color: #fff;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      transition: color .15s;
     }
-    .ac-meta { font-size: 11px; color: var(--mist); }
-    .ac-gig-badge {
+    .ar-meta { font-size: 11px; color: var(--mist); margin-top: 2px; }
+    .ar-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .ar-gig-badge {
       display: inline-flex; align-items: center; gap: 4px;
       font-size: 10px; font-weight: 600;
       color: var(--teal); background: var(--teal-l);
       border: 1px solid var(--teal); border-radius: 99px;
-      padding: 2px 7px; margin-top: 8px;
+      padding: 2px 8px;
     }
-    .ac-socials { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
-    .ac-social {
+    .ar-socials { display: flex; gap: 5px; }
+    .ar-social {
       display: inline-flex; align-items: center; justify-content: center;
       width: 28px; height: 28px; border-radius: 6px;
       border: 1px solid rgba(255,255,255,.1);
       background: rgba(255,255,255,.04);
-      color: var(--mist-l); text-decoration: none;
-      font-size: 14px;
+      color: var(--mist-l); text-decoration: none; font-size: 14px;
       transition: border-color .1s, color .1s;
     }
-    .ac-social:hover { border-color: var(--teal); color: var(--teal); }
+    .ar-social:hover { border-color: var(--teal); color: var(--teal); }
 
     /* venues list */
     .venues-list { }
@@ -1148,13 +1185,13 @@
       .tab-header { padding: 28px 24px 0; }
       .about-content { padding: 28px 24px 40px; }
       .venue-row { padding: 14px 24px; }
-      .artists-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+      /* artists now use alpha list layout */
       .venues-filter-row { flex-wrap: nowrap; }
     }
 
     @media (min-width: 1024px) {
       .card-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
-      .artists-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+      /* artists now use alpha list layout */
     }
   </style>
 </head>
@@ -2000,6 +2037,21 @@
     }
 
     // ── Artists tab ───────────────────────────────────────────────────────────
+    // tracks which letter sections are open
+    const _openLetters = new Set();
+
+    function toggleLetter(letter) {
+      const sec = document.getElementById('alpha-' + letter);
+      if (!sec) return;
+      if (_openLetters.has(letter)) {
+        _openLetters.delete(letter);
+        sec.classList.remove('open');
+      } else {
+        _openLetters.add(letter);
+        sec.classList.add('open');
+      }
+    }
+
     function renderArtists() {
       const q = (document.getElementById('artist-search')?.value ?? '').toLowerCase().trim();
       const allNames = [...new Set(GIGS.map(g => g.a))].sort();
@@ -2008,24 +2060,56 @@
       if (countEl) countEl.textContent = names.length + ' artist' + (names.length!==1?'s':'');
       const grid = document.getElementById('artists-grid');
       if (!grid) return;
-      if (!names.length) { grid.innerHTML = '<div style="padding:40px 16px;text-align:center;color:var(--mist);font-size:13px">No artists found</div>'; return; }
-      grid.innerHTML = names.map(name => {
-        const p = (typeof ARTIST_PROFILES !== 'undefined' && ARTIST_PROFILES[name]) || {};
-        const gigs = GIGS.filter(g => g.a === name);
-        const initials = name.split(' ').map(w=>w[0]).filter(Boolean).slice(0,2).join('').toUpperCase();
-        const ae = name.replace(/'/g,"\'");
-        const socials = [];
-        if(p.fb)  socials.push('<a class="ac-social" href="'+p.fb+'"  target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-brand-facebook"></i></a>');
-        if(p.ig)  socials.push('<a class="ac-social" href="'+p.ig+'"  target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-brand-instagram"></i></a>');
-        if(p.yt)  socials.push('<a class="ac-social" href="'+p.yt+'"  target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-brand-youtube"></i></a>');
-        if(p.sp)  socials.push('<a class="ac-social" href="'+p.sp+'"  target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-brand-spotify"></i></a>');
-        if(p.web) socials.push('<a class="ac-social" href="'+p.web+'" target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-world"></i></a>');
-        return '<div class="artist-card" onclick="_artistClick(event,'+_reg(name)+')" role="button" tabindex="0" aria-label="View '+name+'">'
-          + '<div class="ac-initials">'+initials+'</div>'
-          + '<div class="ac-name">'+name+'</div>'
-          + '<div class="ac-meta">'+(p.city||'')+' '+(p.genre?'· '+p.genre:'')+'</div>'
-          + '<div class="ac-gig-badge"><i class="ti ti-music" style="font-size:10px"></i> '+gigs.length+' gig'+(gigs.length!==1?'s':'')+'</div>'
-          + (socials.length?'<div class="ac-socials">'+socials.join('')+'</div>':'')
+
+      if (!names.length) {
+        grid.innerHTML = '<div style="padding:48px 16px;text-align:center;color:var(--mist);font-size:13px">No artists found</div>';
+        return;
+      }
+
+      // Group by first letter
+      const groups = {};
+      names.forEach(name => {
+        const letter = name.replace(/^(the |a |an )/i,'')[0].toUpperCase();
+        if (!groups[letter]) groups[letter] = [];
+        groups[letter].push(name);
+      });
+
+      const letters = Object.keys(groups).sort();
+      // Auto-open first group when searching, or if only 1 result group
+      if (q) letters.forEach(l => _openLetters.add(l));
+
+      grid.innerHTML = letters.map(letter => {
+        const isOpen = _openLetters.has(letter) || q;
+        const artistRows = groups[letter].map(name => {
+          const p = (typeof ARTIST_PROFILES !== 'undefined' && ARTIST_PROFILES[name]) || {};
+          const gigs = GIGS.filter(g => g.a === name);
+          const initials = name.split(' ').map(w=>w[0]).filter(Boolean).slice(0,2).join('').toUpperCase();
+          const idx = _reg(name);
+          const socials = [];
+          if(p.fb)  socials.push('<a class="ar-social" href="'+p.fb+'"  target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-brand-facebook"></i></a>');
+          if(p.ig)  socials.push('<a class="ar-social" href="'+p.ig+'"  target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-brand-instagram"></i></a>');
+          if(p.yt)  socials.push('<a class="ar-social" href="'+p.yt+'"  target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-brand-youtube"></i></a>');
+          if(p.sp)  socials.push('<a class="ar-social" href="'+p.sp+'"  target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-brand-spotify"></i></a>');
+          if(p.web) socials.push('<a class="ar-social" href="'+p.web+'" target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-world"></i></a>');
+          return '<div class="artist-row" onclick="_artistClick(event,'+idx+')" role="button" tabindex="0" aria-label="View '+name+'">'
+            + '<div class="ar-initials">'+initials+'</div>'
+            + '<div class="ar-main">'
+            +   '<div class="ar-name">'+name+'</div>'
+            +   '<div class="ar-meta">'+(p.city||'')+(p.genre?' · '+p.genre:'')+(gigs.length?' · '+gigs.length+' gig'+(gigs.length!==1?'s':''):'')+'</div>'
+            + '</div>'
+            + '<div class="ar-right">'
+            +   (socials.length?'<div class="ar-socials">'+socials.join('')+'</div>':'')
+            + '</div>'
+            + '</div>';
+        }).join('');
+
+        return '<div class="alpha-section'+(isOpen?' open':'') +'" id="alpha-'+letter+'">'
+          + '<div class="alpha-header" onclick="toggleLetter(&quot;'+letter+'&quot;)" role="button" aria-expanded="'+(isOpen?'true':'false')+'">'
+          +   '<span class="alpha-letter">'+letter+'</span>'
+          +   '<span class="alpha-count">'+groups[letter].length+' artist'+(groups[letter].length!==1?'s':'')+'</span>'
+          +   '<i class="ti ti-chevron-down alpha-chevron"></i>'
+          + '</div>'
+          + '<div class="alpha-body">'+artistRows+'</div>'
           + '</div>';
       }).join('');
     }
@@ -2056,7 +2140,6 @@
         const g0 = gigs[0];
         const vCity = v.city || g0?.c || '';
         const vType = v.type || g0?.t || '';
-        const ve = name.replace(/'/g,"\'");
         return '<div class="venue-row" onclick="_venueClick(event,'+_reg(name)+')" role="button" tabindex="0" aria-label="View '+name+'">'
           + '<div class="vr-icon"><i class="ti '+_typeIcon(vType)+'"></i></div>'
           + '<div class="vr-main"><div class="vr-name">'+name+'</div><div class="vr-meta">'+vCity+(vType?' · '+vType:'')+'</div></div>'
