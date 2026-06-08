@@ -68,7 +68,6 @@
       border-bottom: 1px solid rgba(255,255,255,.06);
       position: sticky;
       top: 0;
-      background: var(--ink);
       z-index: 40;
       flex-wrap: wrap;
       gap: 10px;
@@ -373,8 +372,8 @@
     }
     .gig-row:last-child { border-bottom: none; }
     .gig-row:hover { background: var(--ink-2); }
-    .gig-row:hover .gig-artist { color: var(--teal); }
-    .gig-row:hover .gig-venue  { color: var(--teal); }
+    .gig-row:hover .gig-artist-btn { color: var(--teal); }
+    .gig-row:hover .gig-venue-btn  { color: var(--teal); }
 
     .gig-time {
       font-size: 11px;
@@ -385,33 +384,12 @@
 
     .gig-main { min-width: 0; }
 
-    .gig-artist {
-      font-size: 14px;
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 3px;
-      transition: color .1s;
-    }
-
     .gig-sub {
       display: flex;
       align-items: center;
       gap: 6px;
       flex-wrap: wrap;
     }
-
-    .gig-venue {
-      font-size: 12px;
-      color: var(--mist-l);
-      background: none;
-      border: none;
-      padding: 0;
-      text-align: left;
-      font-family: var(--fb);
-      transition: color .1s;
-      white-space: normal;
-    }
-    .gig-venue:hover { color: var(--teal); text-decoration: underline; }
 
     .gig-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--ink-3); flex-shrink: 0; }
     .gig-city { font-size: 11px; color: var(--mist); white-space: nowrap; flex-shrink: 0; }
@@ -444,26 +422,10 @@
     }
     .gig-card:hover { background: var(--ink-3); }
     .gig-card:hover::before { opacity: 1; }
-    .gig-card:hover .card-artist { color: var(--teal); }
-    .gig-card:hover .card-venue  { color: var(--teal); }
+    .gig-card:hover .card-artist-btn { color: var(--teal); }
+    .gig-card:hover .card-venue-btn  { color: var(--teal); }
 
-    .card-time  { font-size: 11px; color: var(--mist); margin-bottom: 8px; font-weight: 500; letter-spacing: .4px; }
-    .card-artist { font-family: var(--ff); font-size: 22px; letter-spacing: .5px; color: #fff; margin-bottom: 4px; line-height: 1.1; transition: color .1s; }
-    .card-venue {
-      font-size: 12px;
-      color: var(--mist-l);
-      margin-bottom: 10px;
-      background: none;
-      border: none;
-      padding: 0;
-      text-align: left;
-      width: 100%;
-      font-family: var(--fb);
-      transition: color .1s;
-      display: block;
-      white-space: normal;
-    }
-    .card-venue:hover { color: var(--teal); text-decoration: underline; }
+    .card-time { font-size: 11px; color: var(--mist); margin-bottom: 8px; font-weight: 500; letter-spacing: .4px; }
     .card-pills { display: flex; gap: 5px; flex-wrap: wrap; }
 
     /* ── GENRE PILLS ───────────────────────────────────────────────────────── */
@@ -481,6 +443,42 @@
     .pill-blues   { background: rgba(180,120,220,.12); color: #C49AE8; border: 1px solid rgba(180,120,220,.22); }
     .pill-country, .pill-latin { background: rgba(242,183,49,.12); color: #F2CC6A; border: 1px solid rgba(242,183,49,.22); }
     .pill-tribute, .pill-default { background: rgba(255,255,255,.06); color: var(--mist-l); border: 1px solid rgba(255,255,255,.1); }
+
+    /* ── ARTIST / VENUE BUTTONS ────────────────────────────────────────────── */
+    .gig-artist-btn {
+      font-size: 14px; font-weight: 600; color: #fff;
+      background: none; border: none; padding: 0;
+      text-align: left; font-family: var(--fb);
+      cursor: pointer; transition: color .1s;
+      display: block; margin-bottom: 3px;
+    }
+    .gig-artist-btn:hover { color: var(--teal); text-decoration: underline; }
+
+    .gig-venue-btn {
+      font-size: 12px; color: var(--mist-l);
+      background: none; border: none; padding: 0;
+      text-align: left; font-family: var(--fb);
+      transition: color .1s; white-space: normal; cursor: pointer;
+    }
+    .gig-venue-btn:hover { color: var(--teal); text-decoration: underline; }
+
+    .card-artist-btn {
+      font-family: var(--ff); font-size: 22px; letter-spacing: .5px;
+      color: #fff; margin-bottom: 4px; line-height: 1.1;
+      background: none; border: none; padding: 0;
+      text-align: left; cursor: pointer; transition: color .1s;
+      display: block; width: 100%;
+    }
+    .card-artist-btn:hover { color: var(--teal); }
+
+    .card-venue-btn {
+      font-size: 12px; color: var(--mist-l);
+      background: none; border: none; padding: 0;
+      text-align: left; font-family: var(--fb);
+      transition: color .1s; white-space: normal;
+      cursor: pointer; display: block; width: 100%; margin-bottom: 8px;
+    }
+    .card-venue-btn:hover { color: var(--teal); text-decoration: underline; }
 
     /* ── POPOVER ───────────────────────────────────────────────────────────── */
     .cal-container { position: relative; }
@@ -502,45 +500,10 @@
       overflow-y: auto;
     }
 
-    /* Arrow pointing LEFT (popover is to the right of the trigger) */
-    .popover.right::before {
-      content: '';
-      position: absolute;
-      left: -9px; top: 20px;
-      width: 0; height: 0;
-      border-top: 8px solid transparent;
-      border-bottom: 8px solid transparent;
-      border-right: 9px solid rgba(255,255,255,.14);
-    }
-    .popover.right::after {
-      content: '';
-      position: absolute;
-      left: -7px; top: 21px;
-      width: 0; height: 0;
-      border-top: 7px solid transparent;
-      border-bottom: 7px solid transparent;
-      border-right: 8px solid var(--ink-2);
-    }
-
-    /* Arrow pointing RIGHT (popover is to the left of the trigger) */
-    .popover.left::before {
-      content: '';
-      position: absolute;
-      right: -9px; top: 20px;
-      width: 0; height: 0;
-      border-top: 8px solid transparent;
-      border-bottom: 8px solid transparent;
-      border-left: 9px solid rgba(255,255,255,.14);
-    }
-    .popover.left::after {
-      content: '';
-      position: absolute;
-      right: -7px; top: 21px;
-      width: 0; height: 0;
-      border-top: 7px solid transparent;
-      border-bottom: 7px solid transparent;
-      border-left: 8px solid var(--ink-2);
-    }
+    .popover.right::before { content:''; position:absolute; left:-9px; top:20px; width:0; height:0; border-top:8px solid transparent; border-bottom:8px solid transparent; border-right:9px solid rgba(255,255,255,.14); }
+    .popover.right::after  { content:''; position:absolute; left:-7px; top:21px; width:0; height:0; border-top:7px solid transparent; border-bottom:7px solid transparent; border-right:8px solid var(--ink-2); }
+    .popover.left::before  { content:''; position:absolute; right:-9px; top:20px; width:0; height:0; border-top:8px solid transparent; border-bottom:8px solid transparent; border-left:9px solid rgba(255,255,255,.14); }
+    .popover.left::after   { content:''; position:absolute; right:-7px; top:21px; width:0; height:0; border-top:7px solid transparent; border-bottom:7px solid transparent; border-left:8px solid var(--ink-2); }
 
     .pop-artist {
       font-family: var(--ff);
@@ -567,101 +530,34 @@
     .pop-actions { display: flex; flex-direction: column; gap: 7px; margin-top: 14px; }
 
     .pop-btn-primary {
-      padding: 9px;
-      border: none;
-      border-radius: 6px;
-      background: var(--teal);
-      color: var(--ink);
-      font-size: 12px;
-      font-weight: 600;
-      font-family: var(--fb);
-      text-align: left;
+      padding: 9px; border: none; border-radius: 6px;
+      background: var(--teal); color: var(--ink);
+      font-size: 12px; font-weight: 600; font-family: var(--fb); text-align: left;
     }
     .pop-btn-primary:hover { background: var(--teal-d); }
 
     .pop-btn-secondary {
-      padding: 8px;
-      border: 1px solid rgba(255,255,255,.1);
-      border-radius: 6px;
-      background: transparent;
-      font-size: 12px;
-      color: #fff;
-      font-family: var(--fb);
-      text-align: left;
+      padding: 8px; border: 1px solid rgba(255,255,255,.1); border-radius: 6px;
+      background: transparent; font-size: 12px; color: #fff;
+      font-family: var(--fb); text-align: left;
     }
     .pop-btn-secondary:hover { border-color: var(--teal); color: var(--teal); }
 
     .pop-btn-close {
-      padding: 7px;
-      border: 1px solid rgba(255,255,255,.07);
-      border-radius: 6px;
-      background: transparent;
-      font-size: 12px;
-      color: var(--mist);
-      font-family: var(--fb);
+      padding: 7px; border: 1px solid rgba(255,255,255,.07); border-radius: 6px;
+      background: transparent; font-size: 12px; color: var(--mist); font-family: var(--fb);
     }
-
-    /* ── EMPTY STATE ───────────────────────────────────────────────────────── */
-    .empty-state {
-      padding: 56px 24px;
-      text-align: center;
-    }
-
-    .empty-title {
-      font-family: var(--ff);
-      font-size: 32px;
-      color: var(--mist);
-      letter-spacing: 1px;
-      margin-bottom: 8px;
-    }
-
-    .empty-sub {
-      font-size: 13px;
-      color: var(--mist);
-      margin-bottom: 16px;
-    }
-
-    .empty-clear {
-      background: var(--teal);
-      color: var(--ink);
-      border: none;
-      border-radius: 6px;
-      padding: 9px 22px;
-      font-size: 13px;
-      font-weight: 600;
-      font-family: var(--fb);
-    }
-
-    /* ── FOOTER ────────────────────────────────────────────────────────────── */
-    .footer {
-      padding: 24px;
-      border-top: 1px solid rgba(255,255,255,.06);
-      text-align: center;
-      font-size: 12px;
-      color: var(--mist);
-      margin-top: 40px;
-    }
-
-    .footer a { color: var(--teal); text-decoration: none; }
-    .footer a:hover { text-decoration: underline; }
-
 
     /* ── ARTIST PROFILE POPOVER ───────────────────────────────────────────── */
     .artist-pop {
-      position: absolute;
-      z-index: 60;
-      width: 300px;
-      background: var(--ink-2);
-      border: 1px solid rgba(255,255,255,.14);
-      border-radius: 12px;
-      padding: 20px;
+      position: absolute; z-index: 60; width: 300px;
+      background: var(--ink-2); border: 1px solid rgba(255,255,255,.14);
+      border-radius: 12px; padding: 20px;
       box-shadow: 0 12px 40px rgba(0,0,0,.7);
-      max-height: 420px;
-      overflow-y: auto;
+      max-height: 420px; overflow-y: auto;
     }
     .artist-pop::-webkit-scrollbar { width: 4px; }
     .artist-pop::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 99px; }
-
     .artist-pop.right::before { content:''; position:absolute; left:-9px; top:20px; width:0; height:0; border-top:8px solid transparent; border-bottom:8px solid transparent; border-right:9px solid rgba(255,255,255,.14); }
     .artist-pop.right::after  { content:''; position:absolute; left:-7px; top:21px; width:0; height:0; border-top:7px solid transparent; border-bottom:7px solid transparent; border-right:8px solid var(--ink-2); }
     .artist-pop.left::before  { content:''; position:absolute; right:-9px; top:20px; width:0; height:0; border-top:8px solid transparent; border-bottom:8px solid transparent; border-left:9px solid rgba(255,255,255,.14); }
@@ -669,198 +565,152 @@
 
     .ap-header { display:flex; align-items:flex-start; gap:12px; margin-bottom:14px; }
     .ap-avatar {
-      width: 44px; height: 44px; border-radius: 8px;
+      width:44px; height:44px; border-radius:8px;
       background: linear-gradient(135deg, var(--teal-d), var(--ink-3));
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--ff); font-size: 18px; color: #fff;
-      flex-shrink: 0; letter-spacing: 1px;
+      display:flex; align-items:center; justify-content:center;
+      font-family:var(--ff); font-size:18px; color:#fff;
+      flex-shrink:0; letter-spacing:1px;
     }
-    .ap-name { font-family: var(--ff); font-size: 24px; letter-spacing: .5px; color: #fff; line-height: 1; margin-bottom: 4px; word-break: break-word; }
-    .ap-meta { font-size: 11px; color: var(--mist); }
-
-    .ap-bio { font-size: 12px; color: var(--mist-l); line-height: 1.6; margin-bottom: 12px; }
-
+    .ap-name { font-family:var(--ff); font-size:24px; letter-spacing:.5px; color:#fff; line-height:1; margin-bottom:4px; word-break:break-word; }
+    .ap-meta { font-size:11px; color:var(--mist); }
+    .ap-bio { font-size:12px; color:var(--mist-l); line-height:1.6; margin-bottom:12px; }
     .ap-gig-count {
-      display: inline-flex; align-items: center; gap: 5px;
-      font-size: 11px; font-weight: 600;
-      color: var(--teal); background: var(--teal-l);
-      border: 1px solid var(--teal); border-radius: 99px;
-      padding: 2px 9px; margin-bottom: 12px;
+      display:inline-flex; align-items:center; gap:5px;
+      font-size:11px; font-weight:600;
+      color:var(--teal); background:var(--teal-l);
+      border:1px solid var(--teal); border-radius:99px;
+      padding:2px 9px; margin-bottom:12px;
     }
-
-    .ap-socials { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+    .ap-socials { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
     .ap-social-btn {
-      display: inline-flex; align-items: center; gap: 4px;
-      font-size: 11px; font-weight: 500;
-      padding: 4px 10px; border-radius: 6px;
-      border: 1px solid rgba(255,255,255,.1);
-      background: rgba(255,255,255,.04);
-      color: var(--mist-l); text-decoration: none;
-      transition: border-color .1s, color .1s;
+      display:inline-flex; align-items:center; gap:4px;
+      font-size:11px; font-weight:500;
+      padding:4px 10px; border-radius:6px;
+      border:1px solid rgba(255,255,255,.1);
+      background:rgba(255,255,255,.04);
+      color:var(--mist-l); text-decoration:none;
+      transition:border-color .1s, color .1s;
     }
-    .ap-social-btn:hover { border-color: var(--teal); color: var(--teal); }
-    .ap-social-btn i { font-size: 13px; }
-
-    .ap-actions { display: flex; flex-direction: column; gap: 6px; }
+    .ap-social-btn:hover { border-color:var(--teal); color:var(--teal); }
+    .ap-social-btn i { font-size:13px; }
+    .ap-actions { display:flex; flex-direction:column; gap:6px; }
     .ap-filter-btn {
-      padding: 8px; border: 1px solid rgba(255,255,255,.1); border-radius: 6px;
-      background: transparent; font-size: 12px; color: #fff;
-      font-family: var(--fb); text-align: left; cursor: pointer;
+      padding:8px; border:1px solid rgba(255,255,255,.1); border-radius:6px;
+      background:transparent; font-size:12px; color:#fff;
+      font-family:var(--fb); text-align:left; cursor:pointer;
     }
-    .ap-filter-btn:hover { border-color: var(--teal); color: var(--teal); }
+    .ap-filter-btn:hover { border-color:var(--teal); color:var(--teal); }
     .ap-close-btn {
-      padding: 7px; border: 1px solid rgba(255,255,255,.07); border-radius: 6px;
-      background: transparent; font-size: 12px; color: var(--mist);
-      font-family: var(--fb); cursor: pointer;
+      padding:7px; border:1px solid rgba(255,255,255,.07); border-radius:6px;
+      background:transparent; font-size:12px; color:var(--mist);
+      font-family:var(--fb); cursor:pointer;
     }
-
-    /* Make artist name a clickable button within the row */
-    .gig-artist-btn {
-      font-size: 14px; font-weight: 600; color: #fff;
-      background: none; border: none; padding: 0;
-      text-align: left; font-family: var(--fb);
-      cursor: pointer; transition: color .1s;
-      display: block; margin-bottom: 3px;
-    }
-    .gig-artist-btn:hover { color: var(--teal); text-decoration: underline; }
-    .gig-row:hover .gig-artist-btn { color: var(--teal); }
-
-    .card-artist-btn {
-      font-family: var(--ff); font-size: 22px; letter-spacing: .5px;
-      color: #fff; margin-bottom: 4px; line-height: 1.1;
-      background: none; border: none; padding: 0;
-      text-align: left; cursor: pointer; transition: color .1s;
-      display: block; width: 100%;
-    }
-    .card-artist-btn:hover { color: var(--teal); }
-    .gig-card:hover .card-artist-btn { color: var(--teal); }
-
 
     /* ── VENUE PROFILE POPOVER ────────────────────────────────────────────── */
     .venue-pop {
-      position: absolute;
-      z-index: 60;
-      width: 300px;
-      background: var(--ink-2);
-      border: 1px solid rgba(255,255,255,.14);
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 12px 40px rgba(0,0,0,.7);
-      max-height: 420px;
-      overflow-y: auto;
+      position:absolute; z-index:60; width:300px;
+      background:var(--ink-2); border:1px solid rgba(255,255,255,.14);
+      border-radius:12px; padding:20px;
+      box-shadow:0 12px 40px rgba(0,0,0,.7);
+      max-height:420px; overflow-y:auto;
     }
-    .venue-pop::-webkit-scrollbar { width: 4px; }
-    .venue-pop::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 99px; }
+    .venue-pop::-webkit-scrollbar { width:4px; }
+    .venue-pop::-webkit-scrollbar-thumb { background:rgba(255,255,255,.15); border-radius:99px; }
     .venue-pop.right::before { content:''; position:absolute; left:-9px; top:20px; width:0; height:0; border-top:8px solid transparent; border-bottom:8px solid transparent; border-right:9px solid rgba(255,255,255,.14); }
     .venue-pop.right::after  { content:''; position:absolute; left:-7px; top:21px; width:0; height:0; border-top:7px solid transparent; border-bottom:7px solid transparent; border-right:8px solid var(--ink-2); }
     .venue-pop.left::before  { content:''; position:absolute; right:-9px; top:20px; width:0; height:0; border-top:8px solid transparent; border-bottom:8px solid transparent; border-left:9px solid rgba(255,255,255,.14); }
     .venue-pop.left::after   { content:''; position:absolute; right:-7px; top:21px; width:0; height:0; border-top:7px solid transparent; border-bottom:7px solid transparent; border-left:8px solid var(--ink-2); }
 
-    .vp-header { margin-bottom: 12px; }
-    .vp-name { font-family: var(--ff); font-size: 24px; letter-spacing: .5px; color: #fff; line-height: 1.1; margin-bottom: 4px; word-break: break-word; }
-    .vp-meta { font-size: 11px; color: var(--mist); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .vp-header { margin-bottom:12px; }
+    .vp-name { font-family:var(--ff); font-size:24px; letter-spacing:.5px; color:#fff; line-height:1.1; margin-bottom:4px; word-break:break-word; }
+    .vp-meta { font-size:11px; color:var(--mist); display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
     .vp-type-badge {
-      font-size: 10px; font-weight: 600;
-      padding: 2px 7px; border-radius: 4px;
-      background: var(--teal-l); color: var(--teal);
-      border: 1px solid var(--teal);
+      font-size:10px; font-weight:600;
+      padding:2px 7px; border-radius:4px;
+      background:var(--teal-l); color:var(--teal); border:1px solid var(--teal);
     }
-    .vp-notes { font-size: 12px; color: var(--mist-l); line-height: 1.6; margin-bottom: 12px; }
+    .vp-notes { font-size:12px; color:var(--mist-l); line-height:1.6; margin-bottom:12px; }
     .vp-gig-count {
-      display: inline-flex; align-items: center; gap: 5px;
-      font-size: 11px; font-weight: 600;
-      color: var(--gold); background: rgba(242,183,49,.1);
-      border: 1px solid rgba(242,183,49,.3); border-radius: 99px;
-      padding: 2px 9px; margin-bottom: 12px;
+      display:inline-flex; align-items:center; gap:5px;
+      font-size:11px; font-weight:600;
+      color:var(--gold); background:rgba(242,183,49,.1);
+      border:1px solid rgba(242,183,49,.3); border-radius:99px;
+      padding:2px 9px; margin-bottom:12px;
     }
-    .vp-links { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+    .vp-links { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
     .vp-link-btn {
-      display: inline-flex; align-items: center; gap: 4px;
-      font-size: 11px; font-weight: 500;
-      padding: 4px 10px; border-radius: 6px;
-      border: 1px solid rgba(255,255,255,.1);
-      background: rgba(255,255,255,.04);
-      color: var(--mist-l); text-decoration: none;
-      transition: border-color .1s, color .1s;
+      display:inline-flex; align-items:center; gap:4px;
+      font-size:11px; font-weight:500;
+      padding:4px 10px; border-radius:6px;
+      border:1px solid rgba(255,255,255,.1);
+      background:rgba(255,255,255,.04);
+      color:var(--mist-l); text-decoration:none;
+      transition:border-color .1s, color .1s;
     }
-    .vp-link-btn:hover { border-color: var(--teal); color: var(--teal); }
-    .vp-link-btn i { font-size: 13px; }
-    .vp-actions { display: flex; flex-direction: column; gap: 6px; }
+    .vp-link-btn:hover { border-color:var(--teal); color:var(--teal); }
+    .vp-link-btn i { font-size:13px; }
+    .vp-actions { display:flex; flex-direction:column; gap:6px; }
     .vp-filter-btn {
-      padding: 8px; border: none; border-radius: 6px;
-      background: var(--teal); color: var(--ink);
-      cursor: pointer; font-size: 12px; font-weight: 600;
-      font-family: var(--fb); text-align: left;
+      padding:8px; border:none; border-radius:6px;
+      background:var(--teal); color:var(--ink);
+      cursor:pointer; font-size:12px; font-weight:600;
+      font-family:var(--fb); text-align:left;
     }
-    .vp-filter-btn:hover { background: var(--teal-d); }
+    .vp-filter-btn:hover { background:var(--teal-d); }
     .vp-dir-btn {
-      padding: 8px; border: 1px solid rgba(255,255,255,.1); border-radius: 6px;
-      background: transparent; cursor: pointer; font-size: 12px;
-      color: #fff; font-family: var(--fb); text-align: left;
+      padding:8px; border:1px solid rgba(255,255,255,.1); border-radius:6px;
+      background:transparent; cursor:pointer; font-size:12px;
+      color:#fff; font-family:var(--fb); text-align:left;
     }
-    .vp-dir-btn:hover { border-color: var(--teal); color: var(--teal); }
+    .vp-dir-btn:hover { border-color:var(--teal); color:var(--teal); }
     .vp-close-btn {
-      padding: 7px; border: 1px solid rgba(255,255,255,.07); border-radius: 6px;
-      background: transparent; cursor: pointer; font-size: 12px;
-      color: var(--mist); font-family: var(--fb);
+      padding:7px; border:1px solid rgba(255,255,255,.07); border-radius:6px;
+      background:transparent; cursor:pointer; font-size:12px;
+      color:var(--mist); font-family:var(--fb);
     }
-
-    /* Make venue name a distinct clickable button in list and card views */
-    .gig-venue-btn {
-      font-size: 12px; color: var(--mist-l);
-      background: none; border: none; padding: 0;
-      text-align: left; font-family: var(--fb);
-      transition: color .1s; white-space: normal;
-      cursor: pointer;
-    }
-    .gig-venue-btn:hover { color: var(--teal); text-decoration: underline; }
-    .gig-row:hover .gig-venue-btn { color: var(--teal); }
-    .card-venue-btn {
-      font-size: 12px; color: var(--mist-l);
-      background: none; border: none; padding: 0;
-      text-align: left; font-family: var(--fb);
-      transition: color .1s; white-space: normal;
-      cursor: pointer; display: block; width: 100%;
-      margin-bottom: 8px;
-    }
-    .card-venue-btn:hover { color: var(--teal); text-decoration: underline; }
-    .gig-card:hover .card-venue-btn { color: var(--teal); }
 
     /* ── SHOW EARLIER BUTTON ──────────────────────────────────────────────── */
     .show-earlier-btn {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      width: 100%;
-      padding: 8px 24px;
-      background: none;
-      border: none;
-      border-bottom: 1px solid rgba(255,255,255,.04);
-      font-size: 12px;
-      color: var(--mist);
-      font-family: var(--fb);
-      text-align: left;
-      cursor: pointer;
-      transition: color .1s, background-color .1s;
+      display:flex; align-items:center; gap:6px;
+      width:100%; padding:8px 24px;
+      background:none; border:none;
+      border-bottom:1px solid rgba(255,255,255,.04);
+      font-size:12px; color:var(--mist);
+      font-family:var(--fb); text-align:left; cursor:pointer;
+      transition:color .1s, background-color .1s;
     }
-    .show-earlier-btn:hover {
-      color: var(--teal);
-      background-color: rgba(10,175,204,.06);
+    .show-earlier-btn:hover { color:var(--teal); background-color:rgba(10,175,204,.06); }
+    .show-earlier-btn i { font-size:13px; flex-shrink:0; }
+
+    /* ── EMPTY STATE ───────────────────────────────────────────────────────── */
+    .empty-state { padding:56px 24px; text-align:center; }
+    .empty-title { font-family:var(--ff); font-size:32px; color:var(--mist); letter-spacing:1px; margin-bottom:8px; }
+    .empty-sub { font-size:13px; color:var(--mist); margin-bottom:16px; }
+    .empty-clear {
+      background:var(--teal); color:var(--ink); border:none; border-radius:6px;
+      padding:9px 22px; font-size:13px; font-weight:600; font-family:var(--fb);
     }
-    .show-earlier-btn i { font-size: 13px; flex-shrink: 0; }
+
+    /* ── FOOTER ────────────────────────────────────────────────────────────── */
+    .footer {
+      padding:24px; border-top:1px solid rgba(255,255,255,.06);
+      text-align:center; font-size:12px; color:var(--mist); margin-top:40px;
+    }
+    .footer a { color:var(--teal); text-decoration:none; }
+    .footer a:hover { text-decoration:underline; }
 
     /* ── RESPONSIVE ────────────────────────────────────────────────────────── */
     @media (max-width: 600px) {
-      .nav-links { display: none; }
-      .hero { padding: 32px 16px 24px; }
-      .stats .stat { padding: 12px 16px; }
-      .filter-bar { padding: 10px 16px; }
-      .more-filters { padding: 8px 16px 10px; }
-      .results-bar { padding: 8px 16px; }
-      .day-header { padding: 9px 16px; }
-      .gig-row { padding: 10px 16px; }
-      .card-grid { grid-template-columns: 1fr 1fr; }
-      .popover { width: calc(100vw - 32px); max-width: 300px; }
+      .nav-links { display:none; }
+      .hero { padding:32px 16px 24px; }
+      .stats .stat { padding:12px 16px; }
+      .filter-bar { padding:10px 16px; }
+      .more-filters { padding:8px 16px 10px; }
+      .results-bar { padding:8px 16px; }
+      .day-header { padding:9px 16px; }
+      .gig-row { padding:10px 16px; }
+      .card-grid { grid-template-columns:1fr 1fr; }
+      .popover { width:calc(100vw - 32px); max-width:300px; }
     }
   </style>
 </head>
@@ -963,126 +813,32 @@
     <p style="margin-top:5px">Know of a gig not listed? <a href="mailto:hello@niagaramusicscene.ca">Email us</a></p>
   </footer>
 
-  <!-- ── DATA ───────────────────────────────────────────────────────────────── -->
-  <script>
-  // ── GIG DATA — update this section each week ──────────────────────────────
-  // Niagara Music Scene — Gig Data
-// HOW TO UPDATE:
-//   Each gig entry has these fields:
-//     a  = Artist / Band name
-//     v  = Venue name (must match exactly for the venue filter to work)
-//     c  = City
-//     t  = Venue type  (Bar / Pub | Winery | Brewery | Legion | Distillery |
-//                       Festival Stage | Resort / Event Centre | Concert Hall)
-//     g  = Genre       (Acoustic | Blues | Celtic | Classic Rock | Country |
-//                       Covers | Folk | Jazz | Latin | Rock | Soul | Tribute)
-//     d  = Day of week  (0=Sun 1=Mon 2=Tue 3=Wed 4=Thu 5=Fri 6=Sat)
-//     tm = Start time   (e.g. "7pm" or "8:30pm" — always use am/pm format)
-//     n  = Notes        (optional — shown in the detail popover)
-//
-// TO ADD A GIG:  copy any line below, paste at the end, update the fields.
-// TO REMOVE:     delete the line.
-// TO EDIT:       change the field values directly.
-//
-// Week of: June 4–10, 2026
-// ─────────────────────────────────────────────────────────────────────────────
-
-const GIGS = [
-
-  // ── THURSDAY Jun 4 (d:4) ────────────────────────────────────────────────
-  { a:"Foreshakin'",                v:"My Cousin Vinny's",           c:"Niagara Falls",       t:"Bar / Pub",            g:"Classic Rock", d:4, tm:"6:30pm", n:"Weekly residency — Thu, Sat & Mon" },
-  { a:"Kyle McDonnell",             v:"Niagara Falls Brewing Co.",    c:"Niagara Falls",       t:"Brewery",              g:"Acoustic",     d:4, tm:"3pm",    n:"Also at Kelsey's same evening" },
-  { a:"Kyle McDonnell",             v:"Kelsey's Niagara Falls",       c:"Niagara Falls",       t:"Bar / Pub",            g:"Acoustic",     d:4, tm:"9:30pm", n:"Two gigs today" },
-  { a:"Figure Four",                v:"Fallsview Casino BBQ",         c:"Niagara Falls",       t:"Bar / Pub",            g:"Rock",         d:4, tm:"5pm",    n:"" },
-  { a:"Ed Pizzo",                   v:"Spirit in Niagara Distillery", c:"Niagara-on-the-Lake", t:"Distillery",           g:"Acoustic",     d:4, tm:"6:30pm", n:"Intimate tasting room" },
-  { a:"Sean McDonnell & Taylor Barber", v:"Silversmith Brewery",      c:"Thorold",             t:"Brewery",              g:"Acoustic",     d:4, tm:"7pm",    n:"Duo format" },
-  { a:"Latin Trio",                 v:"13th Street Winery",           c:"St. Davids",          t:"Winery",               g:"Latin",        d:4, tm:"5pm",    n:"" },
-  { a:"Rhythm & Bass",              v:"Greater Niagara Boat Club",    c:"St. Catharines",      t:"Resort / Event Centre", g:"Soul",        d:4, tm:"6pm",    n:"" },
-  { a:"Josh Edwards",               v:"Irish Harp",                   c:"Niagara Falls",       t:"Bar / Pub",            g:"Acoustic",     d:4, tm:"7:30pm", n:"" },
-  { a:"Sugar Creek",                v:"Ridgeway Legion",              c:"Fort Erie",           t:"Legion",               g:"Country",      d:4, tm:"4pm",    n:"Regular Thursday slot" },
-  { a:"Craig McNair",               v:"MT Bellies",                   c:"Niagara Falls",       t:"Bar / Pub",            g:"Acoustic",     d:4, tm:"6pm",    n:"" },
-
-  // ── FRIDAY Jun 5 (d:5) ──────────────────────────────────────────────────
-  { a:"Figure Four",                v:"Cat's Caboose",                c:"Niagara Falls",       t:"Bar / Pub",            g:"Rock",         d:5, tm:"9pm",    n:"" },
-  { a:"Chris Madronich",            v:"Bridgewater Brewery",          c:"Port Colborne",       t:"Brewery",              g:"Blues",        d:5, tm:"7pm",    n:"Also performs as Gravely James — 3× NMA winner" },
-  { a:"Ryan Thomas",                v:"Kilt & Clover",                c:"Niagara Falls",       t:"Bar / Pub",            g:"Acoustic",     d:5, tm:"9:30pm", n:"" },
-  { a:"Jay Diem Band",              v:"Grand Central",                c:"Niagara Falls",       t:"Bar / Pub",            g:"Rock",         d:5, tm:"10pm",   n:"First of 5 gigs this week" },
-  { a:"Patsy & the Muscle",         v:"Irish Harp",                   c:"Niagara Falls",       t:"Bar / Pub",            g:"Rock",         d:5, tm:"8:30pm", n:"" },
-  { a:"Dragan on sax",              v:"Spirit in Niagara Distillery", c:"Niagara-on-the-Lake", t:"Distillery",           g:"Jazz",         d:5, tm:"6:30pm", n:"" },
-  { a:"Mike Lynch",                 v:"13th Street Winery",           c:"St. Davids",          t:"Winery",               g:"Acoustic",     d:5, tm:"5pm",    n:"" },
-  { a:"Troy Harmer & the Persuaders", v:"Splash Bar",                 c:"Niagara Falls",       t:"Bar / Pub",            g:"Soul",         d:5, tm:"9:30pm", n:"" },
-  { a:"Don Sexsmith",               v:"Teddy's Sports Bar",           c:"Niagara Falls",       t:"Bar / Pub",            g:"Rock",         d:5, tm:"8pm",    n:"" },
-  { a:"LMT Connection",             v:"Welland Concerts on the Canal",c:"Welland",             t:"Festival Stage",       g:"Rock",         d:5, tm:"7pm",    n:"w/ The Mandevilles & Phil Davis" },
-  { a:"Full Mulletti",              v:"Trappers Sports Bar",          c:"Niagara Falls",       t:"Bar / Pub",            g:"Classic Rock", d:5, tm:"8pm",    n:"" },
-  { a:"Brad & Miles Boland",        v:"Flower & Wine Festival",       c:"St. Catharines",      t:"Festival Stage",       g:"Acoustic",     d:5, tm:"4:15pm", n:"Montebello Park — free entry" },
-
-  // ── SATURDAY Jun 6 (d:6) ────────────────────────────────────────────────
-  { a:"Hard Rock Hooligans",        v:"Flower & Wine Festival",       c:"St. Catharines",      t:"Festival Stage",       g:"Rock",         d:6, tm:"6:30pm", n:"Montebello Park" },
-  { a:"Foreshakin'",                v:"My Cousin Vinny's",            c:"Niagara Falls",       t:"Bar / Pub",            g:"Classic Rock", d:6, tm:"6:30pm", n:"Saturday residency" },
-  { a:"Jay Diem Band",              v:"Trappers Sports Bar",          c:"Niagara Falls",       t:"Bar / Pub",            g:"Rock",         d:6, tm:"8pm",    n:"" },
-  { a:"Jay Diem",                   v:"Wildflower Social",            c:"Niagara Falls",       t:"Bar / Pub",            g:"Rock",         d:6, tm:"5pm",    n:"" },
-  { a:"Blue Etc",                   v:"Regency Athletic Resort",      c:"St. Catharines",      t:"Resort / Event Centre", g:"Blues",       d:6, tm:"2:30pm", n:"Recurring Saturday format" },
-  { a:"Brant Parker Band",          v:"Donnelly's Pub",               c:"St. Catharines",      t:"Bar / Pub",            g:"Rock",         d:6, tm:"2:30pm", n:"w/ guest Morgan Davis" },
-  { a:"LMT Connection",             v:"Lucky's Fallsview Casino",     c:"Niagara Falls",       t:"Bar / Pub",            g:"Rock",         d:6, tm:"9pm",    n:"" },
-  { a:"Full Mulletti",              v:"Lucky Penny",                  c:"Niagara Falls",       t:"Bar / Pub",            g:"Classic Rock", d:6, tm:"6pm",    n:"" },
-  { a:"Front Paige & Dane Blues Duo", v:"13th Street Winery",         c:"St. Davids",          t:"Winery",               g:"Blues",        d:6, tm:"1pm",    n:"" },
-  { a:"The O'Deadleys",             v:"Kilt & Clover",                c:"Niagara Falls",       t:"Bar / Pub",            g:"Celtic",       d:6, tm:"9:30pm", n:"" },
-  { a:"I'll Scarlett",              v:"The Warehouse",                c:"St. Catharines",      t:"Concert Hall",         g:"Rock",         d:6, tm:"7pm",    n:"Tickets required" },
-  { a:"Stonewall",                  v:"Welland Legion",               c:"Welland",             t:"Legion",               g:"Classic Rock", d:6, tm:"7pm",    n:"" },
-  { a:"Tommy Davies",               v:"Thorold Legion",               c:"Thorold",             t:"Legion",               g:"Country",      d:6, tm:"7pm",    n:"" },
-  { a:"Strictly Sabbath",           v:"Sessions on the River",        c:"Fort Erie",           t:"Festival Stage",       g:"Tribute",      d:6, tm:"7pm",    n:"Black Sabbath tribute — tickets required" },
-  { a:"Feverish Lemons",            v:"Irish Harp",                   c:"Niagara Falls",       t:"Bar / Pub",            g:"Rock",         d:6, tm:"8:30pm", n:"" },
-  { a:"Cash-Crow",                  v:"Crystal Chandelier",           c:"Niagara Falls",       t:"Bar / Pub",            g:"Country",      d:6, tm:"7pm",    n:"" },
-
-  // ── SUNDAY Jun 7 (d:0) ──────────────────────────────────────────────────
-  { a:"The Mandevilles",            v:"13th Street Winery",           c:"St. Davids",          t:"Winery",               g:"Folk",         d:0, tm:"1pm",    n:"Recurring Sunday slot" },
-  { a:"Taylor Barber & Kyle McDonnell", v:"Bella Terra Vineyard",     c:"Niagara-on-the-Lake", t:"Winery",               g:"Acoustic",     d:0, tm:"11am",   n:"Winery duo set" },
-  { a:"Jay Diem",                   v:"Trailsides Bar & Grill",       c:"St. Catharines",      t:"Bar / Pub",            g:"Rock",         d:0, tm:"4pm",    n:"" },
-  { a:"Feverish Lemons Trio",       v:"Merchant Ale House",           c:"St. Catharines",      t:"Bar / Pub",            g:"Rock",         d:0, tm:"2pm",    n:"" },
-  { a:"Stonewall",                  v:"Ridgeway Legion",              c:"Fort Erie",           t:"Legion",               g:"Classic Rock", d:0, tm:"4pm",    n:"Played Welland Legion Saturday" },
-  { a:"Saxophonist Jim Gay",        v:"Irish Harp",                   c:"Niagara Falls",       t:"Bar / Pub",            g:"Jazz",         d:0, tm:"6:30pm", n:"Sunday Jazz Series" },
-  { a:"On Tap",                     v:"Super Mario's",                c:"Niagara Falls",       t:"Bar / Pub",            g:"Covers",       d:0, tm:"4pm",    n:"" },
-
-  // ── MONDAY Jun 8 (d:1) ──────────────────────────────────────────────────
-  { a:"Foreshakin'",                v:"My Cousin Vinny's",            c:"Niagara Falls",       t:"Bar / Pub",            g:"Classic Rock", d:1, tm:"6:30pm", n:"Monday — third night this week" },
-  { a:"Jay Diem",                   v:"Hard Rock Cafe",               c:"Niagara Falls",       t:"Bar / Pub",            g:"Rock",         d:1, tm:"4pm",    n:"Fifth gig this week" },
-
-];
-
-  </script>
-
-  <!-- ── ARTIST PROFILES — edit data/artists.js to add or update profiles ── -->
-<script src="data/gigs.js"></script>
-<script src="data/artists.js"></script>
-<script src="data/venues.js"></script>
+  <!-- ── DATA — loaded from separate files for easy weekly updates ──────────── -->
+  <script src="data/gigs.js"></script>
+  <script src="data/artists.js"></script>
+  <script src="data/venues.js"></script>
 
   <!-- ── APP ────────────────────────────────────────────────────────────────── -->
   <script>
-    // ── Constants ─────────────────────────────────────────────────────────────
     const DAYS   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
     const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-    // !! UPDATE THIS EVERY WEEK — Sunday that starts the current week
+    // !! UPDATE THIS EVERY WEEK — the Sunday that starts the current week
     // Month is 0-indexed: Jan=0, Feb=1, Mar=2, Apr=3, May=4, Jun=5 ... Dec=11
     const BASE_DATE = new Date(2026, 5, 4); // June 4 2026
     const TODAY_DOW = BASE_DATE.getDay();
 
-    // ── Current time ──────────────────────────────────────────────────────────
-    // For the live site replace the demo NOW line with: const NOW = new Date();
-    // Demo simulates Thursday June 4 at 5:00pm so the 3-hour lookback is visible
-    const NOW = new Date(2026, 5, 4, 17, 0, 0);
+    // For the live site use: const NOW = new Date();
+    const NOW = new Date();
     const NOW_MINUTES = NOW.getHours() * 60 + NOW.getMinutes();
-    const LOOKBACK_MINUTES = 3 * 60; // show gigs that started up to 3 hrs ago
+    const LOOKBACK_MINUTES = 3 * 60;
 
-    // ── State ─────────────────────────────────────────────────────────────────
     let viewMode    = 'list';
     let weekOffset  = 0;
     let activeVenue = '';
     let moreOpen    = false;
-    // Tracks which days the user has expanded to show earlier hidden gigs
     const showEarlierDays = new Set();
 
-    // ── Helpers ───────────────────────────────────────────────────────────────
     function parseTime(t) {
       if (!t) return 840;
       const m = t.match(/(\d+)(?::(\d+))?\s*(am|pm)/i);
@@ -1095,28 +851,19 @@ const GIGS = [
     }
 
     const PILL_MAP = {
-      'Rock': 'pill-rock', 'Classic Rock': 'pill-rock', 'Soul': 'pill-soul',
-      'Acoustic': 'pill-acoustic', 'Folk': 'pill-folk', 'Celtic': 'pill-celtic',
-      'Jazz': 'pill-jazz', 'Covers': 'pill-covers',
-      'Blues': 'pill-blues',
-      'Country': 'pill-country', 'Latin': 'pill-latin',
-      'Tribute': 'pill-tribute',
+      'Rock':'pill-rock','Classic Rock':'pill-rock','Soul':'pill-soul',
+      'Acoustic':'pill-acoustic','Folk':'pill-folk','Celtic':'pill-celtic',
+      'Jazz':'pill-jazz','Covers':'pill-covers','Blues':'pill-blues',
+      'Country':'pill-country','Latin':'pill-latin','Tribute':'pill-tribute',
     };
-    function pill(g) {
-      return `<span class="pill ${PILL_MAP[g] || 'pill-default'}">${g}</span>`;
-    }
+    function pill(g) { return `<span class="pill ${PILL_MAP[g]||'pill-default'}">${g}</span>`; }
 
     function getWeekDates() {
       const s = new Date(BASE_DATE);
       s.setDate(BASE_DATE.getDate() - BASE_DATE.getDay() + weekOffset * 7);
-      return Array.from({ length: 7 }, (_, i) => {
-        const d = new Date(s);
-        d.setDate(s.getDate() + i);
-        return d;
-      });
+      return Array.from({length:7},(_,i) => { const d=new Date(s); d.setDate(s.getDate()+i); return d; });
     }
 
-    // ── Filter logic ──────────────────────────────────────────────────────────
     function filteredGigs() {
       const q  = document.getElementById('search').value.toLowerCase().trim();
       const fc = document.getElementById('filter-city').value;
@@ -1125,59 +872,149 @@ const GIGS = [
       return GIGS.filter(g =>
         (!q  || g.a.toLowerCase().includes(q) || g.v.toLowerCase().includes(q)) &&
         (!activeVenue || g.v.trim() === activeVenue) &&
-        (!fc || g.c === fc) &&
-        (!fg || g.g === fg) &&
-        (!ft || g.t === ft)
+        (!fc || g.c === fc) && (!fg || g.g === fg) && (!ft || g.t === ft)
       );
     }
 
+    // ── Popover close helpers ─────────────────────────────────────────────────
+    function closePopover()      { const el=document.getElementById('cal-wrap').querySelector('.popover');    if(el)el.remove(); }
+    function closeArtistProfile(){ const el=document.getElementById('cal-wrap').querySelector('.artist-pop'); if(el)el.remove(); }
+    function closeVenueProfile() { const el=document.getElementById('cal-wrap').querySelector('.venue-pop');  if(el)el.remove(); }
 
+    // ── Popover positioning ───────────────────────────────────────────────────
+    function positionPop(pop, event, popW) {
+      const wrap     = document.getElementById('cal-wrap');
+      const wrapRect = wrap.getBoundingClientRect();
+      const trigRect = event.currentTarget.getBoundingClientRect();
+      const topOff   = trigRect.top - wrapRect.top + wrap.scrollTop;
+      const spaceRight = wrapRect.width - (trigRect.right - wrapRect.left);
+      const spaceLeft  = trigRect.left  - wrapRect.left;
 
-    // ── Venue profile popover ─────────────────────────────────────────────────
-    function closeVenueProfile() {
-      const el = document.getElementById('cal-wrap').querySelector('.venue-pop');
-      if (el) el.remove();
+      if (spaceRight >= popW + 20) {
+        pop.style.left = (trigRect.right - wrapRect.left + 12) + 'px';
+        pop.classList.add('right');
+      } else if (spaceLeft >= popW + 20) {
+        pop.style.left = (trigRect.left - wrapRect.left - popW - 12) + 'px';
+        pop.classList.add('left');
+      } else {
+        const cx = trigRect.left - wrapRect.left + trigRect.width / 2;
+        pop.style.left = Math.max(8, Math.min(cx - popW/2, wrapRect.width - popW - 8)) + 'px';
+        pop.style.top  = (topOff + trigRect.height + 6) + 'px';
+      }
+      if (!pop.style.top) pop.style.top = Math.max(4, topOff - 4) + 'px';
     }
 
+    // ── Gig detail popover ────────────────────────────────────────────────────
+    function openPopover(event, dow, idx) {
+      event.stopPropagation();
+      const gigs = filteredGigs().filter(g=>g.d===dow).sort((a,b)=>parseTime(a.tm)-parseTime(b.tm));
+      const g = gigs[idx];
+      if (!g) return;
+      closePopover();
+      const days = getWeekDates();
+      const d = days.find(x=>x.getDay()===dow)||days[0];
+      const ve = g.v.replace(/'/g,"\\'");
+
+      const pop = document.createElement('div');
+      pop.className = 'popover';
+      pop.setAttribute('role','dialog'); pop.setAttribute('aria-modal','true');
+      pop.setAttribute('aria-label',`${g.a} at ${g.v}`);
+      pop.innerHTML = `
+        <div class="pop-artist">${g.a}</div>
+        <div class="pop-row"><i class="ti ti-map-pin"></i><span><strong>${g.v}</strong> · ${g.c}</span></div>
+        <div class="pop-row"><i class="ti ti-clock"></i><span>${DAYS[dow]}, ${MONTHS[d.getMonth()]} ${d.getDate()} · ${g.tm}</span></div>
+        <div class="pop-row"><i class="ti ti-music"></i><span>${pill(g.g)} · ${g.t}</span></div>
+        ${g.n?`<div class="pop-row"><i class="ti ti-info-circle"></i><span>${g.n}</span></div>`:''}
+        <div class="pop-actions">
+          <button class="pop-btn-primary" onclick="window.open('https://www.google.com/search?q=${encodeURIComponent(g.a)}+Niagara+band','_blank')">
+            <i class="ti ti-search"></i> Search ${g.a.split(' ')[0]} online
+          </button>
+          <button class="pop-btn-secondary" onclick="closePopover();openVenueProfile(event,'${ve}')">
+            <i class="ti ti-building"></i> View ${g.v}
+          </button>
+          <button class="pop-btn-close" onclick="closePopover()">Close</button>
+        </div>`;
+
+      document.getElementById('cal-wrap').appendChild(pop);
+      positionPop(pop, event, 290);
+    }
+
+    // ── Artist profile popover ────────────────────────────────────────────────
+    function openArtistProfile(event, artistName) {
+      event.stopPropagation();
+      closeArtistProfile(); closePopover();
+      const p = (typeof ARTIST_PROFILES !== 'undefined' && ARTIST_PROFILES[artistName]) || {};
+      const gigs = GIGS.filter(g=>g.a===artistName);
+      const initials = artistName.split(' ').map(w=>w[0]).filter(Boolean).slice(0,2).join('').toUpperCase();
+      const ae = artistName.replace(/'/g,"\\'");
+
+      const socials = [];
+      if(p.fb)  socials.push(`<a class="ap-social-btn" href="${p.fb}"  target="_blank" rel="noopener"><i class="ti ti-brand-facebook"></i> Facebook</a>`);
+      if(p.ig)  socials.push(`<a class="ap-social-btn" href="${p.ig}"  target="_blank" rel="noopener"><i class="ti ti-brand-instagram"></i> Instagram</a>`);
+      if(p.yt)  socials.push(`<a class="ap-social-btn" href="${p.yt}"  target="_blank" rel="noopener"><i class="ti ti-brand-youtube"></i> YouTube</a>`);
+      if(p.sp)  socials.push(`<a class="ap-social-btn" href="${p.sp}"  target="_blank" rel="noopener"><i class="ti ti-brand-spotify"></i> Spotify</a>`);
+      if(p.web) socials.push(`<a class="ap-social-btn" href="${p.web}" target="_blank" rel="noopener"><i class="ti ti-world"></i> Website</a>`);
+      socials.push(`<a class="ap-social-btn" href="https://www.google.com/search?q=${encodeURIComponent(artistName+' Niagara band')}" target="_blank" rel="noopener"><i class="ti ti-search"></i> Search</a>`);
+
+      const pop = document.createElement('div');
+      pop.className = 'artist-pop';
+      pop.setAttribute('role','dialog'); pop.setAttribute('aria-modal','true');
+      pop.setAttribute('aria-label', artistName + ' profile');
+      pop.innerHTML = `
+        <div class="ap-header">
+          <div class="ap-avatar">${initials}</div>
+          <div>
+            <div class="ap-name">${artistName}</div>
+            <div class="ap-meta">${p.city||''} ${p.genre?'· '+p.genre:''}</div>
+          </div>
+        </div>
+        ${p.bio?`<div class="ap-bio">${p.bio}</div>`:''}
+        <div class="ap-gig-count"><i class="ti ti-calendar" style="font-size:11px"></i> ${gigs.length} gig${gigs.length!==1?'s':''} this week</div>
+        <div class="ap-socials">${socials.join('')}</div>
+        <div class="ap-actions">
+          <button class="ap-filter-btn" onclick="closeArtistProfile();setArtistFilter('${ae}')">
+            <i class="ti ti-list"></i> See all gigs by ${artistName.split(' ')[0]}
+          </button>
+          <button class="ap-close-btn" onclick="closeArtistProfile()">Close</button>
+        </div>`;
+
+      document.getElementById('cal-wrap').appendChild(pop);
+      positionPop(pop, event, 300);
+    }
+
+    // ── Venue profile popover ─────────────────────────────────────────────────
     function openVenueProfile(event, venueName) {
       event.stopPropagation();
-      closeVenueProfile();
-      closeArtistProfile();
-      closePopover();
-
+      closeVenueProfile(); closeArtistProfile(); closePopover();
       const v = (typeof VENUE_PROFILES !== 'undefined' && VENUE_PROFILES[venueName]) || {};
-      const gigs = GIGS.filter(g => g.v === venueName);
-      const ve = venueName.replace(/'/g, "\'");
+      const gigs = GIGS.filter(g=>g.v===venueName);
+      const ve = venueName.replace(/'/g,"\\'");
 
       const links = [];
-      if (v.web) links.push(`<a class="vp-link-btn" href="${v.web}" target="_blank" rel="noopener"><i class="ti ti-world"></i> Website</a>`);
-      if (v.fb)  links.push(`<a class="vp-link-btn" href="${v.fb}" target="_blank" rel="noopener"><i class="ti ti-brand-facebook"></i> Facebook</a>`);
-      if (v.ig)  links.push(`<a class="vp-link-btn" href="${v.ig}" target="_blank" rel="noopener"><i class="ti ti-brand-instagram"></i> Instagram</a>`);
+      if(v.web) links.push(`<a class="vp-link-btn" href="${v.web}" target="_blank" rel="noopener"><i class="ti ti-world"></i> Website</a>`);
+      if(v.fb)  links.push(`<a class="vp-link-btn" href="${v.fb}"  target="_blank" rel="noopener"><i class="ti ti-brand-facebook"></i> Facebook</a>`);
+      if(v.ig)  links.push(`<a class="vp-link-btn" href="${v.ig}"  target="_blank" rel="noopener"><i class="ti ti-brand-instagram"></i> Instagram</a>`);
 
       const mapsUrl = v.address
-        ? 'https://www.google.com/maps/search/' + encodeURIComponent(v.address)
-        : 'https://www.google.com/maps/search/' + encodeURIComponent(venueName + ' ' + (v.city || 'Niagara'));
+        ? 'https://www.google.com/maps/search/'+encodeURIComponent(v.address)
+        : 'https://www.google.com/maps/search/'+encodeURIComponent(venueName+' '+(v.city||'Niagara'));
 
       const pop = document.createElement('div');
       pop.className = 'venue-pop';
-      pop.setAttribute('role', 'dialog');
-      pop.setAttribute('aria-modal', 'true');
+      pop.setAttribute('role','dialog'); pop.setAttribute('aria-modal','true');
       pop.setAttribute('aria-label', venueName + ' profile');
       pop.innerHTML = `
         <div class="vp-header">
           <div class="vp-name">${venueName}</div>
           <div class="vp-meta">
             <i class="ti ti-map-pin" style="font-size:11px;color:var(--teal)"></i>
-            <span>${v.city || ''}</span>
-            ${v.type ? `<span class="vp-type-badge">${v.type}</span>` : ''}
+            <span>${v.city||''}</span>
+            ${v.type?`<span class="vp-type-badge">${v.type}</span>`:''}
           </div>
         </div>
-        ${v.notes ? `<div class="vp-notes">${v.notes}</div>` : ''}
-        <div class="vp-gig-count">
-          <i class="ti ti-music" style="font-size:11px"></i>
-          ${gigs.length} gig${gigs.length !== 1 ? 's' : ''} this week
-        </div>
-        ${links.length ? `<div class="vp-links">${links.join('')}</div>` : ''}
+        ${v.notes?`<div class="vp-notes">${v.notes}</div>`:''}
+        <div class="vp-gig-count"><i class="ti ti-music" style="font-size:11px"></i> ${gigs.length} gig${gigs.length!==1?'s':''} this week</div>
+        ${links.length?`<div class="vp-links">${links.join('')}</div>`:''}
         <div class="vp-actions">
           <button class="vp-filter-btn" onclick="closeVenueProfile();setVenue('${ve}')">
             <i class="ti ti-list"></i> See all gigs at ${venueName}
@@ -1188,195 +1025,24 @@ const GIGS = [
           <button class="vp-close-btn" onclick="closeVenueProfile()">Close</button>
         </div>`;
 
-      const wrap = document.getElementById('cal-wrap');
-      wrap.appendChild(pop);
-
-      const wrapRect = wrap.getBoundingClientRect();
-      const trigRect = event.currentTarget.getBoundingClientRect();
-      const popW = 300;
-      const topOff = trigRect.top - wrapRect.top + wrap.scrollTop;
-      const spaceRight = wrapRect.width - (trigRect.right - wrapRect.left);
-      const spaceLeft  = trigRect.left - wrapRect.left;
-
-      if (spaceRight >= popW + 20) {
-        pop.style.left = (trigRect.right - wrapRect.left + 12) + 'px';
-        pop.classList.add('right');
-      } else if (spaceLeft >= popW + 20) {
-        pop.style.left = (trigRect.left - wrapRect.left - popW - 12) + 'px';
-        pop.classList.add('left');
-      } else {
-        const cx = trigRect.left - wrapRect.left + trigRect.width / 2;
-        pop.style.left = Math.max(8, Math.min(cx - popW / 2, wrapRect.width - popW - 8)) + 'px';
-        pop.style.top = (topOff + trigRect.height + 6) + 'px';
-      }
-      if (!pop.style.top) pop.style.top = Math.max(4, topOff - 4) + 'px';
-      pop.style.maxHeight = '420px';
-      pop.style.overflowY = 'auto';
+      document.getElementById('cal-wrap').appendChild(pop);
+      positionPop(pop, event, 300);
     }
 
-    // ── Artist profile popover ────────────────────────────────────────────────
-    function closeArtistProfile() {
-      const el = document.getElementById('cal-wrap').querySelector('.artist-pop');
-      if (el) el.remove();
-    }
-
-    function openArtistProfile(event, artistName) {
-      event.stopPropagation();
-      closeArtistProfile();
-      closePopover();
-
-      const p = ARTIST_PROFILES[artistName] || {};
-      const gigs = GIGS.filter(g => g.a === artistName);
-      const initials = artistName.split(' ').map(w => w[0]).filter(Boolean).slice(0,2).join('').toUpperCase();
-      const ae = artistName.replace(/'/g, "\'");
-
-      // Build social links
-      const socials = [];
-      if (p.fb)  socials.push(`<a class="ap-social-btn" href="${p.fb}" target="_blank" rel="noopener"><i class="ti ti-brand-facebook"></i> Facebook</a>`);
-      if (p.ig)  socials.push(`<a class="ap-social-btn" href="${p.ig}" target="_blank" rel="noopener"><i class="ti ti-brand-instagram"></i> Instagram</a>`);
-      if (p.yt)  socials.push(`<a class="ap-social-btn" href="${p.yt}" target="_blank" rel="noopener"><i class="ti ti-brand-youtube"></i> YouTube</a>`);
-      if (p.sp)  socials.push(`<a class="ap-social-btn" href="${p.sp}" target="_blank" rel="noopener"><i class="ti ti-brand-spotify"></i> Spotify</a>`);
-      if (p.web) socials.push(`<a class="ap-social-btn" href="${p.web}" target="_blank" rel="noopener"><i class="ti ti-world"></i> Website</a>`);
-      // Always add a Google search fallback
-      const searchUrl = 'https://www.google.com/search?q=' + encodeURIComponent(artistName + ' Niagara band');
-      socials.push(`<a class="ap-social-btn" href="${searchUrl}" target="_blank" rel="noopener"><i class="ti ti-search"></i> Search</a>`);
-
-      const pop = document.createElement('div');
-      pop.className = 'artist-pop';
-      pop.setAttribute('role', 'dialog');
-      pop.setAttribute('aria-modal', 'true');
-      pop.setAttribute('aria-label', artistName + ' profile');
-      pop.innerHTML = `
-        <div class="ap-header">
-          <div class="ap-avatar">${initials}</div>
-          <div>
-            <div class="ap-name">${artistName}</div>
-            <div class="ap-meta">${p.city || ''} ${p.genre ? '· ' + p.genre : ''}</div>
-          </div>
-        </div>
-        ${p.bio ? `<div class="ap-bio">${p.bio}</div>` : ''}
-        <div class="ap-gig-count"><i class="ti ti-calendar" style="font-size:11px"></i> ${gigs.length} gig${gigs.length !== 1 ? 's' : ''} this week</div>
-        ${socials.length ? `<div class="ap-socials">${socials.join('')}</div>` : ''}
-        <div class="ap-actions">
-          <button class="ap-filter-btn" onclick="closeArtistProfile();setArtistFilter('${ae}')">
-            <i class="ti ti-list"></i> See all gigs by ${artistName.split(' ')[0]}
-          </button>
-          <button class="ap-close-btn" onclick="closeArtistProfile()">Close</button>
-        </div>`;
-
-      const wrap = document.getElementById('cal-wrap');
-      wrap.appendChild(pop);
-
-      const wrapRect = wrap.getBoundingClientRect();
-      const trigRect = event.currentTarget.getBoundingClientRect();
-      const popW = 300;
-      const topOff = trigRect.top - wrapRect.top + wrap.scrollTop;
-      const spaceRight = wrapRect.width - (trigRect.right - wrapRect.left);
-      const spaceLeft = trigRect.left - wrapRect.left;
-
-      if (spaceRight >= popW + 20) {
-        pop.style.left = (trigRect.right - wrapRect.left + 12) + 'px';
-        pop.classList.add('right');
-      } else if (spaceLeft >= popW + 20) {
-        pop.style.left = (trigRect.left - wrapRect.left - popW - 12) + 'px';
-        pop.classList.add('left');
-      } else {
-        const cx = trigRect.left - wrapRect.left + trigRect.width / 2;
-        pop.style.left = Math.max(8, Math.min(cx - popW / 2, wrapRect.width - popW - 8)) + 'px';
-        pop.style.top = (topOff + trigRect.height + 6) + 'px';
-      }
-      if (!pop.style.top) pop.style.top = Math.max(4, topOff - 4) + 'px';
-      pop.style.maxHeight = '420px';
-      pop.style.overflowY = 'auto';
+    // ── Filter helpers ────────────────────────────────────────────────────────
+    function setVenue(v) {
+      activeVenue = v.trim();
+      document.getElementById('filter-venue').value = activeVenue;
+      updateMoreCount(); closePopover(); closeVenueProfile(); render();
     }
 
     function setArtistFilter(artistName) {
       document.getElementById('search').value = artistName;
-      closePopover();
-      render();
+      closePopover(); render();
     }
 
-    // ── Popover ───────────────────────────────────────────────────────────────
-    function closePopover() {
-      const el = document.getElementById('cal-wrap').querySelector('.popover');
-      if (el) el.remove();
-    }
-
-    function openPopover(event, dow, idx) {
-      event.stopPropagation();
-      const gigs = filteredGigs().filter(g => g.d === dow).sort((a, b) => parseTime(a.tm) - parseTime(b.tm));
-      const g = gigs[idx];
-      if (!g) return;
-
-      closePopover();
-
-      const days = getWeekDates();
-      const d = days.find(x => x.getDay() === dow) || days[0];
-      const ve = g.v.replace(/'/g, "\\'");
-      const ae = g.a.replace(/'/g, "\\'");
-
-      const pop = document.createElement('div');
-      pop.className = 'popover';
-      pop.setAttribute('role', 'dialog');
-      pop.setAttribute('aria-modal', 'true');
-      pop.setAttribute('aria-label', `${g.a} at ${g.v}`);
-      pop.innerHTML = `
-        <div class="pop-artist">${g.a}</div>
-        <div class="pop-row"><i class="ti ti-map-pin" aria-hidden="true"></i><span><strong>${g.v}</strong> · ${g.c}</span></div>
-        <div class="pop-row"><i class="ti ti-clock" aria-hidden="true"></i><span>${DAYS[dow]}, ${MONTHS[d.getMonth()]} ${d.getDate()} · ${g.tm}</span></div>
-        <div class="pop-row"><i class="ti ti-music" aria-hidden="true"></i><span>${pill(g.g)} · ${g.t}</span></div>
-        ${g.n ? `<div class="pop-row"><i class="ti ti-info-circle" aria-hidden="true"></i><span>${g.n}</span></div>` : ''}
-        <div class="pop-actions">
-          <button class="pop-btn-primary" onclick="window.open('https://www.google.com/search?q=${encodeURIComponent(g.a)}+Niagara+band','_blank')">
-            <i class="ti ti-search" aria-hidden="true"></i> Search ${g.a.split(' ')[0]} online
-          </button>
-          <button class="pop-btn-secondary" onclick="closePopover();openVenueProfile(event,'${ve}')">
-            <i class="ti ti-building" aria-hidden="true"></i> View ${g.v}
-          </button>
-          <button class="pop-btn-close" onclick="closePopover()">Close</button>
-        </div>`;
-
-      const wrap = document.getElementById('cal-wrap');
-      wrap.appendChild(pop);
-
-      const wrapRect = wrap.getBoundingClientRect();
-      const trigRect = event.currentTarget.getBoundingClientRect();
-      const popW = 290;
-      const topOff = trigRect.top - wrapRect.top + wrap.scrollTop;
-      const spaceRight = wrapRect.width - (trigRect.right - wrapRect.left);
-      const spaceLeft  = trigRect.left - wrapRect.left;
-
-      if (spaceRight >= popW + 20) {
-        pop.style.left = (trigRect.right - wrapRect.left + 12) + 'px';
-        pop.classList.add('right');
-      } else if (spaceLeft >= popW + 20) {
-        pop.style.left = (trigRect.left - wrapRect.left - popW - 12) + 'px';
-        pop.classList.add('left');
-      } else {
-        const cx = trigRect.left - wrapRect.left + trigRect.width / 2;
-        pop.style.left = Math.max(8, Math.min(cx - popW / 2, wrapRect.width - popW - 8)) + 'px';
-        pop.style.top  = (topOff + trigRect.height + 6) + 'px';
-      }
-      if (!pop.style.top) pop.style.top = Math.max(4, topOff - 4) + 'px';
-    }
-
-    // ── Venue filter helper ───────────────────────────────────────────────────
-    function setVenue(v) {
-      activeVenue = v.trim();
-      document.getElementById('filter-venue').value = activeVenue;
-      updateMoreCount();
-      closePopover();
-      closeVenueProfile();
-      render();
-    }
-
-    // ── More filters ──────────────────────────────────────────────────────────
     function updateMoreCount() {
-      const n = [
-        document.getElementById('filter-genre').value,
-        document.getElementById('filter-type').value,
-        activeVenue,
-      ].filter(Boolean).length;
+      const n = [document.getElementById('filter-genre').value, document.getElementById('filter-type').value, activeVenue].filter(Boolean).length;
       const el = document.getElementById('more-count');
       el.style.display = n ? 'inline' : 'none';
       if (n) el.textContent = n;
@@ -1384,20 +1050,20 @@ const GIGS = [
     }
 
     function clearAll() {
-      ['search', 'filter-city', 'filter-genre', 'filter-type'].forEach(id => {
-        document.getElementById(id).value = '';
-      });
+      ['search','filter-city','filter-genre','filter-type'].forEach(id => document.getElementById(id).value = '');
       document.getElementById('filter-venue').value = '';
       activeVenue = '';
-      updateMoreCount();
-      closePopover();
-      render();
+      updateMoreCount(); closePopover(); render();
+    }
+
+    function toggleEarlier(dow) {
+      showEarlierDays.has(dow) ? showEarlierDays.delete(dow) : showEarlierDays.add(dow);
+      closePopover(); render();
     }
 
     // ── Render ────────────────────────────────────────────────────────────────
     function render() {
       updateMoreCount();
-
       const days = getWeekDates();
       const s = days[0], e = days[6];
       document.getElementById('week-label').textContent =
@@ -1405,15 +1071,14 @@ const GIGS = [
 
       const gigs = filteredGigs();
       document.getElementById('stat-gigs').textContent   = gigs.length;
-      document.getElementById('stat-venues').textContent = new Set(gigs.map(g => g.v)).size;
-      document.getElementById('stat-cities').textContent = new Set(gigs.map(g => g.c)).size;
-      document.getElementById('results-count').textContent = `${gigs.length} gig${gigs.length !== 1 ? 's' : ''} found`;
+      document.getElementById('stat-venues').textContent = new Set(gigs.map(g=>g.v)).size;
+      document.getElementById('stat-cities').textContent = new Set(gigs.map(g=>g.c)).size;
+      document.getElementById('results-count').textContent = `${gigs.length} gig${gigs.length!==1?'s':''} found`;
 
       document.getElementById('venue-tag').innerHTML = activeVenue
-        ? `<span class="venue-tag"><i class="ti ti-map-pin" style="font-size:11px" aria-hidden="true"></i> ${activeVenue} <button onclick="setVenue('')" aria-label="Clear venue filter">×</button></span>`
+        ? `<span class="venue-tag"><i class="ti ti-map-pin" style="font-size:11px"></i> ${activeVenue} <button onclick="setVenue('')" aria-label="Clear venue filter">×</button></span>`
         : '';
 
-      // Group by day
       const byDay = {};
       days.forEach(d => byDay[d.getDay()] = []);
       gigs.forEach(g => { if (g.d in byDay) byDay[g.d].push(g); });
@@ -1422,15 +1087,12 @@ const GIGS = [
 
       days.forEach(d => {
         const dow = d.getDay();
-        const allDayGigs = (byDay[dow] || []).slice().sort((a, b) => parseTime(a.tm) - parseTime(b.tm));
+        const allDayGigs = (byDay[dow]||[]).slice().sort((a,b)=>parseTime(a.tm)-parseTime(b.tm));
         if (!allDayGigs.length) return;
 
         const isToday = weekOffset === 0 && dow === TODAY_DOW;
+        let dayGigs = allDayGigs, hiddenCount = 0;
 
-        // On today's page: hide gigs that started more than LOOKBACK_MINUTES ago
-        // unless the user has toggled "Show earlier" for this day
-        let dayGigs = allDayGigs;
-        let hiddenCount = 0;
         if (isToday && !showEarlierDays.has(dow)) {
           const cutoff = NOW_MINUTES - LOOKBACK_MINUTES;
           const visible = allDayGigs.filter(g => parseTime(g.tm) >= cutoff);
@@ -1439,28 +1101,26 @@ const GIGS = [
         }
 
         html += `<div class="day-block">
-          <div class="day-header${isToday ? ' today' : ''}" role="heading" aria-level="2">
+          <div class="day-header${isToday?' today':''}" role="heading" aria-level="2">
             <span class="day-name">${DAYS[dow]}</span>
             <span class="day-date">${MONTHS[d.getMonth()]} ${d.getDate()}</span>
-            ${isToday ? `<span class="today-badge" aria-label="Today">TODAY</span>` : ''}
-            <span class="day-count">${allDayGigs.length} gig${allDayGigs.length !== 1 ? 's' : ''}</span>
+            ${isToday?`<span class="today-badge">TODAY</span>`:''}
+            <span class="day-count">${allDayGigs.length} gig${allDayGigs.length!==1?'s':''}</span>
           </div>
-          ${hiddenCount > 0 ? `
-          <button class="show-earlier-btn" onclick="toggleEarlier(${dow})" aria-label="Show ${hiddenCount} earlier gig${hiddenCount !== 1 ? 's' : ''}">
-            <i class="ti ti-clock" aria-hidden="true"></i>
-            ${hiddenCount} earlier gig${hiddenCount !== 1 ? 's' : ''} hidden — show all
-          </button>` : ''}`;
+          ${hiddenCount>0?`
+          <button class="show-earlier-btn" onclick="toggleEarlier(${dow})">
+            <i class="ti ti-clock"></i> ${hiddenCount} earlier gig${hiddenCount!==1?'s':''} hidden — show all
+          </button>`:''}`;
 
         if (viewMode === 'list') {
-          dayGigs.forEach((g, i) => {
-            const ve = g.v.replace(/'/g, "\\'");
-            const ae = g.a.replace(/'/g, "\\'");
+          dayGigs.forEach((g,i) => {
+            const ve = g.v.replace(/'/g,"\\'");
+            const ae = g.a.replace(/'/g,"\\'");
             html += `
               <div class="gig-row"
-                onclick="openPopover(event, ${dow}, ${i})"
+                onclick="openPopover(event,${dow},${i})"
                 onkeydown="if(event.key==='Enter'||event.key===' ')openPopover(event,${dow},${i})"
-                role="button" tabindex="0"
-                aria-label="${g.a} at ${g.v}, ${g.tm}">
+                role="button" tabindex="0" aria-label="${g.a} at ${g.v}, ${g.tm}">
                 <div class="gig-time">${g.tm}</div>
                 <div class="gig-main">
                   <button class="gig-artist-btn"
@@ -1470,7 +1130,7 @@ const GIGS = [
                     <button class="gig-venue-btn"
                       onclick="event.stopPropagation();openVenueProfile(event,'${ve}')"
                       aria-label="View profile for ${g.v}">${g.v}</button>
-                    <span class="gig-sep" aria-hidden="true"></span>
+                    <span class="gig-sep"></span>
                     <span class="gig-city">${g.c}</span>
                   </div>
                 </div>
@@ -1479,15 +1139,14 @@ const GIGS = [
           });
         } else {
           html += `<div class="card-grid">`;
-          dayGigs.forEach((g, i) => {
-            const ve = g.v.replace(/'/g, "\\'");
-            const ae = g.a.replace(/'/g, "\\'");
+          dayGigs.forEach((g,i) => {
+            const ve = g.v.replace(/'/g,"\\'");
+            const ae = g.a.replace(/'/g,"\\'");
             html += `
               <div class="gig-card"
-                onclick="openPopover(event, ${dow}, ${i})"
+                onclick="openPopover(event,${dow},${i})"
                 onkeydown="if(event.key==='Enter'||event.key===' ')openPopover(event,${dow},${i})"
-                role="button" tabindex="0"
-                aria-label="${g.a} at ${g.v}, ${g.tm}">
+                role="button" tabindex="0" aria-label="${g.a} at ${g.v}, ${g.tm}">
                 <div class="card-time">${g.tm}</div>
                 <button class="card-artist-btn"
                   onclick="event.stopPropagation();openArtistProfile(event,'${ae}')"
@@ -1495,7 +1154,7 @@ const GIGS = [
                 <button class="card-venue-btn"
                   onclick="event.stopPropagation();openVenueProfile(event,'${ve}')"
                   aria-label="View profile for ${g.v}">
-                  <i class="ti ti-map-pin" style="font-size:10px" aria-hidden="true"></i> ${g.v}
+                  <i class="ti ti-map-pin" style="font-size:10px"></i> ${g.v}
                 </button>
                 <div class="card-pills">${pill(g.g)}</div>
               </div>`;
@@ -1516,41 +1175,26 @@ const GIGS = [
       document.getElementById('calendar').innerHTML = html;
     }
 
-    // ── Venue dropdown ────────────────────────────────────────────────────────
     function populateVenueDropdown() {
       const sel = document.getElementById('filter-venue');
-      const venues = [...new Set(GIGS.map(g => g.v.trim()))].sort();
-      venues.forEach(v => {
+      [...new Set(GIGS.map(g=>g.v.trim()))].sort().forEach(v => {
         const o = document.createElement('option');
-        o.value = v;
-        o.textContent = v;
+        o.value = v; o.textContent = v;
         sel.appendChild(o);
       });
     }
 
-    // ── Show earlier toggle ───────────────────────────────────────────────────
-    function toggleEarlier(dow) {
-      if (showEarlierDays.has(dow)) {
-        showEarlierDays.delete(dow);
-      } else {
-        showEarlierDays.add(dow);
-      }
-      closePopover();
-      render();
-    }
-
     // ── Event listeners ───────────────────────────────────────────────────────
-    document.getElementById('prev-week').addEventListener('click', () => { weekOffset--; closePopover(); render(); });
-    document.getElementById('next-week').addEventListener('click', () => { weekOffset++; closePopover(); render(); });
-    document.getElementById('this-week').addEventListener('click', () => { weekOffset = 0; closePopover(); render(); });
+    document.getElementById('prev-week').addEventListener('click', ()=>{ weekOffset--; closePopover(); render(); });
+    document.getElementById('next-week').addEventListener('click', ()=>{ weekOffset++; closePopover(); render(); });
+    document.getElementById('this-week').addEventListener('click', ()=>{ weekOffset=0; closePopover(); render(); });
+    document.getElementById('search').addEventListener('input', ()=>{ closePopover(); render(); });
+    document.getElementById('filter-city').addEventListener('change', ()=>{ closePopover(); render(); });
+    document.getElementById('filter-genre').addEventListener('change', ()=>{ updateMoreCount(); closePopover(); render(); });
+    document.getElementById('filter-type').addEventListener('change', ()=>{ updateMoreCount(); closePopover(); render(); });
+    document.getElementById('filter-venue').addEventListener('change', function(){ setVenue(this.value); });
 
-    document.getElementById('search').addEventListener('input', () => { closePopover(); render(); });
-    document.getElementById('filter-city').addEventListener('change', () => { closePopover(); render(); });
-    document.getElementById('filter-genre').addEventListener('change', () => { updateMoreCount(); closePopover(); render(); });
-    document.getElementById('filter-type').addEventListener('change', () => { updateMoreCount(); closePopover(); render(); });
-    document.getElementById('filter-venue').addEventListener('change', function() { setVenue(this.value); });
-
-    document.getElementById('more-btn').addEventListener('click', () => {
+    document.getElementById('more-btn').addEventListener('click', ()=>{
       moreOpen = !moreOpen;
       document.getElementById('more-filters').classList.toggle('open', moreOpen);
       document.getElementById('more-btn').setAttribute('aria-expanded', moreOpen);
@@ -1559,26 +1203,22 @@ const GIGS = [
 
     document.getElementById('clear-btn').addEventListener('click', clearAll);
 
-    document.getElementById('btn-card').addEventListener('click', () => {
-      viewMode = 'card';
+    document.getElementById('btn-card').addEventListener('click', ()=>{
+      viewMode='card';
       document.getElementById('btn-card').classList.add('active');
       document.getElementById('btn-list').classList.remove('active');
-      closePopover();
-      render();
+      closePopover(); render();
     });
-
-    document.getElementById('btn-list').addEventListener('click', () => {
-      viewMode = 'list';
+    document.getElementById('btn-list').addEventListener('click', ()=>{
+      viewMode='list';
       document.getElementById('btn-list').classList.add('active');
       document.getElementById('btn-card').classList.remove('active');
-      closePopover();
-      render();
+      closePopover(); render();
     });
 
-    // Close popover when clicking outside
     document.addEventListener('click', e => {
-      const p = document.getElementById('cal-wrap').querySelector('.popover');
-      if (p && !p.contains(e.target)) closePopover();
+      const p  = document.getElementById('cal-wrap').querySelector('.popover');
+      if (p  && !p.contains(e.target))  closePopover();
       const ap = document.getElementById('cal-wrap').querySelector('.artist-pop');
       if (ap && !ap.contains(e.target)) closeArtistProfile();
       const vp = document.getElementById('cal-wrap').querySelector('.venue-pop');
