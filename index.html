@@ -896,20 +896,91 @@
     .footer a { color: var(--teal); text-decoration: none; }
     .footer a:hover { text-decoration: underline; }
 
-    /* ── PAGE SECTIONS ────────────────────────────────────────────────────── */
-    .section-header {
-      padding: 32px 16px 20px;
+    /* ── TAB VIEWS ────────────────────────────────────────────────────────── */
+    .tab-view { display: none; animation: tabFadeIn 200ms ease; }
+    .tab-view.active { display: block; }
+    @keyframes tabFadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── TAB HEADER ───────────────────────────────────────────────────────── */
+    .tab-header {
+      padding: 20px 16px 0;
       padding-left: max(16px, var(--safe-l));
+      padding-right: max(16px, var(--safe-r));
       border-bottom: 1px solid rgba(255,255,255,.06);
+      background: var(--ink);
+      position: sticky;
+      top: var(--nav-h);
+      z-index: 30;
     }
-    .section-title {
+    .tab-header-inner { display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px; }
+    .tab-title {
       font-family: var(--ff);
-      font-size: clamp(32px, 6vw, 48px);
-      letter-spacing: 2px;
-      color: #fff;
-      line-height: 1;
-      margin-bottom: 6px;
+      font-size: clamp(28px, 6vw, 44px);
+      letter-spacing: 2px; color: #fff; line-height: 1;
     }
+    .tab-sub { font-size: 12px; color: var(--mist); }
+
+    .tab-search-wrap { position: relative; margin-bottom: 12px; }
+    .tab-search-wrap i {
+      position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+      color: var(--mist); font-size: 16px; pointer-events: none;
+    }
+    .tab-search-wrap input {
+      width: 100%; background: var(--ink-3);
+      border: 1px solid rgba(255,255,255,.1); border-radius: 8px;
+      padding: 0 12px 0 38px; font-size: 13px; color: #fff;
+      font-family: var(--fb); height: 40px; -webkit-appearance: none;
+    }
+    .tab-search-wrap input::placeholder { color: var(--mist); }
+
+    .venues-filter-row { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+    .venues-filter-row .tab-search-wrap { flex: 1; min-width: 140px; margin-bottom: 0; }
+    .venues-city-select {
+      background: var(--ink-3); border: 1px solid rgba(255,255,255,.1);
+      border-radius: 8px; padding: 0 10px; font-size: 12px; color: #fff;
+      font-family: var(--fb); height: 40px; -webkit-appearance: none; flex-shrink: 0;
+    }
+
+
+    .about-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .about-link-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 18px; border-radius: 10px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color: var(--mist-l); text-decoration: none;
+      font-size: 13px; font-weight: 500;
+      transition: border-color .15s, color .15s;
+      min-height: 44px;
+    }
+    .about-link-btn:hover { border-color: var(--teal); color: var(--teal); }
+    .about-link-btn i { font-size: 16px; }
+
+    /* ── MOBILE BOTTOM TAB BAR ────────────────────────────────────────────── */
+    .bottom-tabs {
+      display: none;
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+      background: rgba(13,17,23,.97);
+      border-top: 1px solid rgba(255,255,255,.08);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      padding-bottom: var(--safe-b);
+      height: calc(56px + var(--safe-b));
+    }
+    .bottom-tab {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 3px; background: none; color: var(--mist);
+      font-size: 10px; font-weight: 500; letter-spacing: .3px;
+      padding: 8px 0 4px; transition: color .15s;
+      min-height: 56px; border-radius: 0;
+    }
+    .bottom-tab i { font-size: 20px; transition: color .15s; }
+    .bottom-tab.active { color: var(--teal); }
+    .bottom-tab:active { opacity: .7; }
+
     .section-sub { font-size: 13px; color: var(--mist); }
 
     /* artists grid */
@@ -1050,12 +1121,17 @@
       .card-grid { grid-template-columns: 1fr; }
       /* desktop popovers never show on mobile */
       .popover, .artist-pop, .venue-pop { display: none !important; }
+      /* show mobile bottom tab bar */
+      .bottom-tabs { display: flex; }
+      /* push all tab-view content above the tab bar */
+      .tab-view.active { padding-bottom: calc(56px + var(--safe-b) + 8px); }
     }
 
     @media (min-width: 768px) {
-      /* bottom sheets never show on desktop */
+      /* bottom sheets and tab bar never show on desktop */
       .sheet-overlay { display: none !important; }
       .bottom-sheet  { display: none !important; }
+      .bottom-tabs   { display: none !important; }
       .stats .stat { padding: 14px 24px; text-align: left; }
       .stat-n { font-size: 38px; }
       .stat-l { font-size: 11px; }
@@ -1069,14 +1145,16 @@
       .hero-sub { display: block; }
       .nav { padding: 0 24px; }
       .footer { padding: 24px; }
-      .section-header { padding: 40px 24px 24px; }
+      .tab-header { padding: 28px 24px 0; }
       .about-content { padding: 28px 24px 40px; }
       .venue-row { padding: 14px 24px; }
       .artists-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+      .venues-filter-row { flex-wrap: nowrap; }
     }
 
     @media (min-width: 1024px) {
       .card-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+      .artists-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
     }
   </style>
 </head>
@@ -1086,118 +1164,191 @@
   <!-- ── NAV ──────────────────────────────────────────────────────────────── -->
   <nav class="nav" role="navigation" aria-label="Main navigation">
     <a href="/" class="nav-logo" aria-label="Niagara Music Scene home">NIAGARA<span>MUSIC</span>SCENE</a>
-    <div class="nav-links">
-      <button class="nav-link active" id="nav-calendar" onclick="navTo('calendar')" aria-current="page">Calendar</button>
-      <button class="nav-link" id="nav-artists"  onclick="navTo('artists')">Artists</button>
-      <button class="nav-link" id="nav-venues"   onclick="navTo('venues')">Venues</button>
-      <button class="nav-link" id="nav-about"    onclick="navTo('about')">About</button>
+    <div class="nav-links" role="tablist">
+      <button class="nav-link active" id="nav-calendar" role="tab" aria-selected="true"  onclick="switchTab('calendar')" aria-controls="view-calendar">Calendar</button>
+      <button class="nav-link"        id="nav-artists"  role="tab" aria-selected="false" onclick="switchTab('artists')"  aria-controls="view-artists">Artists</button>
+      <button class="nav-link"        id="nav-venues"   role="tab" aria-selected="false" onclick="switchTab('venues')"   aria-controls="view-venues">Venues</button>
+      <button class="nav-link"        id="nav-about"    role="tab" aria-selected="false" onclick="switchTab('about')"    aria-controls="view-about">About</button>
     </div>
-    <button class="nav-cta">Submit a gig</button>
+    <button class="nav-cta" onclick="window.location.href='mailto:hello@niagaramusicscene.ca'">Submit a gig</button>
   </nav>
 
-  <!-- ── HERO ─────────────────────────────────────────────────────────────── -->
-  <header class="hero">
-    <p class="hero-kicker">Niagara Region · Ontario · Canada</p>
-    <h1 class="hero-title">LIVE MUSIC<br><span>THIS WEEK</span></h1>
-    <p class="hero-sub">Every confirmed gig from Grimsby to Fort Erie — wineries, bars, legions, breweries, and festival stages. Click any gig for details.</p>
-    <div class="week-ctrl">
-      <button class="week-btn" id="prev-week" aria-label="Previous week"><i class="ti ti-arrow-left"></i></button>
-      <time class="week-label" id="week-label" aria-live="polite"></time>
-      <button class="week-btn" id="next-week" aria-label="Next week"><i class="ti ti-arrow-right"></i></button>
-      <button class="today-btn" id="this-week">This week</button>
-    </div>
-  </header>
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- TAB: CALENDAR                                                          -->
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <div id="view-calendar" class="tab-view active" role="tabpanel" aria-labelledby="nav-calendar">
 
-  <!-- ── STATS ─────────────────────────────────────────────────────────────── -->
-  <section class="stats" aria-label="This week's summary">
-    <div class="stat"><div class="stat-n" id="stat-gigs">0</div><div class="stat-l">Gigs</div></div>
-    <div class="stat"><div class="stat-n" id="stat-venues">0</div><div class="stat-l">Venues</div></div>
-    <div class="stat"><div class="stat-n" id="stat-cities">0</div><div class="stat-l">Cities</div></div>
-  </section>
+    <header class="hero">
+      <p class="hero-kicker">Niagara Region · Ontario · Canada</p>
+      <h1 class="hero-title">LIVE MUSIC<br><span>THIS WEEK</span></h1>
+      <p class="hero-sub">Every confirmed gig from Grimsby to Fort Erie — wineries, bars, legions, breweries, and festival stages.</p>
+      <div class="week-ctrl">
+        <button class="week-btn" id="prev-week" aria-label="Previous week"><i class="ti ti-arrow-left"></i></button>
+        <time class="week-label" id="week-label" aria-live="polite"></time>
+        <button class="week-btn" id="next-week" aria-label="Next week"><i class="ti ti-arrow-right"></i></button>
+        <button class="today-btn" id="this-week">This week</button>
+      </div>
+    </header>
 
-  <!-- ── FILTERS ───────────────────────────────────────────────────────────── -->
-  <div class="filter-bar" role="search">
-    <div class="filter-search-wrap">
-      <i class="ti ti-search"></i>
-      <input type="text" id="search" placeholder="Artist or venue…" aria-label="Search by artist or venue" autocomplete="off" autocorrect="off" spellcheck="false">
-    </div>
-    <select id="filter-city" aria-label="Filter by city">
-      <option value="">All cities</option>
-      <option>St. Catharines</option>
-      <option>Niagara Falls</option>
-      <option>Niagara-on-the-Lake</option>
-      <option>St. Davids</option>
-      <option>Virgil</option>
-      <option>Welland</option>
-      <option>Grimsby</option>
-      <option>Fort Erie</option>
-      <option>Port Colborne</option>
-      <option>Thorold</option>
-    </select>
-    <button class="filter-pill-btn" id="more-btn" aria-label="More filters">
-      <i class="ti ti-sliders"></i>
-      <span class="more-count" id="more-count"></span>
-    </button>
-    <button class="clear-btn" id="clear-btn" aria-label="Clear filters"><i class="ti ti-x"></i></button>
-  </div>
+    <section class="stats" aria-label="This week at a glance">
+      <div class="stat"><div class="stat-n" id="stat-gigs">0</div><div class="stat-l">Gigs</div></div>
+      <div class="stat"><div class="stat-n" id="stat-venues">0</div><div class="stat-l">Venues</div></div>
+      <div class="stat"><div class="stat-n" id="stat-cities">0</div><div class="stat-l">Cities</div></div>
+    </section>
 
-  <!-- ── RESULTS BAR ────────────────────────────────────────────────────────── -->
-  <div class="results-bar">
-    <div class="results-left">
-      <span id="results-count" aria-live="polite"></span>
-      <span id="venue-tag"></span>
+    <div class="filter-bar" role="search">
+      <div class="filter-search-wrap">
+        <i class="ti ti-search"></i>
+        <input type="text" id="search" placeholder="Artist or venue…" aria-label="Search by artist or venue" autocomplete="off" autocorrect="off" spellcheck="false">
+      </div>
+      <select id="filter-city" aria-label="Filter by city">
+        <option value="">All cities</option>
+        <option>St. Catharines</option><option>Niagara Falls</option>
+        <option>Niagara-on-the-Lake</option><option>St. Davids</option>
+        <option>Virgil</option><option>Welland</option><option>Grimsby</option>
+        <option>Fort Erie</option><option>Port Colborne</option>
+        <option>Thorold</option><option>Smithville</option>
+      </select>
+      <button class="filter-pill-btn" id="more-btn" aria-label="More filters">
+        <i class="ti ti-sliders"></i>
+        <span class="more-count" id="more-count"></span>
+      </button>
+      <button class="clear-btn" id="clear-btn" aria-label="Clear filters"><i class="ti ti-x"></i></button>
     </div>
-    <div class="view-toggle" role="group" aria-label="View style">
-      <button class="view-btn" id="btn-card" aria-label="Card view"><i class="ti ti-layout-grid"></i> <span class="view-lbl">Cards</span></button>
-      <button class="view-btn active" id="btn-list" aria-label="List view"><i class="ti ti-list"></i> <span class="view-lbl">List</span></button>
-    </div>
-  </div>
 
-  <!-- ── CALENDAR ───────────────────────────────────────────────────────────── -->
-  <main class="cal-container" id="cal-wrap" data-section="calendar">
-    <div id="calendar" aria-label="Gig calendar"></div>
-  </main>
-
-  <!-- ── ARTISTS ───────────────────────────────────────────────────────────── -->
-  <section id="section-artists" data-section="artists">
-    <div class="section-header">
-      <h2 class="section-title">ARTISTS</h2>
-      <p class="section-sub">Everyone performing in the Niagara Region this week.</p>
+    <div class="results-bar">
+      <div class="results-left">
+        <span id="results-count" aria-live="polite"></span>
+        <span id="venue-tag"></span>
+      </div>
+      <div class="view-toggle" role="group" aria-label="View style">
+        <button class="view-btn" id="btn-card" aria-label="Card view"><i class="ti ti-layout-grid"></i> <span class="view-lbl">Cards</span></button>
+        <button class="view-btn active" id="btn-list" aria-label="List view"><i class="ti ti-list"></i> <span class="view-lbl">List</span></button>
+      </div>
     </div>
+
+    <main class="cal-container" id="cal-wrap">
+      <div id="calendar" aria-label="Gig calendar"></div>
+    </main>
+
+    <footer class="footer">
+      <p>Niagara Music Scene — Niagara Region, Ontario, Canada</p>
+      <p style="margin-top:5px">Know of a gig not listed? <a href="mailto:hello@niagaramusicscene.ca">Email us</a></p>
+    </footer>
+
+  </div><!-- /view-calendar -->
+
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- TAB: ARTISTS                                                           -->
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <div id="view-artists" class="tab-view" role="tabpanel" aria-labelledby="nav-artists">
+
+    <div class="tab-header">
+      <div class="tab-header-inner">
+        <h2 class="tab-title">ARTISTS</h2>
+        <p class="tab-sub" id="artists-count"></p>
+      </div>
+      <div class="tab-search-wrap">
+        <i class="ti ti-search"></i>
+        <input type="text" id="artist-search" placeholder="Search artists…" aria-label="Search artists" autocomplete="off" autocorrect="off" spellcheck="false">
+      </div>
+    </div>
+
     <div id="artists-grid" class="artists-grid"></div>
-  </section>
 
-  <!-- ── VENUES ────────────────────────────────────────────────────────────── -->
-  <section id="section-venues" data-section="venues">
-    <div class="section-header">
-      <h2 class="section-title">VENUES</h2>
-      <p class="section-sub">Every venue hosting live music this week.</p>
+    <footer class="footer">
+      <p>Niagara Music Scene — Niagara Region, Ontario, Canada</p>
+    </footer>
+
+  </div><!-- /view-artists -->
+
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- TAB: VENUES                                                            -->
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <div id="view-venues" class="tab-view" role="tabpanel" aria-labelledby="nav-venues">
+
+    <div class="tab-header">
+      <div class="tab-header-inner">
+        <h2 class="tab-title">VENUES</h2>
+        <p class="tab-sub" id="venues-count"></p>
+      </div>
+      <div class="venues-filter-row">
+        <div class="tab-search-wrap">
+          <i class="ti ti-search"></i>
+          <input type="text" id="venue-search" placeholder="Search venues…" aria-label="Search venues" autocomplete="off" autocorrect="off" spellcheck="false">
+        </div>
+        <select id="venue-filter-city" aria-label="Filter venues by city" class="venues-city-select">
+          <option value="">All cities</option>
+          <option>St. Catharines</option><option>Niagara Falls</option>
+          <option>Niagara-on-the-Lake</option><option>St. Davids</option>
+          <option>Virgil</option><option>Welland</option><option>Grimsby</option>
+          <option>Fort Erie</option><option>Port Colborne</option>
+          <option>Thorold</option><option>Smithville</option>
+        </select>
+        <select id="venue-filter-type" aria-label="Filter by venue type" class="venues-city-select">
+          <option value="">All types</option>
+          <option>Bar / Pub</option><option>Brewery</option><option>Concert Hall</option>
+          <option>Distillery</option><option>Festival Stage</option><option>Legion</option>
+          <option>Resort / Event Centre</option><option>Winery</option>
+        </select>
+      </div>
     </div>
+
     <div id="venues-list" class="venues-list"></div>
-  </section>
 
-  <!-- ── ABOUT ─────────────────────────────────────────────────────────────── -->
-  <section id="section-about" data-section="about">
-    <div class="section-header">
-      <h2 class="section-title">ABOUT</h2>
+    <footer class="footer">
+      <p>Niagara Music Scene — Niagara Region, Ontario, Canada</p>
+    </footer>
+
+  </div><!-- /view-venues -->
+
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- TAB: ABOUT                                                             -->
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <div id="view-about" class="tab-view" role="tabpanel" aria-labelledby="nav-about">
+
+    <div class="tab-header">
+      <div class="tab-header-inner">
+        <h2 class="tab-title">ABOUT</h2>
+      </div>
     </div>
+
     <div class="about-content">
       <p>Niagara Music Scene is a free, community-run live music calendar for the Niagara Region of Ontario. Every confirmed gig from Grimsby to Fort Erie — wineries, bars, legions, breweries, and festival stages — in one searchable place.</p>
-      <p>It was built to replace the weekly Facebook post with something searchable, linkable, and always current. No login required. No database. Just the music.</p>
+      <p>Built to replace the weekly Facebook post with something searchable, linkable, and always current. No login. No database. Just the music.</p>
       <p>Know of a gig not listed? <a href="mailto:hello@niagaramusicscene.ca">Email us</a> and we'll add it.</p>
       <div class="about-stats">
         <div class="about-stat"><span class="about-stat-n" id="about-stat-gigs">0</span><span class="about-stat-l">Gigs tracked</span></div>
         <div class="about-stat"><span class="about-stat-n" id="about-stat-artists">0</span><span class="about-stat-l">Artists</span></div>
         <div class="about-stat"><span class="about-stat-n" id="about-stat-venues">0</span><span class="about-stat-l">Venues</span></div>
       </div>
+      <div class="about-links">
+        <a href="mailto:hello@niagaramusicscene.ca" class="about-link-btn"><i class="ti ti-mail"></i> Submit a gig</a>
+        <a href="https://www.facebook.com/groups/seeitliveniagara" target="_blank" rel="noopener" class="about-link-btn"><i class="ti ti-brand-facebook"></i> See It Live Niagara</a>
+      </div>
     </div>
-  </section>
 
-  <!-- ── FOOTER ─────────────────────────────────────────────────────────────── -->
-  <footer class="footer">
-    <p>Niagara Music Scene — Niagara Region, Ontario, Canada</p>
-    <p style="margin-top:5px">Know of a gig not listed? <a href="mailto:hello@niagaramusicscene.ca">Email us</a></p>
-  </footer>
+    <footer class="footer">
+      <p>Niagara Music Scene — Niagara Region, Ontario, Canada</p>
+    </footer>
+
+  </div><!-- /view-about -->
+
+  <!-- ── MOBILE BOTTOM TAB BAR ─────────────────────────────────────────────── -->
+  <nav class="bottom-tabs" aria-label="Main tabs" role="tablist">
+    <button class="bottom-tab active" id="btab-calendar" onclick="switchTab('calendar')" role="tab" aria-selected="true"  aria-controls="view-calendar">
+      <i class="ti ti-calendar"></i><span>Calendar</span>
+    </button>
+    <button class="bottom-tab" id="btab-artists" onclick="switchTab('artists')" role="tab" aria-selected="false" aria-controls="view-artists">
+      <i class="ti ti-microphone"></i><span>Artists</span>
+    </button>
+    <button class="bottom-tab" id="btab-venues" onclick="switchTab('venues')" role="tab" aria-selected="false" aria-controls="view-venues">
+      <i class="ti ti-map-pin"></i><span>Venues</span>
+    </button>
+    <button class="bottom-tab" id="btab-about" onclick="switchTab('about')" role="tab" aria-selected="false" aria-controls="view-about">
+      <i class="ti ti-info-circle"></i><span>About</span>
+    </button>
+  </nav>
 
   <!-- ── BOTTOM SHEET OVERLAY ──────────────────────────────────────────────── -->
   <div class="sheet-overlay" id="sheet-overlay"></div>
@@ -1813,117 +1964,112 @@
       });
     });
 
-    // ── Nav sections ──────────────────────────────────────────────────────────
-    function navTo(section) {
-      if (section === 'calendar') {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        const el = document.getElementById('section-' + section);
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+    // ── Tab switching ─────────────────────────────────────────────────────────
+    let _activeTab = 'calendar';
+
+    function switchTab(tab) {
+      if (tab === _activeTab) { window.scrollTo({top:0,behavior:'smooth'}); return; }
+      _activeTab = tab;
+      document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
+      const view = document.getElementById('view-' + tab);
+      if (view) { view.classList.add('active'); window.scrollTo({top:0,behavior:'auto'}); }
+      document.querySelectorAll('.nav-link').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+      const navBtn = document.getElementById('nav-' + tab);
+      if (navBtn) { navBtn.classList.add('active'); navBtn.setAttribute('aria-selected','true'); }
+      document.querySelectorAll('.bottom-tab').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+      const btab = document.getElementById('btab-' + tab);
+      if (btab) { btab.classList.add('active'); btab.setAttribute('aria-selected','true'); }
+      if (tab === 'artists') renderArtists();
+      if (tab === 'venues')  renderVenues();
+      if (tab === 'about')   renderAboutStats();
+      removeDesktopPopovers();
+      closeSheet();
     }
 
-    function setActiveNav(section) {
-      document.querySelectorAll('.nav-link').forEach(b => {
-        b.classList.remove('active');
-        b.removeAttribute('aria-current');
-      });
-      const active = document.getElementById('nav-' + section);
-      if (active) { active.classList.add('active'); active.setAttribute('aria-current', 'page'); }
-    }
-
-    function initScrollSpy() {
-      const sections = [
-        { id: 'cal-wrap',        nav: 'calendar' },
-        { id: 'section-artists', nav: 'artists'  },
-        { id: 'section-venues',  nav: 'venues'   },
-        { id: 'section-about',   nav: 'about'    },
-      ];
-      const obs = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            const match = sections.find(s => s.id === e.target.id);
-            if (match) setActiveNav(match.nav);
-          }
-        });
-      }, { rootMargin: '-50% 0px -50% 0px' });
-      sections.forEach(s => {
-        const el = document.getElementById(s.id);
-        if (el) obs.observe(el);
-      });
-    }
-
+    // ── Artists tab ───────────────────────────────────────────────────────────
     function renderArtists() {
-      const artistNames = [...new Set(GIGS.map(g => g.a))].sort();
+      const q = (document.getElementById('artist-search')?.value ?? '').toLowerCase().trim();
+      const allNames = [...new Set(GIGS.map(g => g.a))].sort();
+      const names = q ? allNames.filter(n => n.toLowerCase().includes(q)) : allNames;
+      const countEl = document.getElementById('artists-count');
+      if (countEl) countEl.textContent = names.length + ' artist' + (names.length!==1?'s':'');
       const grid = document.getElementById('artists-grid');
       if (!grid) return;
-      grid.innerHTML = artistNames.map(name => {
+      if (!names.length) { grid.innerHTML = '<div style="padding:40px 16px;text-align:center;color:var(--mist);font-size:13px">No artists found</div>'; return; }
+      grid.innerHTML = names.map(name => {
         const p = (typeof ARTIST_PROFILES !== 'undefined' && ARTIST_PROFILES[name]) || {};
         const gigs = GIGS.filter(g => g.a === name);
-        const initials = name.split(' ').map(w => w[0]).filter(Boolean).slice(0,2).join('').toUpperCase();
-        const ae = name.replace(/'/g, "\\'");
+        const initials = name.split(' ').map(w=>w[0]).filter(Boolean).slice(0,2).join('').toUpperCase();
+        const ae = name.replace(/'/g,"\'");
         const socials = [];
-        if (p.fb)  socials.push(`<a class="ac-social" href="${p.fb}"  target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-brand-facebook"></i></a>`);
-        if (p.ig)  socials.push(`<a class="ac-social" href="${p.ig}"  target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-brand-instagram"></i></a>`);
-        if (p.yt)  socials.push(`<a class="ac-social" href="${p.yt}"  target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-brand-youtube"></i></a>`);
-        if (p.sp)  socials.push(`<a class="ac-social" href="${p.sp}"  target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-brand-spotify"></i></a>`);
-        if (p.web) socials.push(`<a class="ac-social" href="${p.web}" target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-world"></i></a>`);
-        return `<div class="artist-card" onclick="openArtistDetail(event,'${ae}')" role="button" tabindex="0" aria-label="View ${name}">
-          <div class="ac-initials">${initials}</div>
-          <div class="ac-name">${name}</div>
-          <div class="ac-meta">${p.city || ''} ${p.genre ? '· ' + p.genre : ''}</div>
-          <div class="ac-gig-badge"><i class="ti ti-music" style="font-size:10px"></i> ${gigs.length} gig${gigs.length!==1?'s':''}</div>
-          ${socials.length ? `<div class="ac-socials">${socials.join('')}</div>` : ''}
-        </div>`;
+        if(p.fb)  socials.push('<a class="ac-social" href="'+p.fb+'"  target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-brand-facebook"></i></a>');
+        if(p.ig)  socials.push('<a class="ac-social" href="'+p.ig+'"  target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-brand-instagram"></i></a>');
+        if(p.yt)  socials.push('<a class="ac-social" href="'+p.yt+'"  target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-brand-youtube"></i></a>');
+        if(p.sp)  socials.push('<a class="ac-social" href="'+p.sp+'"  target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-brand-spotify"></i></a>');
+        if(p.web) socials.push('<a class="ac-social" href="'+p.web+'" target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-world"></i></a>');
+        return '<div class="artist-card" onclick="openArtistDetail(event,\''+ae+'\')" role="button" tabindex="0" aria-label="View '+name+'">'
+          + '<div class="ac-initials">'+initials+'</div>'
+          + '<div class="ac-name">'+name+'</div>'
+          + '<div class="ac-meta">'+(p.city||'')+' '+(p.genre?'· '+p.genre:'')+'</div>'
+          + '<div class="ac-gig-badge"><i class="ti ti-music" style="font-size:10px"></i> '+gigs.length+' gig'+(gigs.length!==1?'s':'')+'</div>'
+          + (socials.length?'<div class="ac-socials">'+socials.join('')+'</div>':'')
+          + '</div>';
       }).join('');
     }
+
+    // ── Venues tab ────────────────────────────────────────────────────────────
+    const _typeIcon = t => ({'Winery':'ti-building-community','Brewery':'ti-beer','Distillery':'ti-flask','Legion':'ti-flag','Festival Stage':'ti-music','Concert Hall':'ti-building','Resort / Event Centre':'ti-building-estate','Cafe / Lounge':'ti-coffee','Yacht Club / Boat Club':'ti-sailboat'}[t]||'ti-map-pin');
 
     function renderVenues() {
-      const venueNames = [...new Set(GIGS.map(g => g.v.trim()))].sort();
+      const q    = (document.getElementById('venue-search')?.value ?? '').toLowerCase().trim();
+      const city = document.getElementById('venue-filter-city')?.value ?? '';
+      const type = document.getElementById('venue-filter-type')?.value ?? '';
+      const allNames = [...new Set(GIGS.map(g => g.v.trim()))].sort();
+      const names = allNames.filter(name => {
+        const v = (typeof VENUE_PROFILES !== 'undefined' && VENUE_PROFILES[name]) || {};
+        const g0 = GIGS.find(g => g.v.trim() === name);
+        const vCity = v.city || g0?.c || '';
+        const vType = v.type || g0?.t || '';
+        return (!q || name.toLowerCase().includes(q)) && (!city || vCity === city) && (!type || vType === type);
+      });
+      const countEl = document.getElementById('venues-count');
+      if (countEl) countEl.textContent = names.length + ' venue' + (names.length!==1?'s':'');
       const list = document.getElementById('venues-list');
       if (!list) return;
-      const typeIcon = t => {
-        const map = {
-          'Winery':'ti-building-community', 'Brewery':'ti-beer',
-          'Distillery':'ti-flask', 'Legion':'ti-flag',
-          'Festival Stage':'ti-music', 'Concert Hall':'ti-building',
-          'Resort / Event Centre':'ti-building-estate',
-          'Café / Lounge':'ti-coffee', 'Yacht Club / Boat Club':'ti-sailboat',
-        };
-        return map[t] || 'ti-map-pin';
-      };
-      list.innerHTML = venueNames.map(name => {
+      if (!names.length) { list.innerHTML = '<div style="padding:40px 16px;text-align:center;color:var(--mist);font-size:13px">No venues found</div>'; return; }
+      list.innerHTML = names.map(name => {
         const v = (typeof VENUE_PROFILES !== 'undefined' && VENUE_PROFILES[name]) || {};
         const gigs = GIGS.filter(g => g.v.trim() === name);
-        const ve = name.replace(/'/g, "\\'");
-        return `<div class="venue-row" onclick="openVenueDetail(event,'${ve}')" role="button" tabindex="0" aria-label="View ${name}">
-          <div class="vr-icon"><i class="ti ${typeIcon(v.type || gigs[0]?.t)}"></i></div>
-          <div class="vr-main">
-            <div class="vr-name">${name}</div>
-            <div class="vr-meta">${v.city || gigs[0]?.c || ''} ${v.type || gigs[0]?.t ? '· ' + (v.type || gigs[0]?.t) : ''}</div>
-          </div>
-          <div class="vr-count">${gigs.length} gig${gigs.length!==1?'s':''}</div>
-        </div>`;
+        const g0 = gigs[0];
+        const vCity = v.city || g0?.c || '';
+        const vType = v.type || g0?.t || '';
+        const ve = name.replace(/'/g,"\'");
+        return '<div class="venue-row" onclick="openVenueDetail(event,\''+ve+'\')" role="button" tabindex="0" aria-label="View '+name+'">'
+          + '<div class="vr-icon"><i class="ti '+_typeIcon(vType)+'"></i></div>'
+          + '<div class="vr-main"><div class="vr-name">'+name+'</div><div class="vr-meta">'+vCity+(vType?' · '+vType:'')+'</div></div>'
+          + '<div class="vr-count">'+gigs.length+' gig'+(gigs.length!==1?'s':'')+'</div>'
+          + '</div>';
       }).join('');
     }
 
+    // ── About stats ───────────────────────────────────────────────────────────
     function renderAboutStats() {
-      const artists = new Set(GIGS.map(g => g.a)).size;
-      const venues  = new Set(GIGS.map(g => g.v)).size;
-      const gigEl = document.getElementById('about-stat-gigs');
-      const artEl = document.getElementById('about-stat-artists');
-      const venEl = document.getElementById('about-stat-venues');
-      if (gigEl) gigEl.textContent = GIGS.length;
-      if (artEl) artEl.textContent = artists;
-      if (venEl) venEl.textContent = venues;
+      const artists = new Set(GIGS.map(g=>g.a)).size;
+      const venues  = new Set(GIGS.map(g=>g.v)).size;
+      const gEl = document.getElementById('about-stat-gigs');
+      const aEl = document.getElementById('about-stat-artists');
+      const vEl = document.getElementById('about-stat-venues');
+      if(gEl) gEl.textContent = GIGS.length;
+      if(aEl) aEl.textContent = artists;
+      if(vEl) vEl.textContent = venues;
     }
 
     // ── Init ──────────────────────────────────────────────────────────────────
     render();
-    renderArtists();
-    renderVenues();
-    renderAboutStats();
-    initScrollSpy();
+    document.getElementById('artist-search')?.addEventListener('input', () => renderArtists());
+    document.getElementById('venue-search')?.addEventListener('input', () => renderVenues());
+    document.getElementById('venue-filter-city')?.addEventListener('change', () => renderVenues());
+    document.getElementById('venue-filter-type')?.addEventListener('change', () => renderVenues());
   </script>
 
 </body>
