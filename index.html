@@ -262,7 +262,7 @@
       flex: 1;
       min-width: 120px;
     }
-    .filter-search-wrap i {
+    .filter-search-wrap .search-icon {
       position: absolute;
       left: 10px;
       top: 50%;
@@ -271,7 +271,25 @@
       font-size: 16px;
       pointer-events: none;
     }
-    .filter-search-wrap input { padding-left: 32px; }
+    .filter-search-wrap input { padding-left: 32px; padding-right: 30px; }
+    .search-clear {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--mist);
+      font-size: 16px;
+      cursor: pointer;
+      display: none;
+      padding: 2px;
+      line-height: 1;
+      border-radius: 4px;
+      transition: color .1s;
+    }
+    .search-clear:hover { color: #fff; }
+    .search-clear.visible { display: flex; align-items: center; justify-content: center; }
 
     .filter-pill-btn {
       background: var(--ink-3);
@@ -927,14 +945,14 @@
     .tab-sub { font-size: 12px; color: var(--mist); }
 
     .tab-search-wrap { position: relative; margin-bottom: 12px; }
-    .tab-search-wrap i {
+    .tab-search-wrap .search-icon {
       position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
       color: var(--mist); font-size: 16px; pointer-events: none;
     }
     .tab-search-wrap input {
       width: 100%; background: var(--ink-3);
       border: 1px solid rgba(255,255,255,.1); border-radius: 8px;
-      padding: 0 12px 0 38px; font-size: 13px; color: #fff;
+      padding: 0 36px 0 38px; font-size: 13px; color: #fff;
       font-family: var(--fb); height: 40px; -webkit-appearance: none;
     }
     .tab-search-wrap input::placeholder { color: var(--mist); }
@@ -1369,8 +1387,9 @@
 
     <div class="filter-bar" role="search">
       <div class="filter-search-wrap">
-        <i class="ti ti-search"></i>
+        <i class="ti ti-search search-icon"></i>
         <input type="text" id="search" placeholder="Artist or venue…" aria-label="Search by artist or venue" autocomplete="off" autocorrect="off" spellcheck="false">
+        <button class="search-clear" id="search-clear" aria-label="Clear search" tabindex="-1"><i class="ti ti-x"></i></button>
       </div>
       <select id="filter-city" aria-label="Filter by city">
         <option value="">All cities</option>
@@ -1420,8 +1439,9 @@
         <p class="tab-sub" id="artists-count"></p>
       </div>
       <div class="tab-search-wrap">
-        <i class="ti ti-search"></i>
+        <i class="ti ti-search search-icon"></i>
         <input type="text" id="artist-search" placeholder="Search artists…" aria-label="Search artists" autocomplete="off" autocorrect="off" spellcheck="false">
+        <button class="search-clear" id="artist-search-clear" aria-label="Clear artist search" tabindex="-1"><i class="ti ti-x"></i></button>
       </div>
     </div>
 
@@ -1445,8 +1465,8 @@
       </div>
       <div class="venues-filter-row">
         <div class="tab-search-wrap">
-          <i class="ti ti-search"></i>
-          <input type="text" id="venue-search" placeholder="Search venues…" aria-label="Search venues" autocomplete="off" autocorrect="off" spellcheck="false">
+          <i class="ti ti-search search-icon"></i> placeholder="Search venues…" aria-label="Search venues" autocomplete="off" autocorrect="off" spellcheck="false">
+          <button class="search-clear" id="venue-search-clear" aria-label="Clear venue search" tabindex="-1"><i class="ti ti-x"></i></button>
         </div>
         <select id="venue-filter-city" aria-label="Filter venues by city" class="venues-city-select">
           <option value="">All cities</option>
@@ -2454,10 +2474,25 @@
       }
     });
 
+
+    // ── Search clear buttons ──────────────────────────────────────────────────
+    function wireSearchClear(inputId, clearId, onClear) {
+      const inp = document.getElementById(inputId);
+      const btn = document.getElementById(clearId);
+      if (!inp || !btn) return;
+      const update = () => btn.classList.toggle('visible', inp.value.length > 0);
+      inp.addEventListener('input', update);
+      btn.addEventListener('click', () => { inp.value = ''; btn.classList.remove('visible'); inp.focus(); onClear(); });
+      update();
+    }
+
     // ── Init ──────────────────────────────────────────────────────────────────
     render();
     document.getElementById('artist-search')?.addEventListener('input', () => renderArtists());
     document.getElementById('venue-search')?.addEventListener('input', () => renderVenues());
+    wireSearchClear('search',        'search-clear',        () => { removeDesktopPopovers(); render(); });
+    wireSearchClear('artist-search', 'artist-search-clear', () => renderArtists());
+    wireSearchClear('venue-search',  'venue-search-clear',  () => renderVenues());
     document.getElementById('venue-filter-city')?.addEventListener('change', () => renderVenues());
     document.getElementById('venue-filter-type')?.addEventListener('change', () => renderVenues());
   </script>
