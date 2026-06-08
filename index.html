@@ -95,6 +95,9 @@
       line-height: 1;
       text-decoration: none;
       flex-shrink: 0;
+      background: none;
+      padding: 0;
+      cursor: pointer;
     }
     .nav-logo span { color: var(--teal); }
 
@@ -1200,7 +1203,7 @@
 
   <!-- ── NAV ──────────────────────────────────────────────────────────────── -->
   <nav class="nav" role="navigation" aria-label="Main navigation">
-    <a href="/" class="nav-logo" aria-label="Niagara Music Scene home">NIAGARA<span>MUSIC</span>SCENE</a>
+    <button class="nav-logo" onclick="switchTab('calendar')" aria-label="Niagara Music Scene home">NIAGARA<span>MUSIC</span>SCENE</button>
     <div class="nav-links" role="tablist">
       <button class="nav-link active" id="nav-calendar" role="tab" aria-selected="true"  onclick="switchTab('calendar')" aria-controls="view-calendar">Calendar</button>
       <button class="nav-link"        id="nav-artists"  role="tab" aria-selected="false" onclick="switchTab('artists')"  aria-controls="view-artists">Artists</button>
