@@ -50,7 +50,11 @@ const PILL_MAP = {
   'Country':'pill-country','Latin':'pill-latin','Hip-Hop':'pill-hiphop',
   'Tribute':'pill-tribute',
 };
-function pill(g) { return `<span class="pill ${PILL_MAP[g] || 'pill-default'}">${g}</span>`; }
+function pill(g) {
+  // g can be a string or an array of strings
+  const genres = Array.isArray(g) ? g : [g];
+  return genres.map(x => `<span class="pill ${PILL_MAP[x] || 'pill-default'}">${x}</span>`).join(' ');
+}
 
 // ── Week navigation ───────────────────────────────────────────────────────────
 function getWeekDates() {
@@ -80,7 +84,7 @@ function filteredGigs() {
     (!q  || g.a.toLowerCase().includes(q) || g.v.toLowerCase().includes(q)) &&
     (!activeVenue || g.v.trim() === activeVenue) &&
     (!fc || g.c === fc) &&
-    (!_filterGenre || g.g === _filterGenre) &&
+    (!_filterGenre || (Array.isArray(g.g) ? g.g.includes(_filterGenre) : g.g === _filterGenre)) &&
     (!_filterType  || g.t === _filterType) &&
     (!_filterVenue || g.v.trim() === _filterVenue)
   );
