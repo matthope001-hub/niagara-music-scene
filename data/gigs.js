@@ -468,5 +468,5 @@ const GIGS = [
   { a:"Wade Winstanley",                v:"No Tell Cocktail Festival",     c:"Niagara Falls",       t:"Festival Stage",        g:"Acoustic",     d:0, tm:"12:30pm", n:"Tickets required" },
   { a:"Hoerdt Brothers",                v:"No Tell Cocktail Festival",     c:"Niagara Falls",       t:"Festival Stage",        g:"Acoustic",     d:0, tm:"12:30pm", n:"Tickets required" },
 
-  { a:"Tweedle", v:"downtown", c:"Port Colborne", d:6, tm:"5pm", g:"Classic Rock", t:"Outdoor / Patio", n:"none" },
+  { a:"Tweedle", v:"Irish Harp", c:"Port Colborne", d:6, tm:"5pm", g:"Classic Rock", t:"Outdoor / Patio", n:"none" },
 ];
